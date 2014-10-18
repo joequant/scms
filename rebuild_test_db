@@ -1,0 +1,7 @@
+#!/bin/ksh
+
+MODEL_DIR='./model'
+DB_FILE='sc_repo.db'
+
+rm $MODEL_DIR/$DB_FILE
+for N in create_tables.sql insert_static_data.sql insert_test_data.sql; do echo "sqlite3 $MODEL_DIR/$DB_FILE < $MODEL_DIR/$N"; done
