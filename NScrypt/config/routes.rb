@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :payments
+
   resources :sc_events
 
   resources :codes

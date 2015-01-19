@@ -4,7 +4,7 @@ class CreateCodes < ActiveRecord::Migration
       t.string :version
       t.text :code
 
-      t.timestamps null : false
+      t.timestamps null: false
     end
   end
 end

@@ -18,30 +18,30 @@ class CodesControllerTest < ActionController::TestCase
 
   test "should create code" do
     assert_difference('Code.count') do
-      post :create, code : {code : @code.code, version : @code.version}
+      post :create, code: {code: @code.code, version: @code.version}
     end
 
     assert_redirected_to code_path(assigns(:code))
   end
 
   test "should show code" do
-    get :show, id : @code
+    get :show, id: @code
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id : @code
+    get :edit, id: @code
     assert_response :success
   end
 
   test "should update code" do
-    patch :update, id : @code, code : {code : @code.code, version : @code.version}
+    patch :update, id: @code, code: {code: @code.code, version: @code.version}
     assert_redirected_to code_path(assigns(:code))
   end
 
   test "should destroy code" do
     assert_difference('Code.count', -1) do
-      delete :destroy, id : @code
+      delete :destroy, id: @code
     end
 
     assert_redirected_to codes_path

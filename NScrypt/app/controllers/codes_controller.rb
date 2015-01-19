@@ -1,5 +1,5 @@
 class CodesController < ApplicationController
-  before_action :set_code, only : [:show, :edit, :update, :destroy]
+  before_action :set_code, only: [:show, :edit, :update, :destroy]
 
   # GET /codes
   # GET /codes.json
@@ -28,11 +28,11 @@ class CodesController < ApplicationController
 
     respond_to do |format|
       if @code.save
-        format.html { redirect_to @code, notice : 'Code was successfully created.' }
-        format.json { render :show, status : :created, location : @code }
+        format.html { redirect_to @code, notice: 'Code was successfully created.' }
+        format.json { render :show, status: :created, location: @code }
       else
         format.html { render :new }
-        format.json { render json : @code.errors, status : :unprocessable_entity }
+        format.json { render json: @code.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -42,11 +42,11 @@ class CodesController < ApplicationController
   def update
     respond_to do |format|
       if @code.update(code_params)
-        format.html { redirect_to @code, notice : 'Code was successfully updated.' }
-        format.json { render :show, status : :ok, location : @code }
+        format.html { redirect_to @code, notice: 'Code was successfully updated.' }
+        format.json { render :show, status: :ok, location: @code }
       else
         format.html { render :edit }
-        format.json { render json : @code.errors, status : :unprocessable_entity }
+        format.json { render json: @code.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,7 +56,7 @@ class CodesController < ApplicationController
   def destroy
     @code.destroy
     respond_to do |format|
-      format.html { redirect_to codes_url, notice : 'Code was successfully destroyed.' }
+      format.html { redirect_to codes_url, notice: 'Code was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
