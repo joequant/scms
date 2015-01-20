@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+    <strong>Version:</strong>
+    <%= @code.version %>
+</p>
+
+<p>
+    <strong>Code:</strong>
+    <%= @code.code %>
+</p>
+
+<%= link_to 'Edit', edit_code_path(@code) %> |
+<%= link_to 'Back', codes_path %>
