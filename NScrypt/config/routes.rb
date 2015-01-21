@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :parties
+
+  resources :roles
+
   resources :payments
 
   resources :sc_events
