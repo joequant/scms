@@ -1,7 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
+sam:
+  name: Samuel Bourque
 
-two:
-  name: MyString
+hyu:
+  name: Henry Yu
+
+phil:
+  name: Philip Batty
+
+andrew:
+  name: Andrew Wu
