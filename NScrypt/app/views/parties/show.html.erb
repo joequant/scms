@@ -2,17 +2,17 @@
 
 <p>
   <strong>Person:</strong>
-  <%= @party.person %>
+  <%= @party.person.name %>
 </p>
 
 <p>
   <strong>Contract:</strong>
-  <%= @party.contract %>
+  <%= @party.contract.title %>
 </p>
 
 <p>
   <strong>Role:</strong>
-  <%= @party.role %>
+  <%= @party.role.name %>
 </p>
 
 <%= link_to 'Edit', edit_party_path(@party) %> |

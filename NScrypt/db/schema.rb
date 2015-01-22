@@ -11,14 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150121165556) do
+ActiveRecord::Schema.define(version: 20150121165241) do
 
   create_table "codes", force: :cascade do |t|
     t.string   "version"
     t.text     "code"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "contract_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
+
+  add_index "codes", ["contract_id"], name: "index_codes_on_contract_id"
 
   create_table "contracts", force: :cascade do |t|
     t.string   "title"
@@ -57,8 +60,13 @@ ActiveRecord::Schema.define(version: 20150121165556) do
   end
 
   create_table "sc_events", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "callback"
+    t.datetime "timestamp"
+    t.integer  "contract_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
+
+  add_index "sc_events", ["contract_id"], name: "index_sc_events_on_contract_id"
 
 end
