@@ -2,9 +2,12 @@
 
 <h1>Listing Sc Events</h1>
 
-<table>
+<table class="table table-stripe">
     <thead>
     <tr>
+        <th>Timestamp</th>
+        <th>Callback</th>
+        <th>Contract</th>
         <th colspan="3"></th>
     </tr>
     </thead>
@@ -12,6 +15,9 @@
     <tbody>
     <% @sc_events.each do |sc_event| %>
         <tr>
+            <td><%= sc_event.timestamp %></td>
+            <td><%= sc_event.callback %></td>
+            <td><%= sc_event.contract.title %></td>
             <td><%= link_to 'Show', sc_event %></td>
             <td><%= link_to 'Edit', edit_sc_event_path(sc_event) %></td>
             <td><%= link_to 'Destroy', sc_event, method: :delete, data: {confirm: 'Are you sure?' } %></td>

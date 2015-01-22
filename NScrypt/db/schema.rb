@@ -11,14 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150119154942) do
+ActiveRecord::Schema.define(version: 20150121165241) do
 
   create_table "codes", force: :cascade do |t|
     t.string   "version"
     t.text     "code"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "contract_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
+
+  add_index "codes", ["contract_id"], name: "index_codes_on_contract_id"
 
   create_table "contracts", force: :cascade do |t|
     t.string   "title"
@@ -26,6 +29,18 @@ ActiveRecord::Schema.define(version: 20150119154942) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "parties", force: :cascade do |t|
+    t.integer  "person_id"
+    t.integer  "contract_id"
+    t.integer  "role_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "parties", ["contract_id"], name: "index_parties_on_contract_id"
+  add_index "parties", ["person_id"], name: "index_parties_on_person_id"
+  add_index "parties", ["role_id"], name: "index_parties_on_role_id"
 
   create_table "payments", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -38,9 +53,20 @@ ActiveRecord::Schema.define(version: 20150119154942) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sc_events", force: :cascade do |t|
+  create_table "roles", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "sc_events", force: :cascade do |t|
+    t.text     "callback"
+    t.datetime "timestamp"
+    t.integer  "contract_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "sc_events", ["contract_id"], name: "index_sc_events_on_contract_id"
 
 end

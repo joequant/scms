@@ -12,4 +12,10 @@
  *
  *= require_tree .
  *= require_self
+ *= require bootstrap.min
  */
+
+html{
+margin-left: 10%;
+    margin-right: 10%;
+}

@@ -69,6 +69,7 @@ class ScEventsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def sc_event_params
-    params[:sc_event]
+    params.require(:sc_event).permit(:timestamp, :callback, :contract_id)
   end
+
 end
