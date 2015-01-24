@@ -1,70 +1,82 @@
-SC_STATUS|
-:---|:---|:---
-sc_status_id|integer|Primary key
-name|varchar|Human readable description
-[Lookup table for Smart Contract status]
+# Database Tables
 
-SMART_CONTRACT|
-:---|:---|:---
-sc_id|integer|Primary key
-sc_status_id|integer|Foreign key to SC_STATUS
-name|varchar|Smart Contract name
-descr|varchar|Description
+## Previously Required Tables
 
-SC_CODE|
+SC_STATUS||Lookup table for Smart Contract status
 :---|:---|:---
-sc_code_id|integer|Primary key
-sc_id|integer|Foreign key to SMART_CONTRACT
-version|varchar|Unique version identifier for the code
+`sc_status_id`|`integer`|Primary key
+`name`|`varchar`|Human readable description
 
-CODE_EVENT|
-:---|:---|:---
-code_event_id|integer|Primary key
-sc_code_id|integer|Foreign key to SC_CODE
-tag|varchar|An optional identifier for the event
-param_list|varchar|The parameter list for invocation
 
-CODE_EXT_CALL|
+SMART_CONTRACT||Defines Smart Contracts
 :---|:---|:---
-code_ext_call_id|integer|Primary key
-code_event_id|integer|Foreign key to CODE_EVENT
-tag|varchar|An optional identifier for the external call
-param_list|varchar|The parameter list for invocation
+`sc_id`|`integer`|Primary key
+`sc_status_id`|`integer`|Foreign key to SC_STATUS
+`name`|`varchar`|Smart Contract name
+`descr`|`varchar`|Description
 
-SCENARIO|
+SC_CODE||Tracks versions of code
 :---|:---|:---
-scenario_id|integer|Primary key
-sc_code_id|integer|Foreign key to SC_CODE
-name|varchar|A unique identifier
-descr|varchar|Description
+`sc_code_id`|`integer`|Primary key
+`sc_id`|`integer`|Foreign key to SMART_CONTRACT
+`version`|`varchar`|Unique version identifier for the code
 
-SCENARIO_EVENT|
+SC_VALUE||Records real-time values of contracts
 :---|:---|:---
-scenario_event_id|integer|Primary key
-scenario_id|integer|Foreign key to SCENARIO
-code_event_id|integer|Foreign key to CODE_EVENT
-schedule|varchar|Describes when the event is to be called
-params|varchar|Specifies parameters for the invocation
+`sc_code_id`|`integer`|Foreign key to SC_CODE
+`key`|`varchar`|Unique identifier acting as variable name
+`value`|`varchar`|Acts as the variable's value
 
-SCENARIO_EXT_CALL|
-:---|:---|:---
-scenario_ext_call_id|integer|Primary key
-code_ext_call_id|integer|Foreign key to CODE_EXT_CALL
-return_value|varchar|Specifies code to be processed instead of the external call
+## New Tables
 
-SCENARIO_RUN|
+CODE_EVENT||Generated table that tracks events in contracts
 :---|:---|:---
-scenario_run_id|integer|Primary key
-scenario_id|integer|Foreign key to SCENARIO
-timestamp|datetime|When the run was simulated
+`code_event_id`|`integer`|Primary key
+`sc_code_id`|`integer`|Foreign key to SC_CODE
+`callback`|`varchar`|The function name for the event
+`param_list`|`varchar`|The parameter list for invocation
 
-SCENARIO_VALUE|
+CODE_EXT_CALL||Generated table that tracks external calls in contracts
 :---|:---|:---
-scenario_run_id|integer|Foreign key to SCENARIO_RUN
-key|varchar|Acts as a variable name
-value|varchar|Acts as the value for the variable
+`code_ext_call_id`|`integer`|Primary key
+`code_event_id`|`integer`|Foreign key to CODE_EVENT
+`tag`|`varchar`|An optional identifier for the external call
+`param_list`|`varchar`|The parameter list for invocation
 
-SCENARIO_NOTE|
+SCENARIO||Defines Scenarios
 :---|:---|:---
-scenario_run_id|integer|Foreign key to SCENARIO_RUN
-note|varchar|Records trace messages
+`scenario_id`|`integer`|Primary key
+`sc_code_id`|`integer`|Foreign key to SC_CODE
+`name`|`varchar`|A unique identifier
+`descr`|`varchar`|Description
+
+SCENARIO_EVENT||Defines the events in a scenario
+:---|:---|:---
+`scenario_event_id`|`integer`|Primary key
+`scenario_id`|`integer`|Foreign key to SCENARIO
+`code_event_id`|`integer`|Foreign key to CODE_EVENT
+`schedule`|`varchar`|Describes when the event is to be called
+`params`|`varchar`|Specifies parameters for the invocation
+
+SCENARIO_EXT_CALL||Defines the external call interception
+:---|:---|:---
+`scenario_ext_call_id`|`integer`|Primary key
+`code_ext_call_id`|`integer`|Foreign key to CODE_EXT_CALL
+`return_value`|`varchar`|Specifies code to be processed instead of the external call
+
+SCENARIO_RUN||Tracks a simulation run
+:---|:---|:---
+`scenario_run_id`|`integer`|Primary key
+`scenario_id`|`integer`|Foreign key to SCENARIO
+`timestamp`|`datetime`|When the run was simulated
+
+SCENARIO_VALUE||Records values from a scneario
+:---|:---|:---
+`scenario_run_id`|`integer`|Foreign key to SCENARIO_RUN
+`key`|`varchar`|Acts as a variable name
+`value`|`varchar`|Acts as the value for the variable
+
+SCENARIO_NOTE||Record messages from a scenario
+:---|:---|:---
+`scenario_run_id`|`integer`|Foreign key to SCENARIO_RUN
+`note`|`varchar`|Records trace messages

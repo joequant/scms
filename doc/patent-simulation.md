@@ -14,7 +14,7 @@ Filing Number: [TBD]
 ---
 # Summary
 
-An information system that simulates a pre-defined set of scenarios of a contract. Said contract is to be firstly formatted as a Smart Contract[1], so that the authoritative version of the contract is drafted in machine interpretable scripting language. In order for this to work--other than the Smart Contract Management System--, there needs to be in place: (i) coding standards, and (ii) a simulation engine. This approach, in turn, enables the process of understanding a contract into a black-box process, rather than a white-box one.
+An information system that simulates a pre-defined set of scenarios of a contract. Said contract is to be firstly formatted as a Smart Contract[1], so that the authoritative version of the contract is drafted in machine interpretable scripting language. In order for this to work--other than the Smart Contract Management System--, there needs to be in place: (i) coding standards, (ii) a simulation engine, and (iii) a reporting/visualization system. This approach, in turn, enables the process of understanding a contract into a black-box process, rather than a white-box one.
 
 [1] As defined in previous filing entitled: AN INFORMATION SYSTEM THAT AUTOMATES INTERPRETATION AND PERFORMANCE OF CONTRACTS INVOLVING DIGITAL ASSETS
 
@@ -99,13 +99,34 @@ Example: `sc_fct.note('The loan payment was missed; the penalty is 1% per day')`
 
 ## System Design
 
+### Schema
+
+The Database schema in Relational format is described in Schedule A.
+
 ### Simulation
 
 A simulation allows for a Smart Contract's version of code to be analysed, in many of its possible outcomes.
 
+#### Preconditions
+
+* That a contract is defined and contains valid code.
+
+#### Process
+
+1. For each scenario defined in SCENARIO for the contract, the simulation process is performed.
+1. A record in SCENARIO_RUN is added.
+
 ### Scenarios
 
 Scenarios represent one possible outcome/contingency of a contract's lifecycle. It composes a timeline series of simulated events.
+
+#### Preconditions
+
+* That the code is being run in Simulation Mode.
+
+#### Process
+
+1. For each scenario event defined in SCENARIO_EVENT for the scenario, the simulation process is performed on the contract's code in SC_CODE.
 
 ### Simulated Events
 
@@ -114,15 +135,16 @@ In order to run a scenario, a timeline of event must be defined--preferably in c
 #### Preconditions
 
 * That the code is being run in Simulation Mode.
-* That the scenarios are defined and that their parameters when needed.
-* That the code has been systematically combed for events.
+* That the scenarios are defined along with their parameters when needed in SCENARIO_EVENT.
+* That the code has been systematically combed for events to populate CODE_EVENT.
 * (optional) That the events are tagged.
 
 #### Process
 
+When the contract is being simulated and the scnearion calls for the event to simulated:
 1. Verify that the Smart Contract is run in Simulation Mode.
-1. Process the event as specified as the callback.
-1. Record the resulting state of the SC_VALUE records.
+1. Process the event as specified as the callback in SCENARIO_EVENT.
+1. Record the resulting state of the SC_VALUE records into SCENARIO_VALUE.
 
 ### External Call Stubs
 
@@ -134,32 +156,30 @@ The Smart Contract code may require making external calls to other systems as de
 * That the scenarios are defined and that their parameters when needed.
 * That the code has been systematically combed for external calls.
 * (optional) That the external calls are tagged.
-* That the 
+* That the data to be injected is defined, if any.
 
 #### Process
 
 When the code is being processed and runs into a library invocation for an external call.
 1. Verify that the Smart Contract is run in Simulation Mode.
-1. If so, then bypass the actual HTTP method
-1. Look up the 
+1. If so, then bypass the actual HTTP method.
+1. Look up the data or code to inject from SCENARIO_EXT_CALL.
+1. Inject the data as specified.
+1. Continue the processing of the simulated event.
 
 ### Notes
 
 Using the standardized notation, helpful indicative messages can be produced to describe the state of the contract. Such messages are compiled along with the results to compose part of the simulation report.
 
-### Schema
+#### Preconditions
 
-The Database schema in Relational format is described in Schedule A.
+* That the code is being run in Simulation Mode.
+* That the notes are defined in the code.
 
-## Example
+#### Process
 
-### Description
-
-### Smart Contract Code
-
-### Scenarios
-
-
+When an event's code containing a note is processed:
+1. Record the note's message in SCENARIO_NOTE.
 
 ---
 # Claims
@@ -168,7 +188,7 @@ The Database schema in Relational format is described in Schedule A.
  1. The said information system allows the defining of a set of scenarios.
  1. The said scenarios are defined in a chronological timeline.
  1. The said information system intercepts information requests to other systems.
- 1. The said information system replaces pre-defined data in place of external information requests as in the previous sub-claim.
+ 1. The said information system injects pre-defined data in place of external information requests as in the previous sub-claim.
  1. The said information system intercepts commands to other systems.
  1. The said information system compiles the results of the simulated scenarios.
  1. The said information system allows the definition of indicative notes in the code.
@@ -176,6 +196,7 @@ The Database schema in Relational format is described in Schedule A.
 1. An information system that allows a user to enter the relevant data into the information system as in claim 1.
  1. The said information system in claim 2 allows the entry and collection of scenario data.
  1. The said information system in claim 2 allows the entry and collection of external call data for interception.
+ 1. The said information system in claim 2 allows the entry of tags that identify an external call as per the previous sub-claim.
  1. The said information system in claim 2 allows the entry and collection of notes.
  1. The said information system in claim 2 integrates with the information system in claim 1.
 1. An information system that generates reports and visualizations of simulation results of the said information system in claim 1.
@@ -183,3 +204,5 @@ The Database schema in Relational format is described in Schedule A.
  1. The said information system in claim 3 allows the step-by-step replay of the contract under simulation.
  1. The said information system in claim 3 integrates with the information system in claim 1.
 1. The integration of the simulation results for the information system in claim 3 to be included as an the schedules/exhibits of a contract.
+1. That an information system as defined in patent application 'AN INFORMATION SYSTEM THAT AUTOMATES INTERPRETATION AND PERFORMANCE OF CONTRACTS INVOLVING DIGITAL ASSETS, be fitted with a switch that toggles between 'Execution Mode' and 'Simulation Mode'; the former of which performs as per the said patent application, the latter of which performs simulation as described in this patent application.
+1. The process for the simulation of a contract, as: (i) pre-definition of scenarios, external dependencies, and notes; (ii) running the scenarios through the contract code; and (iii) compiling the results of the simulation.
