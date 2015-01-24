@@ -6,7 +6,7 @@ The documentation herein is either in PDF or MarkDown (md) form.
 
 Where possible, use md format as this is versionable.
 
-To preview the md, use http://dillinger.io/.
+To preview the md, use http://jbt.github.io/markdown-editor/#.
 
 ## Graph
 
