@@ -185,14 +185,14 @@ When an event's code containing a note is processed:
 # Claims
 
 1. An information system that automates the simulation of a contract in machine interpretable form.
- 1. The said information system allows the defining of a set of scenarios.
- 1. The said scenarios are defined in a chronological timeline.
- 1. The said information system intercepts information requests to other systems.
- 1. The said information system injects pre-defined data in place of external information requests as in the previous sub-claim.
- 1. The said information system intercepts commands to other systems.
- 1. The said information system compiles the results of the simulated scenarios.
- 1. The said information system allows the definition of indicative notes in the code.
- 1. The said information system generates a report, describing all scenarios and their outcome.
+ 1. The said information system in claim 1 allows the defining of a set of scenarios.
+ 1. The said scenarios in the previous sub-claim are defined in a chronological timeline.
+ 1. The said information system in claim 1 intercepts information requests to other systems.
+ 1. The said information system in claim 1 injects pre-defined data in place of external information requests as in the previous sub-claim.
+ 1. The said information system in claim 1 intercepts commands to other systems.
+ 1. The said information system in claim 1 compiles the results of the simulated scenarios.
+ 1. The said information system in claim 1 allows the definition of indicative notes in the code.
+ 1. The said information system in claim 1 generates a report, describing all scenarios and their outcome.
 1. An information system that allows a user to enter the relevant data into the information system as in claim 1.
  1. The said information system in claim 2 allows the entry and collection of scenario data.
  1. The said information system in claim 2 allows the entry and collection of external call data for interception.
