@@ -1,5 +1,3 @@
--------------
-
 Inventor: Samuel Bourque
 
 Filer: New System Technologies Limited
@@ -8,19 +6,19 @@ Filing Date: [TBD]
 
 Filing Number: [TBD]
 
--------------
+---
 # Title
 
-A SIMULATION SYSTEM FOR IDENTIFYING AND PREDICTING POSSIBLE OUTCOMES OF CONTRACTS
+**A SIMULATION SYSTEM FOR IDENTIFYING AND PREDICTING POSSIBLE OUTCOMES OF CONTRACTS**
 
--------------
+---
 # Summary
 
 An information system that simulates a pre-defined set of scenarios of a contract. Said contract is to be firstly formatted as a Smart Contract[1], so that the authoritative version of the contract is drafted in machine interpretable scripting language. In order for this to work--other than the Smart Contract Management System--, there needs to be in place: (i) coding standards, and (ii) a simulation engine. This approach, in turn, enables the process of understanding a contract into a black-box process, rather than a white-box one.
 
 [1] As defined in previous filing entitled: AN INFORMATION SYSTEM THAT AUTOMATES INTERPRETATION AND PERFORMANCE OF CONTRACTS INVOLVING DIGITAL ASSETS
 
--------------
+---
 # Description
 
 ## Introduction
@@ -39,7 +37,7 @@ By getting all of the possible scenarios defined and simulated, we can then gene
 
 ## Review
 
-Prior to examining the system in question, the reader must first grasp the Smart Contract system, as defined in AN INFORMATION SYSTEM THAT AUTOMATES INTERPRETATION AND PERFORMANCE OF CONTRACTS INVOLVING DIGITAL ASSETS.
+Prior to examining the system in question, the reader must first grasp the Smart Contract system, as defined in *AN INFORMATION SYSTEM THAT AUTOMATES INTERPRETATION AND PERFORMANCE OF CONTRACTS INVOLVING DIGITAL ASSETS*.
 
 As, such, here's a brief recap.
 
@@ -47,7 +45,7 @@ As, such, here's a brief recap.
 
 A Smart Contract is formally defined as:
 
-**Smart Contract**: (noun) a digital record of a contract or agreement, which (1) contains terms that are machine interpretable and/or machine executable; (2) represents the actual agreement as accepted by signature; and (3) is stored and administered by a third party system.
+> **Smart Contract**: (noun) a digital record of a contract or agreement, which (1) contains terms that are machine interpretable and/or machine executable; (2) represents the actual agreement as accepted by signature; and (3) is stored and administered by a third party system.
 
 The short description is that it is a contract drafted where its authoritative version is encapsulated within machine interpretable code. This is useful for: (i) automation, (ii) verifiability of parties, (iii) safekeeping of the contract, (iv) cost effectiveness, (v) predictability, (vi) disambiguity, (vii) reportability, (viii) recording of events, (ix) scalability and (x) automated analysis.
 
@@ -65,10 +63,7 @@ The code composing the Smart Contracts shall be written using the event-driven m
 
 ### External Calls
 
-Smart Contracts have the ability to make calls to external systems; such calls, to enable simulation, must use the integrated library tools available to make the request. Such libraries are:
-
-* HTTP Method call
-* Email to be sent
+Smart Contracts have the ability to make calls to external systems; such calls, to enable simulation, must use the integrated library tools available to make the request. Such libraries will compose all HTTP methods as defined in the Internet Engineering Task Force's (IETF) RFC 2616.
 
 Such calls shall have a harness that intercepts simulated calls and injects pre-defined results.
 
@@ -76,23 +71,109 @@ This forces all external calls to be done as HTTP method calls.
 
 ## System Design
 
-For the diagram, please refer to Schedule A.
-
-### Components
-
-#### Scenarios
+### Scenarios
 
 Scenarios represent one possible outcome/contingency of a contract's lifecycle. It composes a timeline series of simulated events.
 
-#### Simulated Events
+### Simulated Events
 
+In order to run a scenario, a timeline of event must be defined--preferably in chronological order. As per the standards as established supra, each event shall be captured by a function; as such, the function may require parameters to be defined.
 
+#### Preconditions
 
-#### External Call Stubs
+* That the scenarios are defined, and their parameters when needed.
+* That the code is being run in Simulation Mode.
+
+#### Process
+
+1. Verify that the Smart Contract is run in Simulation Mode.
+1. Process the event as specified as the callback
+1. 
+
+### External Call Stubs
+
+The Smart Contract code may require making external calls to other systems as defined in the standards supra. The libraries will intercept the call and inject pre-defined data instead.
+
+#### Preconditions
+
+* That the scenarios are defined 
+
+#### Process
+
+When the code is being processed and runs into a library invocation for an external call.
+1. Verify that the Smart Contract is run in Simulation Mode.
+1. If so, then bypass the actual HTTP method
+1. Look up the 
 
 ### Schema
 
--------------
+Here are the database components that form the design.
+
+SC_STATUS|
+:---|:---|:---
+sc_status_id|integer|Primary key
+name|varchar|Human readable description
+[Lookup table for Smart Contract status]
+
+SMART_CONTRACT|
+:---|:---|:---
+sc_id|integer|Primary key
+sc_status_id|integer|Foreign key to SC_STATUS
+name|varchar|Smart Contract name
+descr|varchar|Description
+
+SC_CODE|
+:---|:---|:---
+sc_code_id|integer|Primary key
+sc_id|integer|Foreign key to SMART_CONTRACT
+version|varchar|Unique version identifier for the code
+
+CODE_EVENT|
+:---|:---|:---
+code_event_id|integer|Primary key
+sc_code_id|integer|Foreign key to SC_CODE
+tag|varchar|An optional identifier for the event
+param_list|varchar|The parameter list for invocation
+
+CODE_EXT_CALL|
+:---|:---|:---
+code_ext_call_id|integer|Primary key
+code_event_id|integer|Foreign key to CODE_EVENT
+tag|varchar|An optional identifier for the external call
+param_list|varchar|The parameter list for invocation
+
+SCENARIO|
+:---|:---|:---
+scenario_id|integer|Primary key
+sc_code_id|integer|Foreign key to SC_CODE
+name|varchar|A unique identifier
+descr|varchar|Description
+
+SCENARIO_EVENT|
+:---|:---|:---
+scenario_event_id|integer|Primary key
+scenario_id|integer|Foreign key to SCENARIO
+code_event_id|integer|Foreign key to CODE_EVENT
+schedule|varchar|Describes when the event is to be called
+params|varchar|Specifies parameters for the invocation
+
+SCENARIO_EXT_CALL|
+:---|:---|:---
+scenario_ext_call_id|integer|Primary key
+code_ext_call_id|integer|Foreign key to CODE_EXT_CALL
+return_value|varchar|Specifies code to be processed instead of the external call
+
+## Example
+
+### Description
+
+### Smart Contract Code
+
+### Scenarios
+
+
+
+---
 # Claims
 
 1. 
