@@ -51,3 +51,20 @@ SCENARIO_EXT_CALL|
 scenario_ext_call_id|integer|Primary key
 code_ext_call_id|integer|Foreign key to CODE_EXT_CALL
 return_value|varchar|Specifies code to be processed instead of the external call
+
+SCENARIO_RUN|
+:---|:---|:---
+scenario_run_id|integer|Primary key
+scenario_id|integer|Foreign key to SCENARIO
+timestamp|datetime|When the run was simulated
+
+SCENARIO_VALUE|
+:---|:---|:---
+scenario_run_id|integer|Foreign key to SCENARIO_RUN
+key|varchar|Acts as a variable name
+value|varchar|Acts as the value for the variable
+
+SCENARIO_NOTE|
+:---|:---|:---
+scenario_run_id|integer|Foreign key to SCENARIO_RUN
+note|varchar|Records trace messages
