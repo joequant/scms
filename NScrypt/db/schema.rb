@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150121165241) do
+ActiveRecord::Schema.define(version: 20150124140121) do
 
   create_table "codes", force: :cascade do |t|
     t.string   "version"
@@ -61,12 +61,23 @@ ActiveRecord::Schema.define(version: 20150121165241) do
 
   create_table "sc_events", force: :cascade do |t|
     t.text     "callback"
-    t.datetime "timestamp"
     t.integer  "contract_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
   add_index "sc_events", ["contract_id"], name: "index_sc_events_on_contract_id"
+
+  create_table "schedules", force: :cascade do |t|
+    t.integer  "contract_id"
+    t.datetime "timestamp"
+    t.string   "argument"
+    t.boolean  "recurrent"
+    t.string   "status"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "schedules", ["contract_id"], name: "index_schedules_on_contract_id"
 
 end

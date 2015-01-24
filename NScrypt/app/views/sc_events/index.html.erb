@@ -1,31 +1,38 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Sc Events</h1>
-
-<table class="table table-stripe">
-    <thead>
+<%- model_class = ScEvent -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
     <tr>
-        <th>Timestamp</th>
-        <th>Callback</th>
-        <th>Contract</th>
-        <th colspan="3"></th>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:callback) %></th>
+      <th><%= model_class.human_attribute_name(:contract_id) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
-    </thead>
-
-    <tbody>
+  </thead>
+  <tbody>
     <% @sc_events.each do |sc_event| %>
-        <tr>
-            <td><%= sc_event.timestamp %></td>
-            <td><%= sc_event.callback %></td>
-            <td><%= sc_event.contract.title %></td>
-            <td><%= link_to 'Show', sc_event %></td>
-            <td><%= link_to 'Edit', edit_sc_event_path(sc_event) %></td>
-            <td><%= link_to 'Destroy', sc_event, method: :delete, data: {confirm: 'Are you sure?' } %></td>
-        </tr>
+      <tr>
+        <td><%= link_to sc_event.id, sc_event_path(sc_event) %></td>
+        <td><%= sc_event.callback %></td>
+        <td><%= sc_event.contract_id %></td>
+        <td><%=l sc_event.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_sc_event_path(sc_event), :class => 'btn btn-default btn-xs' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      sc_event_path(sc_event),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-xs btn-danger' %>
+        </td>
+      </tr>
     <% end %>
-    </tbody>
+  </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Sc event', new_sc_event_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_sc_event_path,
+            :class => 'btn btn-primary' %>

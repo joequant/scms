@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  resources :schedules
+
+  root :to => "contracts#index"
+
   resources :parties
 
   resources :roles
-
-  resources :payments
 
   resources :sc_events
 

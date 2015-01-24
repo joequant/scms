@@ -1,25 +1,38 @@
-<%= form_for(@contract) do |f| %>
+<%= form_for @contract, :html => { :class => "form-horizontal contract" } do |f| %>
+
     <% if @contract.errors.any? %>
-        <div id="error_explanation">
-            <h2><%= pluralize(@contract.errors.count, "error") %> prohibited this contract from being saved:</h2>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@contract.errors.count, "error") %> prohibited this contract from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @contract.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
 
-            <ul>
-                <% @contract.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                <% end %>
-            </ul>
-        </div>
-    <% end %>
+  <div class="control-group">
+    <%= f.label :title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :title, :class => 'form-control' %>
+    </div>
+    <%= error_span(@contract[:title]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :description, :class => 'form-control' %>
+    </div>
+    <%= error_span(@contract[:description]) %>
+  </div>
 
-    <div class="field">
-        <%= f.label :title %><br>
-        <%= f.text_field :title %>
-    </div>
-    <div class="field">
-        <%= f.label :description %><br>
-        <%= f.text_field :description %>
-    </div>
-    <div class="actions">
-        <%= f.submit %>
-    </div>
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            contracts_path, :class => 'btn btn-default' %>
+
 <% end %>
