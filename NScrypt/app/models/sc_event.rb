@@ -1,3 +1,4 @@
 class ScEvent < ActiveRecord::Base
-  belongs_to :contract;
+  belongs_to :code;
+  has_many :schedules;
 end

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :schedules
 
   root :to => "contracts#index"
 
@@ -11,9 +10,15 @@ Rails.application.routes.draw do
 
   resources :codes
 
-  resources :contracts
+  resources :contracts, shallow:true do
+    resources :codes
+    resources :sc_events
+    resources :schedules
+  end
 
   resources :people
+
+  resources :schedules
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

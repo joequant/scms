@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contract_id: 
+  timestamp: 2015-01-24 22:01:21
+  argument: MyString
+  recurrent: false
+  status: MyString
+
+two:
+  contract_id: 
+  timestamp: 2015-01-24 22:01:21
+  argument: MyString
+  recurrent: false
+  status: MyString

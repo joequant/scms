@@ -1,0 +1,3 @@
+curl -X POST -H "Content-Type: application/json" -d '{"name":"Sam"}' http://localhost:3000/people
+
+curl -X GET -H "Content-Type: application/json" http://localhost:3000/people/1.json

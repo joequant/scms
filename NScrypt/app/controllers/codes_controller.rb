@@ -4,6 +4,7 @@ class CodesController < ApplicationController
   # GET /codes
   # GET /codes.json
   def index
+  #  @codes = Contract.find(params[:contract_id]).codes
     @codes = Code.all
   end
 

@@ -2,10 +2,10 @@ class CreateScEvents < ActiveRecord::Migration
   def change
     create_table :sc_events do |t|
       t.text :callback
-      t.references :contract, index: true
+      t.references :code, index: true, null: false
 
       t.timestamps null: false
     end
-    add_foreign_key :sc_events, :contract
+    add_foreign_key :sc_events, :code
   end
 end

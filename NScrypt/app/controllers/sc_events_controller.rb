@@ -4,6 +4,7 @@ class ScEventsController < ApplicationController
   # GET /sc_events
   # GET /sc_events.json
   def index
+    #@sc_events = Code.find(params[:code_id]).sc_events
     @sc_events = ScEvent.all
   end
 
@@ -69,7 +70,7 @@ class ScEventsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def sc_event_params
-    params.require(:sc_event).permit( :callback, :contract_id)
+    params.require(:sc_event).permit( :callback, :code_id)
   end
 
 end
