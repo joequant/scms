@@ -1,0 +1,59 @@
+<%= form_for @schedule, :html => { :class => "form-horizontal schedule" } do |f| %>
+
+    <% if @schedule.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@schedule.errors.count, "error") %> prohibited this schedule from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @schedule.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :sc_event_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :sc_event_id, :class => 'form-control' %>
+    </div>
+    <%= error_span(@schedule[:sc_event_id]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :timestamp, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :timestamp, :class => 'form-control' %>
+    </div>
+    <%= error_span(@schedule[:timestamp]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :argument, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :argument, :class => 'form-control' %>
+    </div>
+    <%= error_span(@schedule[:argument]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :recurrent, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :recurrent, :class => 'form-control' %>
+    </div>
+    <%= error_span(@schedule[:recurrent]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :status, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :status, :class => 'form-control' %>
+    </div>
+    <%= error_span(@schedule[:status]) %>
+  </div>
+
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            schedules_path, :class => 'btn btn-default' %>
+
+<% end %>
