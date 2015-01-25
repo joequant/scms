@@ -1,29 +1,45 @@
-<%= form_for(@party) do |f| %>
-  <% if @party.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@party.errors.count, "error") %> prohibited this party from being saved:</h2>
+<%= form_for @party, :html => { :class => "form-horizontal party" } do |f| %>
 
-      <ul>
-      <% @party.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <% if @party.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@party.errors.count, "error") %> prohibited this party from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @party.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :person_id %><br>
-    <%= f.text_field :person_id %>
+  <div class="control-group">
+    <%= f.label :person_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :person_id, :class => 'form-control' %>
+    </div>
+    <%= error_span(@party[:person_id]) %>
   </div>
-  <div class="field">
-    <%= f.label :contract_id %><br>
-    <%= f.text_field :contract_id %>
+  <div class="control-group">
+    <%= f.label :contract_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :contract_id, :class => 'form-control' %>
+    </div>
+    <%= error_span(@party[:contract_id]) %>
   </div>
-  <div class="field">
-    <%= f.label :role_id %><br>
-    <%= f.text_field :role_id %>
+  <div class="control-group">
+    <%= f.label :role_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :role_id, :class => 'form-control' %>
+    </div>
+    <%= error_span(@party[:role_id]) %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            parties_path, :class => 'btn btn-default' %>
+
 <% end %>

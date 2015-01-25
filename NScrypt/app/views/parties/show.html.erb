@@ -1,19 +1,23 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Party -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <strong>Person:</strong>
-  <%= @party.person.name %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:person_id) %>:</strong></dt>
+  <dd><%= @party.person_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:contract_id) %>:</strong></dt>
+  <dd><%= @party.contract_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:role_id) %>:</strong></dt>
+  <dd><%= @party.role_id %></dd>
+</dl>
 
-<p>
-  <strong>Contract:</strong>
-  <%= @party.contract.title %>
-</p>
-
-<p>
-  <strong>Role:</strong>
-  <%= @party.role.name %>
-</p>
-
-<%= link_to 'Edit', edit_party_path(@party) %> |
-<%= link_to 'Back', parties_path %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              parties_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_party_path(@party), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              party_path(@party),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

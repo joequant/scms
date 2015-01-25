@@ -2,7 +2,6 @@ class CreateScEvents < ActiveRecord::Migration
   def change
     create_table :sc_events do |t|
       t.text :callback
-      t.datetime :timestamp
       t.references :contract, index: true
 
       t.timestamps null: false
