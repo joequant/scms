@@ -36,6 +36,13 @@
     </div>
     <%= error_span(@code[:contract_id]) %>
   </div>
+    <div class="control-group">
+        <%= f.label :state, :class => 'control-label' %>
+        <div class="controls">
+            <%= f.text_field :state, :class => 'form-control' %>
+        </div>
+        <%= error_span(@code[:state]) %>
+    </div>
 
 
   <%= f.submit nil, :class => 'btn btn-primary' %>

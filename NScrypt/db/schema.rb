@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20150124140121) do
   create_table "codes", force: :cascade do |t|
     t.string   "version"
     t.text     "code"
+    t.string   "state"
     t.integer  "contract_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false

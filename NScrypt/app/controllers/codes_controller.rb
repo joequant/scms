@@ -1,10 +1,24 @@
 class CodesController < ApplicationController
   before_action :set_code, only: [:show, :edit, :update, :destroy]
 
+
+  def propose
+    @code = Code.find(params[:code_id])
+    @code.state = 'Proposed'
+    @code.save
+  end
+
+  def approve
+    @code = Code.find(params[:code_id])
+    @code.state = 'Approved'
+    @code.save
+    redirect_to action: "show", id: :code_id
+  end
+
   # GET /codes
   # GET /codes.json
   def index
-  #  @codes = Contract.find(params[:contract_id]).codes
+    #@codes = Contract.find(params[:contract_id]).codes
     @codes = Code.all
   end
 
@@ -70,6 +84,6 @@ class CodesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def code_params
-    params.require(:code).permit(:version, :code, :contract_id)
+    params.require(:code).permit(:version, :code, :contract_id, :state)
   end
 end

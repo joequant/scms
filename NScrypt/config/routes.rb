@@ -8,7 +8,10 @@ Rails.application.routes.draw do
 
   resources :sc_events
 
-  resources :codes
+  resources :codes do
+    post :propose
+    post :approve
+  end
 
   resources :contracts, shallow:true do
     resources :codes

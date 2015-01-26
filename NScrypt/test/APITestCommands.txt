@@ -1,3 +1,22 @@
+#You need to run the following line to get your cookie before you run other write restful API calls:
+curl http://localhost:3000 --cookie-jar cookie|grep csrf
+
+Response:
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="ce28hRpJ2ztoe2DF9RrPsfIRElNoPpKejax7B7ZS7JqpFm/uYRUxC/Jm8S4l+Iug6iU4DK2JoExiRmqJ0nT9ig==" />
+
+#Include your token in every write operation like below:
+curl -X POST -H "Content-Type: application/json" -d '{"name":"Sam","authenticity_token":"ce28hRpJ2ztoe2DF9RrPsfIRElNoPpKejax7B7ZS7JqpFm/uYRUxC/Jm8S4l+Iug6iU4DK2JoExiRmqJ0nT9ig=="}' --cookie cookie http://localhost:3000/people/
+
 curl -X POST -H "Content-Type: application/json" -d '{"name":"Sam"}' http://localhost:3000/people
 
 curl -X GET -H "Content-Type: application/json" http://localhost:3000/people/1.json
+
+curl -X POST -H "Content-Type: application/json" -d '{"code_id":1,"authenticity_token":"ce28hRpJ2ztoe2DF9RrPsfIRElNoPpKejax7B7ZS7JqpFm/uYRUxC/Jm8S4l+Iug6iU4DK2JoExiRmqJ0nT9ig=="}' http://localhost:3000/codes/1/propose
+
+
+
+
+
+
+
