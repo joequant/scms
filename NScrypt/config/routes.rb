@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :codes do
     post :propose
-    post :approve
+    post :sign
   end
 
   resources :contracts, shallow:true do
