@@ -40,7 +40,7 @@ List SC Events|GET|baseurl/sc_event/list/{sc_id}|
 
 ## SC_Event Schedule
 
-Need to support both one-time and recurrent schedule.
+Need to support both one-time and recurring schedule.
 
 Action|Method|URL|Payload
 :---|:---|:---|:---
