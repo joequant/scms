@@ -18,11 +18,7 @@ NScrypt – Smart Contract Management System
 
 Author: Samuel Bourque 
 
-￼Version: 0.9
-
-Date: 2 December 2014
-
----------------
+￼---------------
 
 # Introduction
 ## Purpose
@@ -82,74 +78,31 @@ The scope of features to be implemented for Version 1.0 is as follows:
  * Bitcoin Support
  * HTTP Methods
 ￼
-Note: All features above are to be implemented—where appropriate—as both API and View functionality.
+Note: All features above are to be implemented--where appropriate--as both API and View functionality.
 
 # Technology Stack
 
 The following technologies are to be used:
-* Model
+* MVC
+ * Ruby on Rails
+* API
+ * REST
+* Database
  * MySql
-* Controller
- * Linux
- * Python
+* OS
+ * Linux, Ubuntu
+* View
+ * ExtJS
 
 # Design
 ## Overview
-
-* API
- * REST, JSON
-* View
- * ExtJS
 
 The design follows a MVC paradigm. The focus herein is more on the Controller, as clients may implement their own View.
 
 ## Model
 
-Here are a list of tables and respective columns:
+Refer to the accompanying document: db_schema.md
 
-* Person
- * person_id
- * [contact_info]
-* Role
- * role_id
- * name
-* Privilege
- * person_id
- * role_id
-* Cryptocurrency
- * ccrr_id
- * symbol
- * name
-* Wallet
- * wallet_id
- * person_id
- * ccrr_id
- * address
-* Status
- * status_id
- * name
-* Contract
- * contract_id
-* title
- * description
- * status_id
-* Code
- * contract_id
- * version
- * code
-* Event
-* contract_id
-* timestamp
- * callback
-* Value
- * contract_id
- * key
- * value
-* Party
- * contract_id
- * person_id
- * role
-￼
 Note: All tables herein are to have a duplicate with the suffix ‘_history,’ which has two additional columns: ‘start_date’ and ‘end_date.’
 
 ## Controller
@@ -179,9 +132,9 @@ The Registrar also handles all cryptographic functions, including signing.
 The library is a collection of helpful snippets for reuse across SCs. They fall into various categories: (1) external calls, (2) internal calls and (3) reporting; see section Library.
 Depending on the category, it either makes for an (1) External Adapter, (2) SC Adapter, or (3) Internal Library, respectively.
 
-### API/View
+# API/View
 
-[TBD]
+Refer to the accompanying document: api_spec.md
 
 # Library
 
@@ -212,3 +165,11 @@ The basic function of CRUD SC-specific values, including the SC’s status.
 ### Standard Report
 
 The basic function of responding to report calls to produce a report.
+
+### Customized Reports
+
+The Smart Contract can be customized to produce user-defined reportings.
+
+# Workflows
+
+Refer to the accompanying document: use_cases.md
