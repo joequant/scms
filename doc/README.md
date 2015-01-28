@@ -21,6 +21,7 @@ For good reading on the specifications of the DOT language: http://www.graphviz.
 When free-style drawings are needed, use http://www.draw.io
 
 Saving procedure (to preserve the git-friendliness):
+
 1. Export the file in XML format
 1. Run it through XML Pretty Print (http://xmlprettyprint.com/)
 1. Commit to Git
