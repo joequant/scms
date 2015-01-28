@@ -1,0 +1,52 @@
+digraph SimulationDataStructure {
+  node [shape=box];
+  C [label=Contract];
+  S [label=Scenario];
+  T [label=Timeline];
+  E [label=Event];
+  X [label="External Call"];
+  R [label="Resulting State"];
+  V [label=Value];
+
+  node [shape=ellipse];
+  C_Name [label=name];
+  C_Desc [label=description];
+  S_Name [label=name];
+  S_Desc [label=description];
+  T_Exec [label=Execution];
+  E_Time [label=Timestamp];
+  E_Call [label=Callback];
+  E_Tag [label=Tag];
+  E_Param [label=Parameters];
+  E_Notes [label=Notes];
+  X_Tag [label=Tag];
+  X_Call [label="HTTP Call"];
+  X_Res [label="Results"];
+  R_Stat [label="Contract Status"];
+  V_Key [label=Key];
+  V_Val [label=Value];
+
+  C -> S [label="has many"];
+  S -> T [label="has a"];
+  T -> E [label="has many"];
+  E -> X [label="has many"];
+  E -> R [label="has a"];
+  R -> V [label="has many"];
+
+  C -> C_Name;
+  C -> C_Desc;
+  S -> S_Name;
+  S -> S_Desc;
+  T -> T_Exec;
+  E -> E_Time;
+  E -> E_Call;
+  E -> E_Tag;
+  E -> E_Param;
+  X -> X_Call;
+  X -> X_Tag;
+  X -> X_Res;
+  E -> E_Notes;
+  R -> R_Stat;
+  V -> V_Key;
+  V -> V_Val;
+}

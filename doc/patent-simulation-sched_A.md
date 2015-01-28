@@ -70,6 +70,7 @@ Field|Datatype|Description
 `sc_code_id`|`integer`|Foreign key to SC_CODE
 `name`|`varchar`|A unique identifier
 `descr`|`varchar`|Description
+`precedent_id`|`integer`|Sets another scenario as a starting point
 
     SCENARIO_EVENT
     Defines the events in a scenario
@@ -79,7 +80,7 @@ Field|Datatype|Description
 `scenario_event_id`|`integer`|Primary key
 `scenario_id`|`integer`|Foreign key to SCENARIO
 `code_event_id`|`integer`|Foreign key to CODE_EVENT
-`schedule`|`varchar`|Describes when the event is to be called
+`offset`|`varchar`|Describes when the event is to be called
 `params`|`varchar`|Specifies parameters for the invocation
 
     SCENARIO_EXT_CALL
