@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 20150124140121) do
   create_table "codes", force: :cascade do |t|
     t.string   "version"
     t.text     "code"
-    t.string   "state"
     t.integer  "contract_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -33,13 +32,14 @@ ActiveRecord::Schema.define(version: 20150124140121) do
 
   create_table "parties", force: :cascade do |t|
     t.integer  "person_id"
-    t.integer  "contract_id"
+    t.integer  "code_id"
     t.integer  "role_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "parties", ["contract_id"], name: "index_parties_on_contract_id"
+  add_index "parties", ["code_id"], name: "index_parties_on_code_id"
   add_index "parties", ["person_id"], name: "index_parties_on_person_id"
   add_index "parties", ["role_id"], name: "index_parties_on_role_id"
 

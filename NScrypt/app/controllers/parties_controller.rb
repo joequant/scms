@@ -4,7 +4,15 @@ class PartiesController < ApplicationController
   # GET /parties
   # GET /parties.json
   def index
-    @parties = Party.all
+    #@parties = Party.all
+
+    if params.has_key?(:person_id)
+      @parties = Party.where(person_id:  params[:person_id] )
+    elsif params.has_key?(:code_id)
+      @parties = Party.where(code_id:  params[:code_id] )
+    else
+      @parties = Party.all
+    end
   end
 
   # GET /parties/1
@@ -69,6 +77,6 @@ class PartiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def party_params
-      params.require(:party).permit(:person_id, :contract_id, :role_id)
+      params.require(:party).permit(:person_id, :code_id, :role_id, :state)
     end
 end

@@ -5,6 +5,12 @@ class SchedulesController < ApplicationController
   # GET /schedules.json
   def index
     @schedules = Schedule.all
+
+    if params.has_key?(:sc_event_id)
+      @schedules = Schedule.where(sc_event_id: params[:sc_event_id])
+    else
+      @schedules = Schedule.all
+    end
   end
 
   # GET /schedules/1

@@ -29,8 +29,11 @@ class CodesController < ApplicationController
   # GET /codes
   # GET /codes.json
   def index
-    #@codes = Contract.find(params[:contract_id]).codes
-    @codes = Code.all
+    if params.has_key?(:contract_id)
+      @codes = Code.where(contract_id:  params[:contract_id] )
+    else
+      @codes = Code.all
+    end
   end
 
   # GET /codes/1
@@ -95,6 +98,6 @@ class CodesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def code_params
-    params.require(:code).permit(:version, :code, :contract_id, :state)
+    params.require(:code).permit(:version, :code, :contract_id)
   end
 end
