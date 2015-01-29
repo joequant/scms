@@ -231,7 +231,7 @@ Here is a list of elements (and sub-elements) required in a Simulation Report.
 
 Refer to Schedule B for Data Structure Diagram.
 
-#### 5.2.3 Layout Example
+### 5.3 Example
 
 Refer to Schedule C for an example of a report built using technologies as specified in 5.1.
 
