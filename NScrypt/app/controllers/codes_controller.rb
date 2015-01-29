@@ -109,6 +109,11 @@ class CodesController < ApplicationController
     lines = content.split(/\r\n/)
     logger.info(lines)
     lines.grep(/^\s*def\s+(sc_event_[a-zA-Z0-9_]+)/){
+
+      sc_event = ScEvent.new
+      sc_event.callback = $1
+      sc_event.code = code
+      sc_event.save
       logger.info($1)
     }
     
