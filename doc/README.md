@@ -1,14 +1,16 @@
 # Documentation
 
-## Format
+## Format - Markdown
 
 The documentation herein is either in PDF or MarkDown (md) form.
 
-Where possible, use md format as this is versionable.
+Where possible, use md format as this is versionable--specifically Github Flavoured Markdown (GFM).
 
-To preview the md, use http://jbt.github.io/markdown-editor/#.
+To preview the md, use http://tmpvar.com/markdown.html.
 
-## Graph
+The specifications for GFM MD, refer to: https://help.github.com/articles/github-flavored-markdown/
+
+## Graph - DOT
 
 When possible, graphs are to be in DOT language format (www.graphviz.org).
 
@@ -16,7 +18,9 @@ To preview the graph from the markup, use the following free online viewer: http
 
 For good reading on the specifications of the DOT language: http://www.graphviz.org/pdf/dotguide.pdf
 
-## Drawing
+There's a commandline tool available at: http://www.graphviz.org/Download..php
+
+## Drawing - Draw.Io
 
 When free-style drawings are needed, use http://www.draw.io
 
