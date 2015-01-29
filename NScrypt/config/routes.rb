@@ -6,17 +6,24 @@ Rails.application.routes.draw do
 
   resources :roles
 
-  resources :sc_events
-
-  resources :codes
-
-  resources :contracts, shallow:true do
-    resources :codes
-    resources :sc_events
+  resources :sc_events do
     resources :schedules
   end
 
-  resources :people
+  resources :codes do
+    post :propose
+    post :sign
+    resources :sc_events
+    resources :parties
+  end
+
+  resources :contracts do
+    resources :codes
+  end
+
+  resources :people do
+    resources :parties
+  end
 
   resources :schedules
 

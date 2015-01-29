@@ -4,8 +4,12 @@ class ScEventsController < ApplicationController
   # GET /sc_events
   # GET /sc_events.json
   def index
-    #@sc_events = Code.find(params[:code_id]).sc_events
-    @sc_events = ScEvent.all
+    if params.has_key?(:code_id)
+      @sc_events = ScEvent.where(code_id: params[:code_id])
+    else
+      @sc_events = ScEvent.all
+    end
+    
   end
 
   # GET /sc_events/1

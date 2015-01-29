@@ -1,11 +1,39 @@
 class CodesController < ApplicationController
   before_action :set_code, only: [:show, :edit, :update, :destroy]
 
+
+  def propose
+    @code = Code.find(params[:code_id])
+
+    @proposed = Code.where(:contract_id => @code.contract_id)
+    @proposed.each do |c|
+      if c.state == 'Proposed'
+        c.state = 'Proposed_before'
+        c.save
+      end
+    end
+    @code.state = 'Proposed'
+    @code.save
+    redirect_to action: "show", id: :code_id
+  end
+
+  def sign
+    @code = Code.find(params[:code_id])
+    if @code.state == 'Proposed'
+      @code.state = 'Signed'
+      @code.save
+    end
+    redirect_to action: "show", id: :code_id
+  end
+
   # GET /codes
   # GET /codes.json
   def index
-  #  @codes = Contract.find(params[:contract_id]).codes
-    @codes = Code.all
+    if params.has_key?(:contract_id)
+      @codes = Code.where(contract_id:  params[:contract_id] )
+    else
+      @codes = Code.all
+    end
   end
 
   # GET /codes/1
