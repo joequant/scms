@@ -1,4 +1,4 @@
-# Simulation Report Example
+    Simulation Report Example
 
 > Page 1
 
@@ -20,4 +20,23 @@
 1. Bet overpaid
 
 > Page 2
+
+# Scenario 1: Bet goes into effect
+
+This is a partial scenario examining the normal course of dealings to bring the contract into effect.
+
+## Preconditions
+
+None
+
+## Events
+
+Time Offset|Event|Parameters|External Calls|URL|Results
+---|---|---|---|---|---
+0|Check Balance||Balance from Blockchain|`blockchain.info/wallet/get_balance`|`{"balance":2}`
+
+## Diagram
+
+[logo]: images/scenario_1.png
+
 

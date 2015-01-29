@@ -1,0 +1,12 @@
+digraph Scenario_1 {
+  rankdir=TB;
+  T0 [label="T: 0"];
+  CB [shape = record; label="<f0> Check Balance|<f1> blockchain.info/wallet/get_balance| <f2> \{\"balance\":2\}"];
+  { rank = same; "T0"; "CB" }
+
+  T0_P [label="T: 0'"];
+  R [shape=record; label="Values|{PAID|True}"];
+  { rank = same; "T0_P"; "R" }
+
+  T0 -> T0_P
+}

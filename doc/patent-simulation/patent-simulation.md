@@ -183,15 +183,26 @@ When an event's code containing a note is processed:
 
 ## 5 Simulation Report
 
-### 5.1 Data Source
+### 5.1 Generation Process
 
+The report is built from the data compiled in the database, as per the data structure described in 5.2.
 
+It is furthermore generated programmatically using a combination of the following open standards:
+
+#### 5.1.1 Markdown
+
+Documented at http://daringfireball.net/projects/markdown/, it is a syntax used for minimally generating formatted documents.
+
+#### 5.1.2 DOT
+
+Documented at http://www.graphviz.org, it is a syntax used for generating graphs.
 
 ### 5.2 Report Structure
 
 #### 5.2.1 Elements
 
 Here is a list of elements (and sub-elements) required in a Simulation Report.
+
 * contract name
 * contract description
 * scenarios:
@@ -205,16 +216,16 @@ Here is a list of elements (and sub-elements) required in a Simulation Report.
      * tag (if specified)
      * parameters
      * external calls:
-       * tag (if specified)
-       * call specifications:
-         * URL
-         * HTTP method
-         * payload (if any)
-       * injected results
+         * tag (if specified)
+         * injected results
+         * call specifications:
+             * URL
+             * HTTP method
+             * payload (if any)
      * notes
      * end-state:
-       * contract status
-       * each key-value pair data
+         * contract status
+         * each key-value pair data
 
 #### 5.2.2 Data Structure
 
@@ -222,7 +233,7 @@ Refer to Schedule B for Data Structure Diagram.
 
 #### 5.2.3 Layout Example
 
-Refer to Schedule C for an example.
+Refer to Schedule C for an example of a report built using technologies as specified in 5.1.
 
 ---
 # Claims
