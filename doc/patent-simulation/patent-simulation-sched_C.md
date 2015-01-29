@@ -1,7 +1,5 @@
 # Simulation Report Example
 
-    Page 1
-
 **Contract**: Ars_v_Man_2015_05_16
 
 **Description**: A friendly bet between friends; Sam ("Player A") is betting on Arsenal, Henry ("Player B") is betting on ManU.
@@ -20,8 +18,6 @@
 1. Bet underpaid
 1. Bet overpaid
 
-    Page 2
-
 ## Scenario 1: Bet goes into effect
 
 This is a partial scenario examining the normal course of dealings to bring the contract into effect.
@@ -38,6 +34,6 @@ Time Offset|Event|Parameters|External Calls|URL|Results
 
 ### Diagram
 
-[logo]: images/scenario_1.png
+![Scenario 1](./images/scenario_1.png)
 
 
