@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   resources :sc_events do
     resources :schedules
+    post :trigger
   end
 
   resources :codes do
