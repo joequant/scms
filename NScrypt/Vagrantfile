@@ -1,0 +1,32 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # Based off Ubuntu 14.04
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh",
+    disabled: "true"
+
+  config.ssh.port = 56222
+  config.vm.network :forwarded_port, guest: 22, host: 56222
+
+  config.vm.network :private_network, :ip => "192.168.242.242"
+  config.vm.synced_folder ".", "/vagrant", :nfs => true
+  config.vm.synced_folder ".", "/repos/nscrypt", :nfs => true
+
+  config.vm.hostname = 'nscrypt'
+
+  config.vm.provision :ansible do |ansible|
+    ansible.playbook = 'deployment/playbook.yml'
+    ansible.extra_vars = { using_vagrant:  true }
+  end
+
+  config.vm.provider :virtualbox do |vb|
+      vb.name = 'Nscrypt'
+      vb.memory = 2048
+      vb.cpus = 2
+  end
+
+end

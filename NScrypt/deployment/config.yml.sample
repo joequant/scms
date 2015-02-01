@@ -1,0 +1,12 @@
+---
+
+# Copy config.yml.sample to config.yml
+# Change username and password
+
+username: 'test'
+
+# the password must be hashed
+# On Debian you can use something like 'mkpasswd -m sha-512'
+password: '$6$m0heRxNu8/$AexsEhT88hiDt8pyefdmJNLJiQU1Q4/YZoiwt3k9HikDlqLjP7UNbNSYNaydDgC6pXH7UOlSNip3MRef/0D7p1'  # 1234
+
+

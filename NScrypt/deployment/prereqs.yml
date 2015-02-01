@@ -1,0 +1,39 @@
+---
+
+# Debian packages
+- name: Install python-software-properties
+  apt: pkg=python-software-properties
+
+- name: Brightbox repository for more up-to-date ruby
+  command: apt-add-repository -y ppa:brightbox/ruby-ng
+
+- name: Run apt-get update
+  apt: update_cache=yes
+
+- name: Install debian packages
+  apt: pkg={{ item }} force=yes
+  with_flattened:
+    - deb_packages
+
+
+# Ruby gems
+- name: Install ruby gems
+  gem: name={{ item }} user_install=no
+  sudo: yes
+  with_flattened:
+    - ruby_gems
+
+# User and SSH key
+- name: Add user {{ username }} with password {{ password }}
+  user: name='{{ username}}' shell=/bin/bash comment='{{ username }} user' password='{{ password }}' groups='sudo' #update_password='on_create'
+  when: using_vagrant
+
+- name: Add ssh key for {{ username }}
+  authorized_key: user='{{ username }}' key='{{ public_ssh_key_string }}' state=present
+  when: using_vagrant
+
+# Symlink to source from $HOME/nscrypt
+- name: Set symlink to nscrypt source
+  file: "src=/repos/nscrypt dest=/home/{{ username }}/nscrypt force=yes state=link"
+  when: using_vagrant
+

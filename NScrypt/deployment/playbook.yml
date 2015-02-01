@@ -1,0 +1,39 @@
+---
+-
+  hosts: all
+
+  sudo: yes
+  vars_files:
+      - config.yml
+
+  vars:
+    using_vagrant: false
+    public_ssh_key: "~/.ssh/id_rsa.pub"
+    public_ssh_key_string: "{{ lookup('file',  public_ssh_key) }}"
+
+    # Vagrant box name
+    vm_box: ubuntu/trusty64
+
+    # Show console: yes/no
+    fqdn: 'nscrypt.dev'
+
+    deb_packages:
+      - build-essential
+      - git
+      - whois
+      - nginx
+      - postgresql
+      - libpq-dev
+      - postgresql-contrib
+      - libsqlite3-dev
+      - ruby2.2
+      - ruby2.2-dev
+
+
+    ruby_gems:
+      - bundler
+      - foreman
+
+  tasks:
+    - include: prereqs.yml
+
