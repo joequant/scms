@@ -26,9 +26,12 @@ ActiveRecord::Schema.define(version: 20150124140121) do
   create_table "contracts", force: :cascade do |t|
     t.string   "title"
     t.string   "description"
+    t.integer  "code_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  add_index "contracts", ["code_id"], name: "index_contracts_on_code_id"
 
   create_table "parties", force: :cascade do |t|
     t.integer  "person_id"

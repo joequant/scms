@@ -1,6 +1,11 @@
 class ContractsController < ApplicationController
   before_action :set_contract, only: [:show, :edit, :update, :destroy]
 
+  
+  def trigger
+
+  end
+  
   # GET /contracts
   # GET /contracts.json
   def index

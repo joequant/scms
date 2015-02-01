@@ -12,6 +12,16 @@ class ScEventsController < ApplicationController
     
   end
 
+  def trigger
+    if params.has_key?(:sc_event_id)
+      logger.info("loading code for sc_event: "+params[:sc_event_id])
+      sc_event = ScEvent.find(params[:sc_event_id])
+      code = sc_event.code
+      eval(code.code)
+      logger.info("Calling callback")
+      eval(sc_event.callback)
+    end
+  end
   # GET /sc_events/1
   # GET /sc_events/1.json
   def show
