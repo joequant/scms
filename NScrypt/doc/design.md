@@ -105,50 +105,62 @@ The design follows a MVC paradigm. The focus herein is more on the Controller, a
 
 ## Model
 
-Here are a list of tables and respective columns:
+Here are a list of tables and respective columns([] means to-be-implemented).
+Note that created_at and updated_at columns are added to each table by default.
 
-* Person
- * person_id
- * [contact_info]
-* Role
- * role_id
- * name
-* Privilege
- * person_id
- * role_id
-* Cryptocurrency
- * ccrr_id
- * symbol
- * name
-* Wallet
- * wallet_id
- * person_id
- * ccrr_id
- * address
-* Status
- * status_id
- * name
-* Contract
- * contract_id
-* title
- * description
- * status_id
-* Code
- * contract_id
- * version
- * code
-* Event
-* contract_id
-* timestamp
- * callback
-* Value
- * contract_id
- * key
- * value
-* Party
- * contract_id
- * person_id
- * role
+    * people
+        * id
+        * [contact_info]
+    * roles
+        * id
+        * name       
+    * contracts
+        * id
+        * title
+        * description
+        * code_id -- FK, the code that is in effect
+    * codes
+        * id
+        * contract_id -- FK, the contract that this code belongs to
+        * version
+        * code -- code content
+    * sc_events
+        * id
+        * code_id -- FK, the code that should get evaluated when this sc_event gets triggered
+        * callback -- name of the function in the code
+    * parties
+        * id
+        * code_id
+        * person_id
+        * role_id
+        * status
+    * schedules
+        * id
+        * sc_event_id
+        * timestamp
+        * argument -- cron arguments
+        * recurrent -- this column can be removed if one-time or recurrent is defined in cron argument
+        * status
+    * [privileges]
+        * person_id
+        * role_id
+    * [Cryptocurrency]
+        * ccrr_id
+        * symbol
+        * name
+    * [wallets]
+        * wallet_id
+        * person_id
+        * ccrr_id
+        * address
+    * [status]
+        * status_id
+        * name
+    * [Value]
+        * contract_id
+        * key
+        * value
+        
 ￼
 Note: All tables herein are to have a duplicate with the suffix ‘_history,’ which has two additional columns: ‘start_date’ and ‘end_date.’
 
@@ -180,8 +192,8 @@ The library is a collection of helpful snippets for reuse across SCs. They fall 
 Depending on the category, it either makes for an (1) External Adapter, (2) SC Adapter, or (3) Internal Library, respectively.
 
 ### API/View
-
-[TBD]
+Please set up the environment and browse all the API/View relationships at http://{baseurl:port}/routes
+e.g. http://localhost:3000/routes
 
 # Library
 
