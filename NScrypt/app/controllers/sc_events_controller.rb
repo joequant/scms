@@ -20,7 +20,7 @@ class ScEventsController < ApplicationController
       eval(code.code)
       logger.info("Calling callback")
       eval(sc_event.callback)
-      redirect_to action: "show", id: :sc_event_id
+      #redirect_to action: "show", id: :sc_event_id
     end
   end
   # GET /sc_events/1

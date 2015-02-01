@@ -14,7 +14,7 @@ curl -X GET -H "Content-Type: application/json" http://localhost:3000/people/1.j
 
 curl -X POST -H "Content-Type: application/json" -d '{"code_id":1,"authenticity_token":"ce28hRpJ2ztoe2DF9RrPsfIRElNoPpKejax7B7ZS7JqpFm/uYRUxC/Jm8S4l+Iug6iU4DK2JoExiRmqJ0nT9ig=="}' --cookie cookie http://localhost:3000/codes/1/propose
 
-curl -X POST -H "Content-Type: application/json" -d '{"sc_event_id":2,"authenticity_token":"xa5wRHnTmj0ApBIyX8oaKNh0cXJ7PNwI5GnpkqPPoC03Atwd4Em1klgv+bylvKp6pxdWVEdcLMsi4xXqAx6GkQ=="}' --cookie cookie http://localhost:3000/sc_events/2/trigger
+curl -X POST -H "Content-Type: application/json" -d '{"sc_event_id":2,"authenticity_token":"28su3OzDlijwns/AI+c5BanHmoiv/v+0lkQEHbSA2bPP5RAqWBphc7nK1T27ByTH6J6vhhai7c83sIiz/4ESlA=="}' --cookie cookie http://localhost:3000/sc_events/2/trigger
 
 
 
