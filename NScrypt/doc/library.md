@@ -20,8 +20,10 @@ Class|Description
 ### Classes
 
 Name|Description
+---|---
 `Sc`|The current Smart Contract
 `ScEvent`|A scheduled event
+`Wallet`|A cryptocurrency wallet
 
 ### SC-specific libraries
 
