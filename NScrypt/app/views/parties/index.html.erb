@@ -18,9 +18,9 @@
     <% @parties.each do |party| %>
       <tr>
         <td><%= link_to party.id, party_path(party) %></td>
-        <td><%= party.person_id %></td>
-        <td><%= party.code_id %></td>
-        <td><%= party.role_id %></td>
+        <td><%= party.person.name %></td>
+        <td><%= party.code.version %></td>
+        <td><%= party.role.name %></td>
           <td><%= party.state %></td>
         <td><%=l party.created_at %></td>
         <td>

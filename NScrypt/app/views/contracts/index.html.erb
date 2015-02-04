@@ -27,6 +27,9 @@
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-xs btn-danger' %>
+
+            <%= link_to t("Codes"), controller: "codes", contract_id: contract.id %>
+
         </td>
       </tr>
     <% end %>

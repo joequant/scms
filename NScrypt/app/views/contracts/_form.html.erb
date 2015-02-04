@@ -29,13 +29,7 @@
     </div>
     <%= error_span(@contract[:description]) %>
   </div>
-    <div class="control-group">
-        <%= f.label :code_id, :class => 'control-label' %>
-        <div class="controls">
-            <%= f.select(:id, options_from_collection_for_select(Code.find(@contract.code_id).sc_events, :id, :callback)) %>
-        </div>
-        <%= error_span(@contract[:code_id]) %>
-    </div>
+
 
 
   <%= f.submit nil, :class => 'btn btn-primary' %>
