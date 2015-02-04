@@ -1,0 +1,17 @@
+digraph Scenario_2 {
+  rankdir=TB;
+  T0_P [label="T: 0'"];
+  S1 [shape=box; label="Scenario 1"];
+  {rank = same; "T0_P"; "S1" };
+
+  T86400 [label="T: 86400"];
+  CB [shape = record; label="<f0> Check Balance|<f1> blockchain.info/wallet/get_balance| <f2> \{\"balance\":2\}"];
+  {rank = same; "T86400"; "CB"};
+
+  T86400_P [label="T: 86400'"];
+  R [shape=record; label="Values|{PAID|True}|{WINNER|Player A}"];
+  {rank = same; "T86400_P"; "R"};
+
+  T0_P -> T86400;
+  T86400 -> T86400_P;
+}

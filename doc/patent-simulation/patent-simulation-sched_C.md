@@ -7,9 +7,8 @@
 **Scenario List**:
 
 1. Bet goes into effect
-1. Player A's team wins
-1. Player B's team wins
-1. Game is tied
+1. Game ends--team wins
+1. Game ends--score tied
 1. Bet not paid by a party
 1. Game delayed
 1. Game forfeited
@@ -35,5 +34,23 @@ Time Offset|Event|Parameters|External Calls|URL|Results
 ### Diagram
 
 ![Scenario 1](./images/scenario_1.png)
+
+## Scenario 2: Game ends--team wins
+
+This is the most expected scenarion--happy path.
+
+### Preconditions
+
+1. Scenario 1
+
+### Events
+
+Time Offset|Event|Parameters|External Calls|URL|Results
+---|---|---|---|---|---
+86400|Resolve Bet|`{"teams": ["Arsenal", "Manchester United"], "game_date": "20150515"]`|Get Scores|`stats.com/game/get_scores`|`{"Arsenal": 2, "ManU": 1}`
+
+### Diagram
+
+![Scenario 2](./images/scenario_2.png)
 
 
