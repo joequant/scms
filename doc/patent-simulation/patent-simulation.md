@@ -209,7 +209,7 @@ Here is a list of elements (and sub-elements) required in a Simulation Report.
  * scenario name
  * scneario description
  * chronological timeline:
-   * execution (i.e. when the contract goes into effect)
+   * start_time
    * simulated events:
      * timestamp
      * callback
@@ -229,7 +229,7 @@ Here is a list of elements (and sub-elements) required in a Simulation Report.
 
 ### 5.2 Example
 
-Refer to Schedule B for an example of a report built using technologies as specified in 5.1.
+Refer to Schedule B for an example of a report built using technologies as specified for the data structure defined in 5.1.
 
 ---
 # Claims
