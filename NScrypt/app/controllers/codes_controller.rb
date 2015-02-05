@@ -2,29 +2,6 @@ class CodesController < ApplicationController
   before_action :set_code, only: [:show, :edit, :update, :destroy]
 
 
-  def propose
-    @code = Code.find(params[:code_id])
-
-    @proposed = Code.where(:contract_id => @code.contract_id)
-    @proposed.each do |c|
-      if c.state == 'Proposed'
-        c.state = 'Proposed_before'
-        c.save
-      end
-    end
-    @code.state = 'Proposed'
-    @code.save
-    redirect_to action: "show", id: :code_id
-  end
-
-  def sign
-    @code = Code.find(params[:code_id])
-    if @code.state == 'Proposed'
-      @code.state = 'Signed'
-      @code.save
-    end
-    redirect_to action: "show", id: :code_id
-  end
 
   # GET /codes
   # GET /codes.json
@@ -71,6 +48,7 @@ class CodesController < ApplicationController
   def update
     respond_to do |format|
       if @code.update(code_params)
+        scrape_events(@code)
         format.html { redirect_to @code, notice: 'Code was successfully updated.' }
         format.json { render :show, status: :ok, location: @code }
       else

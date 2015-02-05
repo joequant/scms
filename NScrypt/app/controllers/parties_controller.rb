@@ -1,6 +1,22 @@
 class PartiesController < ApplicationController
   before_action :set_party, only: [:show, :edit, :update, :destroy]
 
+
+  def propose
+    @party = Party.find(params[:party_id])
+    @party.state = 'Proposed'
+    @party.save
+    redirect_to action: "show", id: params[:party_id]
+  end
+
+  def sign
+    @party = Party.find(params[:party_id])
+    @party.state = 'Signed'
+    @party.save
+    redirect_to action: "show", id: params[:party_id]
+  end
+  
+  
   # GET /parties
   # GET /parties.json
   def index
