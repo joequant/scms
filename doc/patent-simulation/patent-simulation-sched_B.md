@@ -27,7 +27,7 @@ None
 
 ### Events
 
-Time Offset|Event|Parameters|External Calls|URL|Results
+Time Step|Event|Parameters|External Calls|URL|Results
 ---|---|---|---|---|---
 0|Check Balance||Balance from Blockchain|`blockchain.info/wallet/get_balance`|`{"balance":2}`
 
@@ -45,9 +45,9 @@ This is the most expected scenarion--happy path.
 
 ### Events
 
-Time Offset|Event|Parameters|External Calls|URL|Results
+Time Step|Event|Parameters|External Calls|URL|Results
 ---|---|---|---|---|---
-86400|Resolve Bet|`{"teams": ["Arsenal", "Manchester United"], "game_date": "20150515"]`|Get Scores|`stats.com/game/get_scores`|`{"Arsenal": 2, "ManU": 1}`
+1|Resolve Bet|`{"teams": ["Arsenal", "Manchester United"], "game_date": "20150515"]`|Get Scores|`stats.com/game/get_scores`|`{"Arsenal": 2, "ManU": 1}`
 
 ### Diagram
 
@@ -63,9 +63,9 @@ The game is tied.
 
 ### Events
 
-Time Offset|Event|Parameters|External Calls|URL|Results
+Time Step|Event|Parameters|External Calls|URL|Results
 ---|---|---|---|---|---
-86400|Resolve Bet|`{"teams": ["Arsenal", "Manchester United"], "game_date": "20150515"]`|Get Scores|`stats.com/game/get_scores`|`{"Arsenal": 1, "ManU": 1}`
+1|Resolve Bet|`{"teams": ["Arsenal", "Manchester United"], "game_date": "20150515"]`|Get Scores|`stats.com/game/get_scores`|`{"Arsenal": 1, "ManU": 1}`
 
 ### Diagram
 

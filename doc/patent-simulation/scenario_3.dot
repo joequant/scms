@@ -1,0 +1,28 @@
+digraph Scenario_2 {
+  rankdir=TB;
+  T0_P [label="T: 0'"];
+  S1 [shape=component; label="Scenario 1"];
+  {rank = same; "T0_P"; "S1" };
+
+  T1 [label="T: 1"];
+  E1 [shape=record; label="{Event|Resolve Bet}"];
+  {rank = same; "T1"; "E1"};
+
+  XC1 [shape=record; label="{Ext_Call|Get Scores}|{URL|stats.com/game/get_scores}|{Result|{Arsenal|2}|{ManU|1}}"];
+  
+  N1 [shape=note; label="Game is tied"];
+  N2 [shape=note; label="Releasing 1BTC back over to Player A"];
+  N3 [shape=note; label="Releasing 1BTC back over to Player B"];
+  
+  XC2 [shape=record; label="{Event|Release Funds}|{URL|blockchain.info/wallet/make_payment}|{Result|{from|Escrow wallet}|{to|Player A's wallet}|{amount|1.0}}"];
+  XC3 [shape=record; label="{Event|Release Funds}|{URL|blockchain.info/wallet/make_payment}|{Result|{from|Escrow wallet}|{to|Player B's wallet}|{amount|1.0}}"];
+
+  T1_P [label="T: 1'"];
+  R [shape=record; label="Values|{BALANCE|0}|{PAID|True}|{HAS_WINNER|False}"];
+  {rank = same; "T1_P"; "R"};
+
+  T0_P -> T1;
+  T1 -> T1_P;
+  
+  E1 -> XC1 -> N1 -> N2 -> N3 -> XC2 -> XC3 -> R;
+}
