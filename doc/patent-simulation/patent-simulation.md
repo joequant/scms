@@ -113,8 +113,8 @@ A simulation allows for a Smart Contract's version of code to be analysed, in ma
 
 #### 4.2.2 Process
 
-1. For each scenario defined in SCENARIO for the contract, the simulation process is performed.
-1. A record in SCENARIO_RUN is added.
+1. For each scenario defined in `SCENARIO` for the contract, the simulation process is performed.
+1. A record in `SCENARIO_RUN` is added.
 
 ### 4.3 Scenarios
 
@@ -126,7 +126,7 @@ Scenarios represent one possible outcome/contingency of a contract's lifecycle. 
 
 #### 4.3.2 Process
 
-1. For each scenario event defined in SCENARIO_EVENT for the scenario, the simulation process is performed on the contract's code in SC_CODE.
+1. For each scenario event defined in `SCENARIO_EVENT` for the scenario, the simulation process is performed on the contract's code in `SC_CODE`.
 
 ### 4.4 Simulated Events
 
@@ -135,16 +135,16 @@ In order to run a scenario, a timeline of event must be defined--preferably in c
 #### 4.4.1 Preconditions
 
 * That the code is being run in Simulation Mode.
-* That the scenarios are defined along with their parameters when needed in SCENARIO_EVENT.
-* That the code has been systematically combed for events to populate CODE_EVENT.
+* That the scenarios are defined along with their parameters when needed in `SCENARIO_EVENT`.
+* That the code has been systematically combed for events to populate `CODE_EVENT`.
 * (optional) That the events are tagged.
 
 #### 4.4.2 Process
 
 When the contract is being simulated and the scnearion calls for the event to simulated:
 1. Verify that the Smart Contract is run in Simulation Mode.
-1. Process the event as specified as the callback in SCENARIO_EVENT.
-1. Record the resulting state of the SC_VALUE records into SCENARIO_VALUE.
+1. Process the event as specified as the callback in `SCENARIO_EVENT`.
+1. Record the resulting state of the `SC_VALUE` records into `SCENARIO_VALUE`.
 
 ### 4.5 External Call Stubs
 
@@ -163,7 +163,7 @@ The Smart Contract code may require making external calls to other systems as de
 When the code is being processed and runs into a library invocation for an external call.
 1. Verify that the Smart Contract is run in Simulation Mode.
 1. If so, then bypass the actual HTTP method.
-1. Look up the data or code to inject from SCENARIO_EXT_CALL.
+1. Look up the data or code to inject from `SCENARIO_EXT_CALL`.
 1. Inject the data as specified.
 1. Continue the processing of the simulated event.
 
@@ -179,7 +179,7 @@ Using the standardized notation, helpful indicative messages can be produced to 
 #### 4.6.2 Process
 
 When an event's code containing a note is processed:
-1. Record the note's message in SCENARIO_NOTE.
+1. Record the note's message in `SCENARIO_NOTE`.
 
 ## 5 Simulation Report
 
@@ -227,13 +227,9 @@ Here is a list of elements (and sub-elements) required in a Simulation Report.
          * contract status
          * each key-value pair data
 
-#### 5.2.2 Data Structure
+### 5.2 Example
 
-Refer to Schedule B for Data Structure Diagram.
-
-### 5.3 Example
-
-Refer to Schedule C for an example of a report built using technologies as specified in 5.1.
+Refer to Schedule B for an example of a report built using technologies as specified in 5.1.
 
 ---
 # Claims
