@@ -1,4 +1,4 @@
-# Simulation Report Example
+# Schedule B - Simulation Report Example
 
 **Contract**: Ars_v_Man_2015_05_16
 
@@ -52,5 +52,23 @@ Time Offset|Event|Parameters|External Calls|URL|Results
 ### Diagram
 
 ![Scenario 2](./images/scenario_2.png)
+
+## Scenario 3: Game ends--score tied
+
+The game is tied.
+
+### Preconditions
+
+1. Scenario 1
+
+### Events
+
+Time Offset|Event|Parameters|External Calls|URL|Results
+---|---|---|---|---|---
+86400|Resolve Bet|`{"teams": ["Arsenal", "Manchester United"], "game_date": "20150515"]`|Get Scores|`stats.com/game/get_scores`|`{"Arsenal": 1, "ManU": 1}`
+
+### Diagram
+
+![Scenario 3](./images/scenario_3.png)
 
 
