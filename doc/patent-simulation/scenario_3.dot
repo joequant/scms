@@ -8,7 +8,7 @@ digraph Scenario_2 {
   E1 [shape=record; label="{Event|Resolve Bet}"];
   {rank = same; "T1"; "E1"};
 
-  XC1 [shape=record; label="{Ext_Call|Get Scores}|{URL|stats.com/game/get_scores}|{Result|{Arsenal|2}|{ManU|1}}"];
+  XC1 [shape=record; label="{Ext_Call|Get Scores}|{URL|stats.com/game/get_scores}|{Result|{Arsenal|1}|{ManU|1}}"];
   
   N1 [shape=note; label="Game is tied"];
   N2 [shape=note; label="Releasing 1BTC back over to Player A"];
