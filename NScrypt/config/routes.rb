@@ -2,18 +2,19 @@ Rails.application.routes.draw do
 
   root :to => "contracts#index"
 
-  resources :parties
+  resources :parties  do
+    get :propose
+    get :sign
+  end
 
   resources :roles
 
   resources :sc_events do
     resources :schedules
-    post :trigger
+    get :trigger
   end
 
   resources :codes do
-    post :propose
-    post :sign
     resources :sc_events
     resources :parties
   end
