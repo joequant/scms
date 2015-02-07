@@ -103,8 +103,6 @@ The design follows a MVC paradigm. The focus herein is more on the Controller, a
 
 Refer to the accompanying document: db_schema.md
 
-Note: All tables herein are to have a duplicate with the suffix ‘_history,’ which has two additional columns: ‘start_date’ and ‘end_date.’
-
 ## Controller
 
 The basic design mirrors that of a courthouse.

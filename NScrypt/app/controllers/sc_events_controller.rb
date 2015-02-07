@@ -14,12 +14,14 @@ class ScEventsController < ApplicationController
 
   def trigger
     if params.has_key?(:sc_event_id)
+      @sc_event = ScEvent.find(params[:sc_event_id])
       logger.info("loading code for sc_event: "+params[:sc_event_id])
       sc_event = ScEvent.find(params[:sc_event_id])
       code = sc_event.code
       eval(code.code)
       logger.info("Calling callback")
       eval(sc_event.callback)
+      #redirect_to action: "show", id: params[:sc_event_id]
     end
   end
   # GET /sc_events/1

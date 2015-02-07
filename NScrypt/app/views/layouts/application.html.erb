@@ -48,9 +48,11 @@
         <a class="navbar-brand" href="#">NScrypt</a>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to "Link1", "/path1"  %></li>
-            <li><%= link_to "Link2", "/path2"  %></li>
-            <li><%= link_to "Link3", "/path3"  %></li>
+            <li><%= link_to "Contracts", "/contracts"  %></li>
+              <li><%= link_to "Codes", "/codes"  %></li>
+            <li><%= link_to "People", "/people"  %></li>
+              <li><%= link_to "Roles", "/roles"  %></li>
+              <li><%= link_to "Parties", "/parties"  %></li>
           </ul>
         </div>
       </div>
@@ -58,7 +60,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-12">
           <%= bootstrap_flash %>
           <%= yield %>
         </div>
