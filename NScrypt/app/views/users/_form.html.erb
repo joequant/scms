@@ -44,7 +44,7 @@
     </div>
     <%= error_span(@user[:password_confirmation]) %>
   </div>
-    <%= f.hidden_field :type, :value => params[:type] %>
+    <%= f.hidden_field :type, :value => @user[:type] %>
 
 
   <%= f.submit nil, :class => 'btn btn-primary' %>

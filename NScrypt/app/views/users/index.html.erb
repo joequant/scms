@@ -37,6 +37,20 @@
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_user_path,
-            :class => 'btn btn-primary' %>
+
+<%=
+    if params[:type] == 'Person'
+      link_to t('.new', :default => t("helpers.links.new")),
+              new_person_path,
+              :class => 'btn btn-primary'
+    elsif params[:type] == 'Corporation'
+        link_to t('.new', :default => t("helpers.links.new")),
+            new_corporation_path,
+            :class => 'btn btn-primary' 
+    else
+      link_to t('.new', :default => t("helpers.links.new")),
+              new_user_path,
+              :class => 'btn btn-primary'
+    end
+
+%>
