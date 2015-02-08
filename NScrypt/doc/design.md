@@ -196,8 +196,13 @@ Please set up the environment and browse all the API/View relationships at http:
 e.g. http://localhost:3000/routes
 
 # Library
-## Generate Bootstrap views for model
+## References
+### Generate Bootstrap views for model
 https://github.com/seyhunak/twitter-bootstrap-rails
+### Implement login/logout/session
+https://github.com/ryanb/railscasts-episodes/tree/master/episode-250
+### Implement OmniAuth
+http://railscasts.com/episodes/241-simple-omniauth
 
 ## External calls
 
