@@ -25,9 +25,10 @@ class PartiesController < ApplicationController
     if params.has_key?(:user_id)
       @parties = Party.where(user_id:  params[:user_id] )
     elsif params.has_key?(:code_id)
-      @parties = Party.where(code_id:  params[:code_id] )
+      logger.info(session[:user_id])
+      @parties = Party.where(code_id:  params[:code_id], user_id: session[:user_id] )
     else
-      @parties = Party.all
+      @parties = Party.where(user_id:  session[:user_id] )
     end
   end
 
