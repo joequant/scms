@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
 
-  root :to => "contracts#index"
+  get 'sessions/new'
+  
+  get "log_out" => "sessions#destroy", :as => "log_out"
+  get "log_in" => "sessions#new", :as => "log_in"
+  get "sign_up" => "users#new", :as => "sign_up"
+  root :to => "users#new"
+  
+  #root :to => "contracts#index"
+  
+  resources :sessions
+  
 
   resources :parties  do
     get :propose
@@ -23,11 +33,12 @@ Rails.application.routes.draw do
     resources :codes
   end
 
-  resources :people do
+  resources :users do
     resources :parties
   end
 
   resources :schedules
+  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -18,7 +18,7 @@ class PartiesControllerTest < ActionController::TestCase
 
   test "should create party" do
     assert_difference('Party.count') do
-      post :create, party: { contract_id: @party.contract_id, person_id: @party.person_id, role_id: @party.role_id }
+      post :create, party: { contract_id: @party.contract_id, user_id: @party.user_id, role_id: @party.role_id }
     end
 
     assert_redirected_to party_path(assigns(:party))
@@ -35,7 +35,7 @@ class PartiesControllerTest < ActionController::TestCase
   end
 
   test "should update party" do
-    patch :update, id: @party, party: { contract_id: @party.contract_id, person_id: @party.person_id, role_id: @party.role_id }
+    patch :update, id: @party, party: { contract_id: @party.contract_id, user_id: @party.user_id, role_id: @party.role_id }
     assert_redirected_to party_path(assigns(:party))
   end
 

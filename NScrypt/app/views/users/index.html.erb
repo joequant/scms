@@ -1,4 +1,4 @@
-<%- model_class = Person -%>
+<%- model_class = User -%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
@@ -7,21 +7,27 @@
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:email) %></th>
+      <th><%= model_class.human_attribute_name(:password_hash) %></th>
+      <th><%= model_class.human_attribute_name(:password_salt) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
-    <% @people.each do |person| %>
+    <% @users.each do |user| %>
       <tr>
-        <td><%= link_to person.id, person_path(person) %></td>
-        <td><%= person.name %></td>
-        <td><%=l person.created_at %></td>
+        <td><%= link_to user.id, user_path(user) %></td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.password_hash %></td>
+        <td><%= user.password_salt %></td>
+        <td><%=l user.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_person_path(person), :class => 'btn btn-default btn-xs' %>
+                      edit_user_path(user), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      person_path(person),
+                      user_path(user),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-xs btn-danger' %>
@@ -32,5 +38,5 @@
 </table>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_person_path,
+            new_user_path,
             :class => 'btn btn-primary' %>

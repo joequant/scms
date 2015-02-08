@@ -108,7 +108,7 @@ The design follows a MVC paradigm. The focus herein is more on the Controller, a
 Here are a list of tables and respective columns([] means to-be-implemented).
 Note that created_at and updated_at columns are added to each table by default.
 
-    * people
+    * users
         * id
         * [contact_info]
     * roles
@@ -131,7 +131,7 @@ Note that created_at and updated_at columns are added to each table by default.
     * parties
         * id
         * code_id
-        * person_id
+        * user_id
         * role_id
         * status
     * schedules
@@ -142,7 +142,7 @@ Note that created_at and updated_at columns are added to each table by default.
         * recurrent -- this column can be removed if one-time or recurrent is defined in cron argument
         * status
     * [privileges]
-        * person_id
+        * user_id
         * role_id
     * [Cryptocurrency]
         * ccrr_id
@@ -150,7 +150,7 @@ Note that created_at and updated_at columns are added to each table by default.
         * name
     * [wallets]
         * wallet_id
-        * person_id
+        * user_id
         * ccrr_id
         * address
     * [status]
@@ -196,8 +196,8 @@ Please set up the environment and browse all the API/View relationships at http:
 e.g. http://localhost:3000/routes
 
 # Library
-
-This is an optional section, but good-to-have for ease of use.
+## Generate Bootstrap views for model
+https://github.com/seyhunak/twitter-bootstrap-rails
 
 ## External calls
 
