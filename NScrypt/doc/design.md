@@ -203,6 +203,10 @@ https://github.com/seyhunak/twitter-bootstrap-rails
 https://github.com/ryanb/railscasts-episodes/tree/master/episode-250
 ### Implement OmniAuth
 http://railscasts.com/episodes/241-simple-omniauth
+### Single Table Inheritance with Rails 4 
+http://samurails.com/tutorial/single-table-inheritance-with-rails-4-part-1/
+http://samurails.com/tutorial/single-table-inheritance-with-rails-4-part-2/
+http://samurails.com/tutorial/single-table-inheritance-with-rails-4-part-3/
 
 ## External calls
 
