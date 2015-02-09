@@ -1,3 +1,6 @@
-class Person < ActiveRecord::Base
-  has_many :parties
+class Person < User
+
+  def greet
+    "I'm a person"
+  end
 end
