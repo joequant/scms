@@ -1,4 +1,4 @@
-<%- model_class = Person -%>
+<%- model_class = Human -%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
@@ -6,22 +6,24 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:user_id) %></th>
+      <th><%= model_class.human_attribute_name(:user_type) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
-    <% @people.each do |person| %>
+    <% @humen.each do |human| %>
       <tr>
-        <td><%= link_to person.id, person_path(person) %></td>
-        <td><%= person.name %></td>
-        <td><%=l person.created_at %></td>
+        <td><%= link_to human.id, human_path(human) %></td>
+        <td><%= human.user_id %></td>
+        <td><%= human.user_type %></td>
+        <td><%=l human.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_person_path(person), :class => 'btn btn-default btn-xs' %>
+                      edit_human_path(human), :class => 'btn btn-default btn-xs' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      person_path(person),
+                      human_path(human),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-xs btn-danger' %>
@@ -32,5 +34,5 @@
 </table>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_person_path,
+            new_human_path,
             :class => 'btn btn-primary' %>

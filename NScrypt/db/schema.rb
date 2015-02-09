@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20150124140121) do
   add_index "contracts", ["code_id"], name: "index_contracts_on_code_id"
 
   create_table "parties", force: :cascade do |t|
-    t.integer  "person_id"
+    t.integer  "user_id"
     t.integer  "code_id"
     t.integer  "role_id"
     t.string   "state"
@@ -43,14 +43,8 @@ ActiveRecord::Schema.define(version: 20150124140121) do
   end
 
   add_index "parties", ["code_id"], name: "index_parties_on_code_id"
-  add_index "parties", ["person_id"], name: "index_parties_on_person_id"
   add_index "parties", ["role_id"], name: "index_parties_on_role_id"
-
-  create_table "people", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+  add_index "parties", ["user_id"], name: "index_parties_on_user_id"
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -78,5 +72,15 @@ ActiveRecord::Schema.define(version: 20150124140121) do
   end
 
   add_index "schedules", ["sc_event_id"], name: "index_schedules_on_sc_event_id"
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "password_hash"
+    t.string   "password_salt"
+    t.string   "type"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
 end

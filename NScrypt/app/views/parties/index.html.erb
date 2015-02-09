@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:person_id) %></th>
+      <th><%= model_class.human_attribute_name(:user_id) %></th>
       <th><%= model_class.human_attribute_name(:code_id) %></th>
       <th><%= model_class.human_attribute_name(:role_id) %></th>
         <th><%= model_class.human_attribute_name(:state) %></th>
@@ -18,7 +18,7 @@
     <% @parties.each do |party| %>
       <tr>
         <td><%= link_to party.id, party_path(party) %></td>
-        <td><%= party.person.name %></td>
+        <td><%= party.user.name %></td>
         <td><%= party.code.version %></td>
         <td><%= party.role.name %></td>
           <td><%= party.state %></td>

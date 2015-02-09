@@ -101,7 +101,64 @@ The design follows a MVC paradigm. The focus herein is more on the Controller, a
 
 ## Model
 
-Refer to the accompanying document: db_schema.md
+Here are a list of tables and respective columns([] means to-be-implemented).
+Note that created_at and updated_at columns are added to each table by default.
+
+    * users
+        * id
+        * [contact_info]
+    * roles
+        * id
+        * name       
+    * contracts
+        * id
+        * title
+        * description
+        * code_id -- FK, the code that is in effect
+    * codes
+        * id
+        * contract_id -- FK, the contract that this code belongs to
+        * version
+        * code -- code content
+    * sc_events
+        * id
+        * code_id -- FK, the code that should get evaluated when this sc_event gets triggered
+        * callback -- name of the function in the code
+    * parties
+        * id
+        * code_id
+        * user_id
+        * role_id
+        * status
+    * schedules
+        * id
+        * sc_event_id
+        * timestamp
+        * argument -- cron arguments
+        * recurrent -- this column can be removed if one-time or recurrent is defined in cron argument
+        * status
+    * [privileges]
+        * user_id
+        * role_id
+    * [Cryptocurrency]
+        * ccrr_id
+        * symbol
+        * name
+    * [wallets]
+        * wallet_id
+        * user_id
+        * ccrr_id
+        * address
+    * [status]
+        * status_id
+        * name
+    * [Value]
+        * contract_id
+        * key
+        * value
+        
+￼
+Note: All tables herein are to have a duplicate with the suffix ‘_history,’ which has two additional columns: ‘start_date’ and ‘end_date.’
 
 ## Controller
 
@@ -135,8 +192,17 @@ Depending on the category, it either makes for an (1) External Adapter, (2) SC A
 Refer to the accompanying document: api_spec.md
 
 # Library
-
-This is an optional section, but good-to-have for ease of use.
+## References
+### Generate Bootstrap views for model
+https://github.com/seyhunak/twitter-bootstrap-rails
+### Implement login/logout/session
+https://github.com/ryanb/railscasts-episodes/tree/master/episode-250
+### Implement OmniAuth
+http://railscasts.com/episodes/241-simple-omniauth
+### Single Table Inheritance with Rails 4 
+http://samurails.com/tutorial/single-table-inheritance-with-rails-4-part-1/
+http://samurails.com/tutorial/single-table-inheritance-with-rails-4-part-2/
+http://samurails.com/tutorial/single-table-inheritance-with-rails-4-part-3/
 
 ## External calls
 

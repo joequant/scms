@@ -16,11 +16,11 @@
   <% end %>
 
         <div class="control-group">
-            <%= f.label :person_id, :class => 'control-label' %>
+            <%= f.label :user_id, :class => 'control-label' %>
             <div class="controls">
-                <%= f.select(:person_id, options_from_collection_for_select(Person.all, :id, :name)) %>
+                <%= f.select(:user_id, options_from_collection_for_select(User.all, :id, :name)) %>
             </div>
-            <%= error_span(@party[:person_id]) %>
+            <%= error_span(@party[:user_id]) %>
         </div>
     <div class="control-group">
         <%= f.label :role_id, :class => 'control-label' %>

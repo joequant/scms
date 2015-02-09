@@ -22,12 +22,13 @@ class PartiesController < ApplicationController
   def index
     #@parties = Party.all
 
-    if params.has_key?(:person_id)
-      @parties = Party.where(person_id:  params[:person_id] )
+    if params.has_key?(:user_id)
+      @parties = Party.where(user_id:  params[:user_id] )
     elsif params.has_key?(:code_id)
-      @parties = Party.where(code_id:  params[:code_id] )
+      logger.info(session[:user_id])
+      @parties = Party.where(code_id:  params[:code_id], user_id: session[:user_id] )
     else
-      @parties = Party.all
+      @parties = Party.where(user_id:  session[:user_id] )
     end
   end
 
@@ -93,6 +94,6 @@ class PartiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def party_params
-      params.require(:party).permit(:person_id, :code_id, :role_id, :state)
+      params.require(:party).permit(:user_id, :code_id, :role_id, :state)
     end
 end
