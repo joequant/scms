@@ -4,7 +4,7 @@ Smart contracts are executable code. This code is executed when triggered by the
 
 The system has the following characteristics:
 
-- Events happen at any time, asynchronously. The system must be able to handle asynchronous events, and schedule and manage execution of contracts based on this. This mandates the use of a message queue.
+- Events happen at any time, asynchronously. The system must be able to handle these events, and schedule and manage execution of, potentially a great many, contracts based on their arrival. This mandates the use of a message queue.
 - Contracts contain Turing-complete executable code. This places strict security restrictions on the system. Uncontrolled side-effects of the code are not allowed. For this reason, contract code is executed in a sandbox, where it cannot interact with the outside world other than via provided APIs.
 
 
@@ -12,11 +12,11 @@ The system has the following characteristics:
 
 ![dataflow](event-container-flow.png)
 
-Events can come in through event listeners, which provide an API, and get called when an event happens, or through event scrapers, which actively poll other services for information that constitues an event. Events, once generated, flow into a controller. Controllers determine which contracts are waiting for an event, and schedule execution of the code of those contracts. To execute a contract, a container is spun up for the contract, and instructed to run its code.
+Events come in through event listeners, which provide an API, and get called when an event happens, or through event scrapers, which actively poll other services for information that constitues an event. Events, once generated, flow into a controller. Controllers determine which contracts are waiting for an event, and schedule execution of the code of those contracts. To execute a contract, a container is spun up for the contract, and instructed to run its code.
 
 In addition to the code, a contract also contains the application state for contract. The application state for a contract is an immutable piece of data that fully describes the state of the execution of a contract at a point in time. When the application state of a contract changes, a new application state is recorded for the contract with the time of change of the state.
 
-The container contains a language-specific runtime system that loads the code and the application state for the contract. The application state for the contract is used to initialize the contract to its correct state. At that point the event is fed to the code, and the code's handling of the event is executed. This will cause the application state of the code to change. It may also cause new events to flow into the system.
+The container contains a language-specific runtime system that loads the code and the application state for the contract. The application state is used to initialize the contract to the exact point it reached after handling the previous event. At that point the event is fed to the code, and the code's handling of the event is executed. This will cause the application state of the code to change. It may also cause new events to flow into the system. The new application state after handling of the event is complete, is stored in the system.
 
 
 # Message queueing
