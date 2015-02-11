@@ -20,7 +20,8 @@ class ScEventsController < ApplicationController
       code = sc_event.code
       eval(code.code)
       logger.info("Calling callback")
-      eval(sc_event.callback)
+      run = ScEventRun.new(:sc_event => sc_event, :run_at => Time.now, :return_value => eval(sc_event.callback))
+      run.save
       #redirect_to action: "show", id: params[:sc_event_id]
     end
   end
