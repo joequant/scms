@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  return_value: MyString
-  run_at: 2015-02-11 17:59:34
   sc_event_id: 
+  run_at: 2015-02-14 14:03:21
+  result: MyString
 
 two:
-  return_value: MyString
-  run_at: 2015-02-11 17:59:34
   sc_event_id: 
+  run_at: 2015-02-14 14:03:21
+  result: MyString

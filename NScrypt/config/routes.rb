@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :sc_event_runs
+
   get 'sessions/new'
   
   get "log_out" => "sessions#destroy", :as => "log_out"

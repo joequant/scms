@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150211175934) do
+ActiveRecord::Schema.define(version: 20150214140321) do
 
   create_table "codes", force: :cascade do |t|
     t.string   "version"
@@ -53,11 +53,19 @@ ActiveRecord::Schema.define(version: 20150211175934) do
   end
 
   create_table "sc_event_runs", force: :cascade do |t|
+<<<<<<< HEAD
     t.string   "return_value"
     t.datetime "run_at"
     t.integer  "sc_event_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+=======
+    t.integer  "sc_event_id"
+    t.datetime "run_at"
+    t.string   "result"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+>>>>>>> Created SCEventRuns as view
   end
 
   add_index "sc_event_runs", ["sc_event_id"], name: "index_sc_event_runs_on_sc_event_id"
