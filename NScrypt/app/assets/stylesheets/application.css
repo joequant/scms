@@ -14,3 +14,7 @@
  *= require_self
  */
 
+.footer {
+    height: 4em;
+    text-align: center;
+}
