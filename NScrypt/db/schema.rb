@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20150214140321) do
     t.datetime "updated_at", null: false
   end
 
+<<<<<<< HEAD
   create_table "sc_event_runs", force: :cascade do |t|
 <<<<<<< HEAD
     t.string   "return_value"
@@ -70,6 +71,8 @@ ActiveRecord::Schema.define(version: 20150214140321) do
 
   add_index "sc_event_runs", ["sc_event_id"], name: "index_sc_event_runs_on_sc_event_id"
 
+=======
+>>>>>>> parent of 5b594ca... Added SCEventRun
   create_table "sc_events", force: :cascade do |t|
     t.text     "callback"
     t.integer  "code_id",    null: false
