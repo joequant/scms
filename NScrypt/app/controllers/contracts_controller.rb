@@ -6,7 +6,7 @@ class ContractsController < ApplicationController
   # GET /contracts
   # GET /contracts.json
   def index
-    @contracts = Contract.all
+    @contracts = Contract.where(owner: session[:user_id])
   end
 
   # GET /contracts/1
@@ -27,6 +27,7 @@ class ContractsController < ApplicationController
   # POST /contracts.json
   def create
     @contract = Contract.new(contract_params)
+    @contract.owner = session[:user_id]
 
     respond_to do |format|
       if @contract.save
