@@ -15,7 +15,7 @@
   <tbody>
     <% @sc_event_runs.each do |sc_event_run| %>
       <tr>
-        <td><%= sc_event_run.sc_event.callback %></td>
+        <td><%= sc_event_run.sc_event %></td>
         <td><%= sc_event_run.run_at %></td>
         <td><%= sc_event_run.result %></td>
         <td><%= link_to 'Show', sc_event_run %></td>
