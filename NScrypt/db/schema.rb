@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150218092815) do
+ActiveRecord::Schema.define(version: 20150219055853) do
 
   create_table "codes", force: :cascade do |t|
     t.string   "version"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20150218092815) do
     t.integer  "contract_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "hash"
   end
 
   add_index "codes", ["contract_id"], name: "index_codes_on_contract_id"
