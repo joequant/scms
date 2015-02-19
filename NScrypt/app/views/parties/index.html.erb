@@ -31,8 +31,10 @@
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-xs btn-danger' %>
-          <%=  link_to "Propose", controller: "parties", action: "propose", party_id: party.id  %>
-          <%=  link_to "Sign", controller: "parties", action: "sign", party_id: party.id  %>
+          <% if party.user.id == session[:user_id] %>
+            <%= link_to "Propose", controller: "parties", action: "propose", party_id: party.id %>
+            <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id %>
+          <% end %>
         </td>
       </tr>
     <% end %>
