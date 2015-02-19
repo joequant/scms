@@ -124,6 +124,11 @@ Note that created_at and updated_at columns are added to each table by default.
         * id
         * code_id -- FK, the code that should get evaluated when this sc_event gets triggered
         * callback -- name of the function in the code
+    * sc_event_run
+         * id
+         * sc_event_id
+         * run_at
+         * return_value
     * parties
         * id
         * code_id
