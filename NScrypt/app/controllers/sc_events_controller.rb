@@ -17,12 +17,18 @@ class ScEventsController < ApplicationController
       @sc_event = ScEvent.find(params[:sc_event_id])
       logger.info("loading code for sc_event: "+params[:sc_event_id])
       sc_event = ScEvent.find(params[:sc_event_id])
-      code = sc_event.code
-      eval(code.code)
+
+      require './lib/nscrypt/scms/scms.rb'
+      require './lib/nscrypt/sc/sc.rb'
+      $scms = SCMS.new(session[:user_id])
+      $sc = SC.new($scms, @sc_event.code.contract)
+
+      eval(@sc_event.code.code)
       logger.info("Calling callback")
       ret = eval(sc_event.callback)
       run = ScEventRun.new(:sc_event => sc_event, :run_at => Time.now, :result => ret)
       run.save
+
       redirect_to run
     end
   end
