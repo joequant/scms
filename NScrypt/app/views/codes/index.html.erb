@@ -1,6 +1,6 @@
 <%- model_class = Code -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1><%=t '.title', :default => 'Drafts' %></h1>
 </div>
 <table class="table table-striped">
   <thead>
@@ -37,7 +37,7 @@
         </td>
         <td>
           <%= link_to t("Parties"), controller: "parties", code_id: code.id %>
-          <%= link_to t("Events"), controller: "sc_events", code_id: code.id %>
+          <%= link_to t("Events"), controller: "sc_events", code_id: code.id if code.state == 'Signed' %>
         </td>
       </tr>
     <% end %>

@@ -34,7 +34,7 @@
                         :class => 'btn btn-xs btn-danger' %>
           <% end %>
           <% if party.user.id == session[:user_id] %>
-            <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id if party.state == 'Proposed' || party.code.author == session[:user_id] %>
+            <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id if party.state != 'Signed' && (party.state == 'Proposed' || party.code.author == session[:user_id]) %>
             <%= link_to "Unsign", controller: "parties", action: "unsign", party_id: party.id if party.state == 'Signed' && party.code.contract.status != 'Pending' %>
           <% else %>
             <%= link_to "Propose", controller: "parties", action: "propose", party_id: party.id if (party.state.nil? || party.state == '') && party.code.author == session[:user_id] %>

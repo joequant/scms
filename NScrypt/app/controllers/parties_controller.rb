@@ -112,5 +112,9 @@ class PartiesController < ApplicationController
     end
     @party.code.state = state
     @party.code.save
+    if state == 'Signed'
+      @party.code.contract.signed_code_id = @party.code.id
+      @party.code.contract.save
+    end
   end
 end
