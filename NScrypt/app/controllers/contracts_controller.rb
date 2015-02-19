@@ -7,6 +7,10 @@ class ContractsController < ApplicationController
   # GET /contracts.json
   def index
     @contracts = Contract.where(owner: session[:user_id])
+    # Also get where the user was a proposed party
+    parties = Party.where("user_id = ? AND (state = 'Proposed' OR state = 'Signed')", session[:user_id])
+    #parties = Party.where("user_id = ?", session[:user_id])
+    parties.each{ |party| @contracts << party.code.contract }
   end
 
   # GET /contracts/1
