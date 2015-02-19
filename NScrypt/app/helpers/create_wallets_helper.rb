@@ -1,0 +1,2 @@
+module CreateWalletsHelper
+end

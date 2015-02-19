@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :create_wallets
+
   resources :sc_event_runs
 
   get 'sessions/new'
