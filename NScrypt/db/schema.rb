@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150219190042) do
+ActiveRecord::Schema.define(version: 20150219195414) do
 
 # Could not dump table "codes" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass
@@ -28,6 +28,13 @@ ActiveRecord::Schema.define(version: 20150219190042) do
   end
 
   add_index "create_wallets", ["user_id"], name: "index_create_wallets_on_user_id"
+
+  create_table "notes", force: :cascade do |t|
+    t.string  "note"
+    t.integer "contract_id"
+  end
+
+  add_index "notes", ["contract_id"], name: "index_notes_on_contract_id"
 
   create_table "parties", force: :cascade do |t|
     t.integer  "user_id"
