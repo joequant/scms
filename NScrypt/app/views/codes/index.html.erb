@@ -9,6 +9,7 @@
       <th><%= model_class.human_attribute_name(:version) %></th>
       <th><%= model_class.human_attribute_name(:contract_id) %></th>
       <th><%= model_class.human_attribute_name(:author) %></th>
+      <th><%= model_class.human_attribute_name(:state) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
       <th><%=t '.nav', :default => t("helpers.navigation") %></th>
@@ -21,6 +22,7 @@
         <td><%= code.version %></td>
         <td><%= code.contract.title %></td>
         <td><%= code.author %></td>
+        <td><%= code.state %></td>
         <td><%=l code.created_at %></td>
         <td>
           <% if code.author == session[:user_id] %>

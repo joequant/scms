@@ -32,6 +32,7 @@ class CodesController < ApplicationController
   def create
     @code = Code.new(code_params)
     @code.author = session[:user_id]
+    @code.state = 'Not Signed'
     scrape_events(@code)
     respond_to do |format|
       if @code.save
@@ -80,23 +81,18 @@ class CodesController < ApplicationController
     params.require(:code).permit(:version, :code, :contract_id)
   end
   
-  
   def scrape_events(code)
-
     logger.info('Scrape events.')
     content = code.code
     lines = content.split(/\r\n/)
     logger.info(lines)
     lines.grep(/^\s*def\s+(sc_event_[a-zA-Z0-9_]+)/){
-
       sc_event = ScEvent.new
       sc_event.callback = $1
       sc_event.code = code
       sc_event.save
       logger.info($1)
     }
-    
   end    
-  
-  
+
 end

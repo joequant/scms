@@ -32,6 +32,7 @@ class ContractsController < ApplicationController
   def create
     @contract = Contract.new(contract_params)
     @contract.owner = session[:user_id]
+    @contract.status = 'Pending'
 
     respond_to do |format|
       if @contract.save

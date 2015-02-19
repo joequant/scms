@@ -1,7 +1,6 @@
 class PartiesController < ApplicationController
   before_action :set_party, only: [:show, :edit, :update, :destroy]
 
-
   def propose
     @party = Party.find(params[:party_id])
     @party.state = 'Proposed'
@@ -13,10 +12,18 @@ class PartiesController < ApplicationController
     @party = Party.find(params[:party_id])
     @party.state = 'Signed'
     @party.save
+    set_state
     redirect_to action: "show", id: params[:party_id]
   end
-  
-  
+
+  def unsign
+    @party = Party.find(params[:party_id])
+    @party.state = 'Proposed'
+    @party.save
+    set_state
+    redirect_to action: "show", id: params[:party_id]
+  end  
+
   # GET /parties
   # GET /parties.json
   def index
@@ -92,4 +99,18 @@ class PartiesController < ApplicationController
     def party_params
       params.require(:party).permit(:user_id, :code_id, :role_id, :state)
     end
+
+  def set_state
+    parties = Party.where(code_id: @party.code.id)
+    signed = Array.new
+    parties.each{|p| signed << p if p.state == 'Signed'}
+    state = 'Not Signed'
+    if signed.length == parties.length
+      state = 'Signed'
+    elsif signed.length > 0
+      state = 'Partially Signed'
+    end
+    @party.code.state = state
+    @party.code.save
+  end
 end

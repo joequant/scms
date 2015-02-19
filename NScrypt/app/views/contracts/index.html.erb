@@ -9,8 +9,9 @@
       <th><%= model_class.human_attribute_name(:title) %></th>
       <th><%= model_class.human_attribute_name(:description) %></th>
       <th><%= model_class.human_attribute_name(:owner) %></th>
+      <th><%= model_class.human_attribute_name(:status) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <th><%=t '.navigation', :default => t("helpers.navigation") %></th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +21,7 @@
         <td><%= contract.title %></td>
         <td><%= contract.description %></td>
         <td><%= contract.owner %></td>
+        <td><%= contract.status %></td>
         <td><%=l contract.created_at %></td>
         <td>
           <% if contract.owner == session[:user_id] %>
