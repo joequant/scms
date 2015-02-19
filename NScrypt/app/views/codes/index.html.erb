@@ -7,7 +7,6 @@
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:version) %></th>
-      <th><%= model_class.human_attribute_name(:code) %></th>
       <th><%= model_class.human_attribute_name(:contract_id) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
@@ -18,7 +17,6 @@
       <tr>
         <td><%= link_to code.id, code_path(code) %></td>
         <td><%= code.version %></td>
-        <td><%= code.code %></td>
         <td><%= code.contract.title %></td>
         <td><%=l code.created_at %></td>
         <td>
