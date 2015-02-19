@@ -18,8 +18,7 @@ class ScEventsController < ApplicationController
       logger.info("loading code for sc_event: "+params[:sc_event_id])
       sc_event = ScEvent.find(params[:sc_event_id])
 
-      require './lib/nscrypt/scms/scms.rb'
-      require './lib/nscrypt/sc/sc.rb'
+      require './lib/nscrypt/scms.rb'
       $scms = SCMS.new(session[:user_id])
       $sc = SC.new($scms, @sc_event.code.contract)
 
