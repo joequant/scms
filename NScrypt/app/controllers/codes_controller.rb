@@ -7,9 +7,9 @@ class CodesController < ApplicationController
   # GET /codes.json
   def index
     if params.has_key?(:contract_id)
-      @codes = Code.where(contract_id:  params[:contract_id] )
+      @codes = Code.where(contract_id: params[:contract_id] )
     else
-      @codes = Code.all
+      @codes = Code.where(author: session[:user_id])
     end
   end
 
@@ -31,6 +31,7 @@ class CodesController < ApplicationController
   # POST /codes.json
   def create
     @code = Code.new(code_params)
+    @code.author = session[:user_id]
     scrape_events(@code)
     respond_to do |format|
       if @code.save
