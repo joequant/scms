@@ -5,6 +5,11 @@ class SC
     @scms = scms
     @contract = contract
     @id = @contract.id
+    @status = @contract.status
+  end
+
+  def get_status
+    @status
   end
 
 end
