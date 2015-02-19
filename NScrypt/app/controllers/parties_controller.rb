@@ -20,15 +20,11 @@ class PartiesController < ApplicationController
   # GET /parties
   # GET /parties.json
   def index
-    #@parties = Party.all
-
-    if params.has_key?(:user_id)
-      @parties = Party.where(user_id:  params[:user_id] )
-    elsif params.has_key?(:code_id)
+    if params.has_key?(:code_id)
       logger.info(session[:user_id])
-      @parties = Party.where(code_id:  params[:code_id], user_id: session[:user_id] )
+      @parties = Party.where(code_id: params[:code_id])
     else
-      @parties = Party.where(user_id:  session[:user_id] )
+      @parties = Party.where(user_id: session[:user_id])
     end
   end
 

@@ -27,8 +27,8 @@
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-xs btn-danger' %>
-
-            <%= link_to t("SCEvents"), controller: "sc_events", code_id: code.id%>
+          <%= link_to t("Parties"), controller: "parties", code_id: code.id %>
+          <%= link_to t("Events"), controller: "sc_events", code_id: code.id %>
         </td>
       </tr>
     <% end %>
