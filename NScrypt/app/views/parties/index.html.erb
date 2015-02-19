@@ -21,16 +21,18 @@
         <td><%= party.user.name %></td>
         <td><%= party.code.version %></td>
         <td><%= party.role.name %></td>
-          <td><%= party.state %></td>
+        <td><%= party.state %></td>
         <td><%=l party.created_at %></td>
         <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_party_path(party), :class => 'btn btn-default btn-xs' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      party_path(party),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-xs btn-danger' %>
+          <% if party.code.author == session[:user_id] %>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_party_path(party), :class => 'btn btn-default btn-xs' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        party_path(party),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-xs btn-danger' %>
+          <% end %>
           <% if party.user.id == session[:user_id] %>
             <%= link_to "Propose", controller: "parties", action: "propose", party_id: party.id %>
             <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id %>
