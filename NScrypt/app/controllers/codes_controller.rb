@@ -83,6 +83,7 @@ class CodesController < ApplicationController
   
   def scrape_events(code)
     logger.info('Scrape events.')
+    old = ScEvent.delete_all(code: @code)
     content = code.code
     lines = content.split(/\r\n/)
     logger.info(lines)

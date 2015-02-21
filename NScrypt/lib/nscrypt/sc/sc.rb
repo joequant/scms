@@ -1,14 +1,22 @@
+require_relative './party.rb'
+require_relative './record.rb'
+require_relative '../scms/user.rb'
+
 class SC
   def initialize(scms, controller)
     @scms = scms
     @controller = controller
   end
 
-  def get_id
+  def inspect
+    id
+  end
+
+  def id
     @controller.get_sc_id
   end
 
-  def get_status
+  def status
     @controller.get_sc_status
   end
 
@@ -20,29 +28,36 @@ class SC
     @controller.add_sc_note(message)
   end
 
-  def get_notes
+  def notes
     @controller.get_sc_notes
   end
 
-  def get_source
+  def source
     @controller.get_sc_source
   end
 
-  def get_value(key)
-    @controller.get_sc_value(key)
+  def records
+    result = @controller.get_sc_values
+    vals = Hash.new
+    result.each{ |v| vals[v.key] = v.value }
+    vals
   end
 
-  def set_value(key, value)
+  def set_record(key, value)
     @controller.set_sc_value(key, value)
   end
 
-  def is_party(role)
-    @controller.is_sc_party(role)
+  def parties
+    result = @controller.get_sc_parties
+    ps = Hash.new
+    user_ids = result.each{ |p| p.user_id }
+    result.each{ |p| ps[p.role.name] = ScmsUser.new(p.user.name, p.user.email, []) }
+    ps
   end
 
-  #def get_party(role)
-  #  @controller.get_sc_party(role)
-  #end
+  def current_user_is(role)
+    @controller.is_sc_party(role)
+  end
 
 end
 

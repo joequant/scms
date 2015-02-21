@@ -102,11 +102,15 @@ class ScEventsController < ApplicationController
     notes.collect{ |n| n.note }
   end
 
-  def get_sc_value(key)
-    values = ScValue.where(contract: @sc_event.code.contract, key: key)
-    raise "Can't find value for #{key}" if values.empty?
-    values.first[:value]
+  def get_sc_values
+    ScValue.where(contract: @sc_event.code.contract)
   end
+
+  #def get_sc_value(key)
+  #  values = ScValue.where(contract: @sc_event.code.contract, key: key)
+  #  raise "Can't find value for #{key}" if values.empty?
+  #  values.first[:value]
+  #end
 
   def set_sc_value(key, value)
     values = ScValue.where(contract: @sc_event.code.contract, key: key)
@@ -122,10 +126,6 @@ class ScEventsController < ApplicationController
     value_obj.save
   end
 
-  def get_sc_status
-    @sc_event.code.contract.status
-  end
-
   def set_sc_status(status)
     @sc_event.code.contract.status = status
     @sc_event.code.contract.save
@@ -135,15 +135,8 @@ class ScEventsController < ApplicationController
     @sc_event.code.code
   end
 
-  #def get_sc_party(role)
-  #  result = Party.joins(:role).where("parties.code_id = ? AND roles.name = ?", @sc_event.code.id, role)
-  #  raise "No such party for role #{role}" if result.empty?
-  #  result.first
-  #end
-
-  def is_sc_party(role)
-    result = Party.joins(:role).where("parties.code_id = ? AND roles.name = ?", @sc_event.code.id, role)
-    !result.empty?
+  def get_sc_parties
+    Party.includes(:user).includes(:role).where(code: @sc_event.code)
   end
 
   private
