@@ -1,20 +1,39 @@
 class SC
-  attr_reader :id
-
-  def initialize(scms, controller, contract)
+  def initialize(scms, controller)
     @scms = scms
     @controller = controller
-    @contract = contract
-    @id = @contract.id
-    @status = @contract.status
+  end
+
+  def get_id
+    @controller.get_sc_id
   end
 
   def get_status
-    @status
+    @controller.get_sc_status
+  end
+
+  def set_status(status)
+    @controller.set_sc_status(status)
   end
 
   def note(message)
-    @controller.add_note(message)
+    @controller.add_sc_note(message)
+  end
+
+  def get_notes
+    @controller.get_sc_notes
+  end
+
+  def get_source
+    @controller.get_sc_source
+  end
+
+  def get_value(key)
+    @controller.get_sc_value(key)
+  end
+
+  def set_value(key, value)
+    @controller.set_sc_value(key, value)
   end
 
 end

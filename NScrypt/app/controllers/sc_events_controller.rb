@@ -20,7 +20,7 @@ class ScEventsController < ApplicationController
 
       require './lib/nscrypt/scms.rb'
       $scms = SCMS.new(session[:user_id])
-      $sc = SC.new($scms, self, @sc_event.code.contract)
+      $sc = SC.new($scms, self)
 
       eval(@sc_event.code.code)
       logger.info("Calling callback")
@@ -85,11 +85,49 @@ class ScEventsController < ApplicationController
     end
   end
 
-  def add_note(message)
+  # LIBRARY CALLBACKS
+  def get_sc_id
+    @sc_event.code.contract.id
+  end
+
+  def add_sc_note(message)
     note = Note.new
     note.note = message
     note.contract = @sc_event.code.contract
     note.save
+  end
+
+  def get_sc_notes
+    notes = Note.where(contract: @sc_event.code.contract)
+    notes.collect{ |n| n.note }
+  end
+
+  def get_sc_value(key)
+    values = ScValue.where(contract: @sc_event.code.contract, key: key)
+    raise "Can't find value for #{key}" if values.nil || values.length = 0
+    values.first[:value]
+  end
+
+  def set_sc_value(key, value)
+    values = ScValue.where(contract: @sc_event.code.contract, key: key)
+    value = nil
+    if values.nil || values.length = 0
+      value = ScValue.new
+    else
+      value = values.first
+    end
+    value.key = key
+    value.value = value
+    value.save
+  end
+
+  def get_sc_status
+    @sc_event.code.contract.status
+  end
+
+  def set_sc_status(status)
+    @sc_event.code.contract.status = status
+    @sc_event.code.contract.save
   end
 
   private
