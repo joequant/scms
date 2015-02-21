@@ -36,5 +36,13 @@ class SC
     @controller.set_sc_value(key, value)
   end
 
+  def is_party(role)
+    @controller.is_sc_party(role)
+  end
+
+  #def get_party(role)
+  #  @controller.get_sc_party(role)
+  #end
+
 end
 

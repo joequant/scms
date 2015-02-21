@@ -135,6 +135,17 @@ class ScEventsController < ApplicationController
     @sc_event.code.code
   end
 
+  #def get_sc_party(role)
+  #  result = Party.joins(:role).where("parties.code_id = ? AND roles.name = ?", @sc_event.code.id, role)
+  #  raise "No such party for role #{role}" if result.empty?
+  #  result.first
+  #end
+
+  def is_sc_party(role)
+    result = Party.joins(:role).where("parties.code_id = ? AND roles.name = ?", @sc_event.code.id, role)
+    !result.empty?
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_sc_event
