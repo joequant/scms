@@ -1,6 +1,7 @@
 require_relative './party.rb'
 require_relative './record.rb'
 require_relative '../scms/user.rb'
+require_relative '../scms/wallet.rb'
 
 class SC
   def initialize(scms, controller)
@@ -50,8 +51,11 @@ class SC
   def parties
     result = @controller.get_sc_parties
     ps = Hash.new
-    user_ids = result.each{ |p| p.user_id }
-    result.each{ |p| ps[p.role.name] = ScmsUser.new(p.user.name, p.user.email, []) }
+    result[:parties].each{ |p|
+      w = Array.new
+      result[:wallets][p.user].each{ |r| w << ScmsWallet.new(r.currency, r.address) }
+      ps[p.role.name] = ScmsUser.new(p.user.name, p.user.email, w)
+    }
     ps
   end
 

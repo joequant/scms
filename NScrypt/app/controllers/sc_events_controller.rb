@@ -136,7 +136,14 @@ class ScEventsController < ApplicationController
   end
 
   def get_sc_parties
-    Party.includes(:user).includes(:role).where(code: @sc_event.code)
+    parties = Party.includes(:user).includes(:role).where(code: @sc_event.code)
+    wallets_result = Wallet.where(user: parties.collect{ |p| p.user })
+    wallets = Hash.new
+    wallets_result.each{ |w|
+      wallets[w.user] = Array.new if wallets[w.user].nil?
+      wallets[w.user] << w
+    }
+    { :parties => parties, :wallets => wallets}
   end
 
   private
