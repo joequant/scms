@@ -1,66 +1,47 @@
 require_relative './party.rb'
-require_relative './record.rb'
 require_relative '../scms/user.rb'
 require_relative '../scms/wallet.rb'
 
 class SC
-  def initialize(scms, controller)
-    @scms = scms
+  attr_reader :id, :status, :records, :parties, :notes
+
+  def initialize(controller, id, status, records, parties, notes)
     @controller = controller
+    @id = id
+    @status = status
+    @records = records
+    @parties = parties
+    @notes = notes
   end
 
   def inspect
-    id
+    {'id' => @id, 'status' => @status}
   end
 
-  def id
-    @controller.get_sc_id
-  end
-
-  def status
-    @controller.get_sc_status
+  def update
+    @status = @controller.get_sc_status
+    @records = @controller.get_sc_records
+    @parties = @controller.get_sc_parties
+    @notes = @controller.get_sc_notes
   end
 
   def set_status(status)
     @controller.set_sc_status(status)
+    @status = @controller.get_sc_status
   end
 
   def note(message)
     @controller.add_sc_note(message)
-  end
-
-  def notes
-    @controller.get_sc_notes
-  end
-
-  def source
-    @controller.get_sc_source
-  end
-
-  def records
-    result = @controller.get_sc_values
-    vals = Hash.new
-    result.each{ |v| vals[v.key] = v.value }
-    vals
+    @notes = @controller.get_sc_notes
   end
 
   def set_record(key, value)
     @controller.set_sc_value(key, value)
+    @records = @controller.get_sc_records
   end
 
-  def parties
-    result = @controller.get_sc_parties
-    ps = Hash.new
-    result[:parties].each{ |p|
-      w = Array.new
-      result[:wallets][p.user].each{ |r| w << ScmsWallet.new(r.currency, r.address) }
-      ps[p.role.name] = ScmsUser.new(p.user.name, p.user.email, w)
-    }
-    ps
-  end
-
-  def current_user_is(role)
-    @controller.is_sc_party(role)
+  def current_user?(role)
+    @parties[role].id == @controller.get_current_user_id
   end
 
 end

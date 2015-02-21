@@ -1,7 +1,8 @@
 class ScmsUser
-  attr_reader :name, :email, :wallets
+  attr_reader :id, :name, :email, :wallets
 
-  def initialize(name, email, wallets)
+  def initialize(id, name, email, wallets)
+    @id = id
     @name = name
     @email = email
     @wallets = wallets

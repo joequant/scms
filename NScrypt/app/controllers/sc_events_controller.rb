@@ -20,7 +20,7 @@ class ScEventsController < ApplicationController
 
       require './lib/nscrypt/scms.rb'
       $scms = SCMS.new(session[:user_id])
-      $sc = SC.new($scms, self)
+      $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes)
 
       eval(@sc_event.code.code)
       logger.info("Calling callback")
@@ -86,10 +86,6 @@ class ScEventsController < ApplicationController
   end
 
   # LIBRARY CALLBACKS
-  def get_sc_id
-    @sc_event.code.contract.id
-  end
-
   def add_sc_note(message)
     note = Note.new
     note.note = message
@@ -103,14 +99,11 @@ class ScEventsController < ApplicationController
   end
 
   def get_sc_values
-    ScValue.where(contract: @sc_event.code.contract)
+    result = ScValue.where(contract: @sc_event.code.contract)
+    vals = Hash.new
+    result.each{ |v| vals[v.key] = v.value }
+    vals
   end
-
-  #def get_sc_value(key)
-  #  values = ScValue.where(contract: @sc_event.code.contract, key: key)
-  #  raise "Can't find value for #{key}" if values.empty?
-  #  values.first[:value]
-  #end
 
   def set_sc_value(key, value)
     values = ScValue.where(contract: @sc_event.code.contract, key: key)
@@ -131,6 +124,10 @@ class ScEventsController < ApplicationController
     @sc_event.code.contract.save
   end
 
+  def get_sc_status
+    @sc_event.code.contract.status
+  end
+
   def get_sc_source
     @sc_event.code.code
   end
@@ -143,7 +140,17 @@ class ScEventsController < ApplicationController
       wallets[w.user] = Array.new if wallets[w.user].nil?
       wallets[w.user] << w
     }
-    { :parties => parties, :wallets => wallets}
+    ps = Hash.new
+    parties.each{ |p|
+      w = Array.new
+      wallets[p.user].each{ |r| w << ScmsWallet.new(r.currency, r.address) }
+      ps[p.role.name] = ScmsUser.new(p.user.id, p.user.name, p.user.email, w)
+    }
+    ps
+  end
+
+  def get_current_user_id
+    session[:user_id]
   end
 
   private
