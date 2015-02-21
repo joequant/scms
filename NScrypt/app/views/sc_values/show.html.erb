@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Contract:</strong>
+  <%= @sc_value.contract %>
+</p>
+
+<p>
+  <strong>Key:</strong>
+  <%= @sc_value.key %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @sc_value.value %>
+</p>
+
+<%= link_to 'Edit', edit_sc_value_path(@sc_value) %> |
+<%= link_to 'Back', sc_values_path %>

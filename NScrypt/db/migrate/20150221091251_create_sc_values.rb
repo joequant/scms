@@ -4,6 +4,8 @@ class CreateScValues < ActiveRecord::Migration
       t.belongs_to :contract, index: true
       t.string :key
       t.string :value
+
+      t.timestamps null: false
     end
     add_foreign_key :sc_values, :contracts
   end

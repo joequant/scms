@@ -104,21 +104,22 @@ class ScEventsController < ApplicationController
 
   def get_sc_value(key)
     values = ScValue.where(contract: @sc_event.code.contract, key: key)
-    raise "Can't find value for #{key}" if values.nil || values.length = 0
+    raise "Can't find value for #{key}" if values.empty?
     values.first[:value]
   end
 
   def set_sc_value(key, value)
     values = ScValue.where(contract: @sc_event.code.contract, key: key)
-    value = nil
-    if values.nil || values.length = 0
-      value = ScValue.new
+    value_obj = nil
+    if values.empty?
+      value_obj = ScValue.new
     else
-      value = values.first
+      value_obj = values.first
     end
-    value.key = key
-    value.value = value
-    value.save
+    value_obj.contract = @sc_event.code.contract
+    value_obj.key = key
+    value_obj.value = value
+    value_obj.save
   end
 
   def get_sc_status

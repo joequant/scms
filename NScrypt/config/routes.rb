@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :sc_values
+
   resources :notes
 
   resources :create_wallets
