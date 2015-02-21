@@ -20,7 +20,7 @@ class ScEventsController < ApplicationController
 
       require './lib/nscrypt/scms.rb'
       $scms = SCMS.new(session[:user_id])
-      $sc = SC.new($scms, @sc_event.code.contract)
+      $sc = SC.new($scms, self, @sc_event.code.contract)
 
       eval(@sc_event.code.code)
       logger.info("Calling callback")
@@ -83,6 +83,13 @@ class ScEventsController < ApplicationController
       format.html { redirect_to sc_events_url, notice: 'Sc event was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def add_note(message)
+    note = Note.new
+    note.note = message
+    note.contract = @sc_event.code.contract
+    note.save
   end
 
   private
