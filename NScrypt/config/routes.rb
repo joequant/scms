@@ -4,8 +4,6 @@ Rails.application.routes.draw do
 
   resources :notes
 
-  resources :create_wallets
-
   resources :sc_event_runs
 
   get 'sessions/new'
