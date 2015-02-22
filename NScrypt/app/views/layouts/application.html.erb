@@ -47,12 +47,12 @@
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
             <li><%= link_to "Contracts", "/contracts"  %></li>
-            <li><%= link_to "Contact List", "/people"  %></li>
+            <li><%= link_to "Drafts", "/codes"  %></li>
           </ul>
             <ul class="pull-right nav navbar-nav">
 
                 <% if current_user %>
-                    <li> <%=link_to current_user.name %></li>
+                    <li><%=link_to current_user.name %></li>
                     <li><%= link_to "Log out", log_out_path %> </li>
                 <% else %>
                     <li><%= link_to "Sign up", sign_up_path %> </li>

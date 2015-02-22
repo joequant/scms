@@ -4,11 +4,11 @@ class ContractsController < ApplicationController
   # GET /contracts
   # GET /contracts.json
   def index
-    @contracts = Contract.where(owner: session[:user_id])
+    # Fetches only signed contracts
+    @contracts = Contract.where("owner = ? AND signed_code_id is NOT NULL", session[:user_id])
     # Also get where the user was a proposed party
-    parties = Party.where("user_id = ? AND (state = 'Proposed' OR state = 'Signed')", session[:user_id])
-    #parties = Party.where("user_id = ?", session[:user_id])
-    parties.each{ |party| @contracts << party.code.contract unless @contracts.include?(party.code.contract) }
+    parties = Party.where("user_id = ? AND state = 'Signed'", session[:user_id])
+    parties.each{ |party| @contracts << party.code.contract if !@contracts.include?(party.code.contract) && !party.code.contract.signed_code_id.nil? }
   end
 
   # GET /contracts/1

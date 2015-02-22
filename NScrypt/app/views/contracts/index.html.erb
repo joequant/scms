@@ -35,8 +35,6 @@
           <% end %>
           <% if !contract.signed_code_id.nil? %>
             <%= link_to t("Events"), controller: "sc_events", code_id: contract.signed_code_id %>
-          <% else %>
-            <%= link_to t("Drafts"), controller: "codes", contract_id: contract.id %>
           <% end %>
         </td>
       </tr>
