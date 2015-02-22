@@ -20,8 +20,8 @@ class SCMS
     @controller.check_blockchain_for_transaction(sender, recipient, currency, amount, start_date, end_date)
   end
 
-  def scrape(url, l)
-    @controller.scrape(url, l)
+  def http_get(url)
+    @controller.http_get(url)
   end
 
 end

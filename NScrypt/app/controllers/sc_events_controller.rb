@@ -157,6 +157,12 @@ class ScEventsController < ApplicationController
     ScMailer.send_sc_email(to, cc, subject, body).deliver_now
   end
 
+  def http_get(url)
+    uri = URI.parse(url)
+    response = Net::HTTP.get_response(uri)
+    response.body
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_sc_event
