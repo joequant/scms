@@ -143,7 +143,7 @@ class ScEventsController < ApplicationController
     ps = Hash.new
     parties.each{ |p|
       w = Array.new
-      wallets[p.user].each{ |r| w << ScmsWallet.new(r.currency, r.address) }
+      wallets[p.user].each{ |r| w << ScmsWallet.new(r.currency, r.address) } if wallets.has_key?(p.user)
       ps[p.role.name] = ScmsUser.new(p.user.id, p.user.name, p.user.email, w)
     }
     ps
