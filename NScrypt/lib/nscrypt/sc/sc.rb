@@ -20,7 +20,7 @@ class SC
 
   def update
     @status = @controller.get_sc_status
-    @records = @controller.get_sc_records
+    @records = @controller.get_sc_values
     @parties = @controller.get_sc_parties
     @notes = @controller.get_sc_notes
   end
@@ -37,7 +37,7 @@ class SC
 
   def set_record(key, value)
     @controller.set_sc_value(key, value)
-    @records = @controller.get_sc_records
+    @records = @controller.get_sc_values
   end
 
   def current_user?(role)
