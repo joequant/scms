@@ -19,7 +19,7 @@ class ScEventsController < ApplicationController
       sc_event = ScEvent.find(params[:sc_event_id])
 
       require './lib/nscrypt/scms.rb'
-      $scms = SCMS.new(session[:user_id])
+      $scms = SCMS.new(self)
       $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes)
 
       eval(@sc_event.code.code)
@@ -151,6 +151,10 @@ class ScEventsController < ApplicationController
 
   def get_current_user_id
     session[:user_id]
+  end
+
+  def send_sc_email(to, cc, subject, body)
+    ScMailer.send_sc_email(to, cc, subject, body).deliver_now
   end
 
   private
