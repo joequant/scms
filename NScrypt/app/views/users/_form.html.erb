@@ -29,7 +29,16 @@
     </div>
     <%= error_span(@user[:email]) %>
   </div>
-    
+
+  <div class="control-group">
+    <%= f.label :role, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :role, ['admin', 'user'], :to_s, :to_s, :class => 'form-control' %>
+    </div>
+    <%= error_span(@user[:email]) %>
+  </div>
+
+
   <div class="control-group">
     <%= f.label :password, :class => 'control-label' %>
     <div class="controls">
