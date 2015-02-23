@@ -1,4 +1,7 @@
 class PartiesController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :authorize_admin!
+
   before_action :set_party, only: [:show, :edit, :update, :destroy]
 
   def propose

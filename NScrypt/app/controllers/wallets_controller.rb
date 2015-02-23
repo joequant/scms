@@ -1,4 +1,7 @@
 class WalletsController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :authorize_admin!
+
   before_action :set_wallet, only: [:show, :edit, :update, :destroy]
 
   # GET /wallets
