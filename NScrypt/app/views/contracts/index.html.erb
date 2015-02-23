@@ -1,8 +1,11 @@
 <%- model_class = Contract -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1><%=t '.title', :default => 'Signed Contracts' %></h1>
 </div>
 <table class="table table-striped">
+  <% if @contracts.length == 0 %>
+    You don't have any signed contracts. Start by writing drafts!
+  <% else %>
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
@@ -41,6 +44,7 @@
       </tr>
     <% end %>
   </tbody>
+  <% end %>
 </table>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
