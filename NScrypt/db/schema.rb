@@ -11,13 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223214359) do
+ActiveRecord::Schema.define(version: 20150221154312) do
 
 # Could not dump table "codes" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass
 
 # Could not dump table "contracts" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass
+
+  create_table "create_wallets", force: :cascade do |t|
+    t.string   "currency"
+    t.string   "address"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "create_wallets", ["user_id"], name: "index_create_wallets_on_user_id"
 
   create_table "notes", force: :cascade do |t|
     t.string   "note"
@@ -94,22 +104,9 @@ ActiveRecord::Schema.define(version: 20150223214359) do
     t.string   "password_hash"
     t.string   "password_salt"
     t.string   "type"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "role"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "wallets", force: :cascade do |t|
     t.string   "currency"

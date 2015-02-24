@@ -1,7 +1,4 @@
 class NotesController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :authorize_admin!
-
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
   # GET /notes

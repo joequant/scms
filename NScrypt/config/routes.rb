@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  devise_for :users
   resources :wallets
 
   resources :sc_values
@@ -9,15 +8,15 @@ Rails.application.routes.draw do
 
   resources :sc_event_runs
 
-#  get 'sessions/new'
-
-#  get "log_out" => "sessions#destroy", :as => "log_out"
-#  get "log_in" => "sessions#new", :as => "log_in"
-#  get "sign_up" => "users#new", :as => "sign_up"
+  get 'sessions/new'
+  
+  get "log_out" => "sessions#destroy", :as => "log_out"
+  get "log_in" => "sessions#new", :as => "log_in"
+  get "sign_up" => "users#new", :as => "sign_up"
 
   root :to => "contracts#index"
-
-#  resources :sessions
+  
+  resources :sessions
 
   resources :parties  do
     get :propose

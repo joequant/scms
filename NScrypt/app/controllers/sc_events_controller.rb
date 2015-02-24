@@ -1,7 +1,4 @@
 class ScEventsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :authorize_admin!
-
   before_action :set_sc_event, only: [:show, :edit, :update, :destroy]
 
   # GET /sc_events
