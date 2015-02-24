@@ -41,7 +41,21 @@ class SC
   end
 
   def current_user?(role)
-    @parties[role].id == @controller.get_current_user_id
+    if role.kind_of?(Array)
+      role.each{ |r|
+        if @parties[r].id == @controller.get_current_user_id
+          return true
+        end
+      }
+    elsif role.kind_of?(String)
+      return @parties[role].id == @controller.get_current_user_id
+    else
+      raise 'Invalid parameter for $sc.current_user? call'
+    end
+  end
+
+  def source
+    @controller.get_sc_source
   end
 
 end
