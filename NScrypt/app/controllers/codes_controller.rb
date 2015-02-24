@@ -97,6 +97,10 @@ class CodesController < ApplicationController
       sc_event.code = code
       sc_event.save
       logger.info($1)
+      if $1 == 'sc_event_portal'
+        code.sc_event_id = sc_event.id
+        code.save
+      end
     }
   end    
 
