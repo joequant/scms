@@ -97,6 +97,10 @@ class CodesController < ApplicationController
       if $1 == 'sc_event_portal'
         code.sc_event_id = sc_event.id
         code.save
+        if code.id == code.contract.signed_code_id
+          code.contract.sc_event_id = sc_event.id
+          code.contract.save
+        end
       end
     }
   end    
