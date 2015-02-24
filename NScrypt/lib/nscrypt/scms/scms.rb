@@ -12,6 +12,10 @@ class SCMS
     Time.now
   end
 
+  def current_user
+    @controller.get_current_user
+  end
+
   def send_email(to, cc, subject, body)
     @controller.send_sc_email(to, cc, subject, body)
   end

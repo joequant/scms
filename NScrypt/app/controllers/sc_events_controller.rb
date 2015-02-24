@@ -152,6 +152,14 @@ class ScEventsController < ApplicationController
     ps
   end
 
+  def get_current_user
+    user = User.find(get_current_user_id)
+    wallets_result = Wallet.where(user: user)
+    wallets = Array.new
+    wallets_result.each{ |r| wallets << ScmsWallet.new(r.currency, r.address) }
+    ScmsUser.new(user.id, user.name, user.email, wallets)
+  end
+
   def get_current_user_id
     session[:user_id]
   end
