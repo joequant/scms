@@ -50,6 +50,6 @@ Rails.application.configure do
     :authentication       => "plain",
     :enable_starttls_auto => true
   }
-    config.action_mailer.default_url_options = { host: 'www.crypto-law.com' }
+  config.action_mailer.default_url_options = { host: 'http://106.186.121.212', port: 3000 }
 
 end
