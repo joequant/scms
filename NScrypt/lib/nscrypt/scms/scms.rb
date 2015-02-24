@@ -24,6 +24,10 @@ class SCMS
     @controller.check_blockchain_for_transaction(sender, recipient, currency, amount, start_date, end_date)
   end
 
+  def generate_url_to_event(event)
+    @controller.url_to(event)
+  end
+
   def http_get(url)
     @controller.http_get(url)
   end

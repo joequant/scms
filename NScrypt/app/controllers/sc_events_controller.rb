@@ -171,6 +171,17 @@ class ScEventsController < ApplicationController
     response.body
   end
 
+  def url_to(event)
+    events = ScEvent.where(callback: event, code: @sc_event.code)
+    event_id = nil
+    if !events.empty?
+      event_id = events.first.id
+    else
+      raise "Unable to find event '#{event}'"
+    end
+    "http://106.186.121.212:3010/sc_events/#{event_id}/trigger"
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_sc_event
