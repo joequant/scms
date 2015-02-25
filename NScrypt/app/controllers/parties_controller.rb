@@ -114,10 +114,15 @@ class PartiesController < ApplicationController
     @party.code.save
     if state == 'Signed'
       @party.code.contract.signed_code_id = @party.code.id
-        if !@party.code.sc_event_id.nil?
-          @party.code.contract.sc_event_id = @party.code.sc_event_id
-        end
+      if !@party.code.sc_event_id.nil?
+        @party.code.contract.sc_event_id = @party.code.sc_event_id
+      end
       @party.code.contract.save
+      value = ScValue.new
+      value.contract = @party.code.contract
+      value.key = 'Signature Date'
+      value.value = Time.now
+      value.save
     end
   end
 end
