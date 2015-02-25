@@ -179,7 +179,7 @@ class ScEventsController < ApplicationController
     else
       raise "Unable to find event '#{event}'"
     end
-    "http://106.186.121.212:#{request.port}/sc_events/#{event_id}/trigger"
+    "http://#{request.host}:#{request.port}/sc_events/#{event_id}/trigger"
   end
 
   private
