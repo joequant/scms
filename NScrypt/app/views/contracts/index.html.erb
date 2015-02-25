@@ -26,9 +26,7 @@
         <td><%= contract.owner %></td>
         <td><%= contract.status %></td>
         <td>
-          <% if contract.owner == session[:user_id] %>
-            <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                        edit_contract_path(contract), :class => 'btn btn-default btn-xs' %>
+          <% if contract.owner == session[:user_id] && contract.status == 'Terminated' %>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                         contract_path(contract),
                         :method => :delete,
