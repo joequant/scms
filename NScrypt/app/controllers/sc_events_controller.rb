@@ -18,7 +18,7 @@ class ScEventsController < ApplicationController
       logger.info("loading code for sc_event: "+params[:sc_event_id])
       sc_event = ScEvent.find(params[:sc_event_id])
 
-      require './lib/nscrypt/scms.rb'
+      require_relative '../../lib/nscrypt/scms.rb'
       $scms = SCMS.new(self)
       $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes)
 
@@ -179,7 +179,7 @@ class ScEventsController < ApplicationController
     else
       raise "Unable to find event '#{event}'"
     end
-    "http://106.186.121.212:3010/sc_events/#{event_id}/trigger"
+    "http://106.186.121.212:#{request.port}/sc_events/#{event_id}/trigger"
   end
 
   private

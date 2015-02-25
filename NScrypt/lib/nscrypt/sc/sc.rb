@@ -33,6 +33,7 @@ class SC
   def note(message)
     @controller.add_sc_note(message)
     @notes = @controller.get_sc_notes
+    @notes.last
   end
 
   def set_record(key, value)
