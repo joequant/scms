@@ -21,10 +21,16 @@ class ScEventsController < ApplicationController
       require_relative '../../lib/nscrypt/scms.rb'
       $scms = SCMS.new(self)
       $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes)
-
       eval(@sc_event.code.code)
-      logger.info("Calling callback")
-      ret = eval(sc_event.callback)
+      invocation = sc_event.callback
+      call_params = params.select { |k, v| k[0..8] == 'sc_param_' }
+      if call_params.length > 0
+        invocation += "("
+        invocation += call_params.collect{ |k, v| "'#{v}'" }.join(",")
+        invocation += ")"
+      end
+      logger.info("Calling callback: #{invocation}")
+      ret = eval(invocation)
       run = ScEventRun.new(:sc_event => sc_event, :run_at => Time.now, :result => ret)
       run.save
 
@@ -169,6 +175,15 @@ class ScEventsController < ApplicationController
     uri = URI.parse(url)
     response = Net::HTTP.get_response(uri)
     response.body
+  end
+
+  def html_form(caption, event, params)
+    event_url = url_to(event)
+    html_code = "<form action=\"#{event_url}\"><fieldset>"
+    html_code += "<legend>#{caption}</legend>"
+    params.each{ |k, v| html_code += "#{k}<br><input type=\"#{v[:type]}\" name=\"sc_param_#{v[:name]}\">" }
+    html_code += "<input type=\"submit\" value=\"Submit\"></fieldset></form>"
+    html_code
   end
 
   def url_to(event)

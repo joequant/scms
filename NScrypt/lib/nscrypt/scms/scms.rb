@@ -28,6 +28,10 @@ class SCMS
     @controller.url_to(event)
   end
 
+  def generate_html_form(caption, event, params)
+    @controller.html_form(caption, event, params)
+  end
+
   def http_get(url)
     @controller.http_get(url)
   end
