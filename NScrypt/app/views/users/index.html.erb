@@ -8,8 +8,6 @@
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:email) %></th>
-      <th><%= model_class.human_attribute_name(:password_hash) %></th>
-      <th><%= model_class.human_attribute_name(:password_salt) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -20,8 +18,6 @@
         <td><%= link_to user.id, user_path(user) %></td>
         <td><%= user.name %></td>
         <td><%= user.email %></td>
-        <td><%= user.password_hash %></td>
-        <td><%= user.password_salt %></td>
         <td><%=l user.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
@@ -39,18 +35,8 @@
 
 
 <%=
-    if params[:type] == 'Person'
-      link_to t('.new', :default => t("helpers.links.new")),
-              new_person_path,
-              :class => 'btn btn-primary'
-    elsif params[:type] == 'Corporation'
-        link_to t('.new', :default => t("helpers.links.new")),
-            new_corporation_path,
-            :class => 'btn btn-primary' 
-    else
-      link_to t('.new', :default => t("helpers.links.new")),
-              new_user_path,
-              :class => 'btn btn-primary'
-    end
+  link_to t('.new', :default => t("helpers.links.new")),
+          new_user_path,
+          :class => 'btn btn-primary'
 
 %>
