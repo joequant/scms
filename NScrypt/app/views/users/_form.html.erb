@@ -38,10 +38,6 @@
     <%= error_span(@user[:email]) %>
   </div>
 
-
-  <%= f.hidden_field :type, :value => @user[:type] %>
-
-
   <%= f.submit nil, :class => 'btn btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
             users_path, :class => 'btn btn-default' %>

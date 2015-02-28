@@ -13,22 +13,8 @@ class User < ActiveRecord::Base
   # type is the default column for STI. Uncomment this and change to other column if necessary
   #self.inheritance_column = :type
 
-  # We will need a way to know which types
-  # will subclass the User model
-  def self.types
-    %w(Person Corporation)
-  end
-
-  scope :people, -> { where(type: 'Person') }
-  scope :corporations, -> { where(type: 'Corporation') }
-
   def admin?
     self.role == 'admin'
   end
 
-
-  #Test polymorphism
-  def greet
-    "I'm an abstract user"
-  end
 end
