@@ -3,13 +3,13 @@ require_relative '../scms/user.rb'
 require_relative '../scms/wallet.rb'
 
 class SC
-  attr_reader :id, :status, :records, :parties, :notes
+  attr_reader :id, :status, :fields, :parties, :notes
 
-  def initialize(controller, id, status, records, parties, notes)
+  def initialize(controller, id, status, fields, parties, notes)
     @controller = controller
     @id = id.to_s.rjust(8, "0")
     @status = status
-    @records = records
+    @fields = fields
     @parties = parties
     @notes = notes
   end
@@ -20,7 +20,7 @@ class SC
 
   def update
     @status = @controller.get_sc_status
-    @records = @controller.get_sc_values
+    @fields = @controller.get_sc_values
     @parties = @controller.get_sc_parties
     @notes = @controller.get_sc_notes
   end
@@ -36,9 +36,9 @@ class SC
     @notes.last
   end
 
-  def set_record(key, value)
+  def set_field(key, value)
     @controller.set_sc_value(key, value)
-    @records = @controller.get_sc_values
+    @fields = @controller.get_sc_values
   end
 
   def current_user?(role)
@@ -53,6 +53,7 @@ class SC
     else
       raise 'Invalid parameter for $sc.current_user? call'
     end
+    false
   end
 
   def source
