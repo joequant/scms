@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :minutes
+
   resources :wallets
 
   resources :sc_values

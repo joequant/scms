@@ -20,7 +20,7 @@ class ScEventsController < ApplicationController
 
       require_relative '../../lib/nscrypt/scms.rb'
       $scms = SCMS.new(self)
-      $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes)
+      $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
       eval(@sc_event.code.code)
       invocation = sc_event.callback
       call_params = params.select { |k, v| k[0..8] == 'sc_param_' }
@@ -102,6 +102,19 @@ class ScEventsController < ApplicationController
   def get_sc_notes
     notes = Note.where(contract: @sc_event.code.contract)
     notes.collect{ |n| n.note }
+  end
+
+  def add_sc_minute(message)
+    min = Minute.new
+    min.message = message
+    min.contract = @sc_event.code.contract
+    min.user_id = session[:user_id]
+    min.save
+  end
+
+  def get_sc_minutes
+    mins = Minute.where(contract: @sc_event.code.contract)
+    mins.collect{ |m| m.message }
   end
 
   def get_sc_values

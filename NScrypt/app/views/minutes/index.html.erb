@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Minutes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Contract</th>
+      <th>User</th>
+      <th>Message</th>
+      <th>When</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @minutes.each do |minute| %>
+      <tr>
+        <td><%= minute.contract %></td>
+        <td><%= minute.user %></td>
+        <td><%= minute.message %></td>
+        <td><%= minute.when %></td>
+        <td><%= link_to 'Show', minute %></td>
+        <td><%= link_to 'Edit', edit_minute_path(minute) %></td>
+        <td><%= link_to 'Destroy', minute, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Minute', new_minute_path %>

@@ -3,15 +3,16 @@ require_relative '../scms/user.rb'
 require_relative '../scms/wallet.rb'
 
 class SC
-  attr_reader :id, :status, :fields, :parties, :notes
+  attr_reader :id, :status, :fields, :parties, :notes, :minutes
 
-  def initialize(controller, id, status, fields, parties, notes)
+  def initialize(controller, id, status, fields, parties, notes, minutes)
     @controller = controller
     @id = id.to_s.rjust(8, "0")
     @status = status
     @fields = fields
     @parties = parties
     @notes = notes
+    @minutes = minutes
   end
 
   def inspect
@@ -23,6 +24,7 @@ class SC
     @fields = @controller.get_sc_values
     @parties = @controller.get_sc_parties
     @notes = @controller.get_sc_notes
+    @minutes = @controller.get_sc_minutes
   end
 
   def set_status(status)
@@ -30,10 +32,16 @@ class SC
     @status = @controller.get_sc_status
   end
 
-  def note(message)
+  def make_note(message)
     @controller.add_sc_note(message)
     @notes = @controller.get_sc_notes
     @notes.last
+  end
+
+  def add_to_minutes(message)
+    @controller.add_sc_minute(message)
+    @minutes = @controller.get_sc_minutes
+    @minutes.last
   end
 
   def set_field(key, value)
