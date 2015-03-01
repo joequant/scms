@@ -35,7 +35,7 @@ class CodesController < ApplicationController
     @code = Code.new(code_params)
     @code.author = session[:user_id]
     @code.state = 'Not Signed'
-    scrape_events(@code)
+    process_code(@code)
     respond_to do |format|
       if @code.save
         format.html { redirect_to @code, notice: 'Code was successfully created.' }
@@ -52,7 +52,7 @@ class CodesController < ApplicationController
   def update
     respond_to do |format|
       if @code.update(code_params)
-        scrape_events(@code)
+        process_code(@code)
         format.html { redirect_to @code, notice: 'Code was successfully updated.' }
         format.json { render :show, status: :ok, location: @code }
       else
@@ -82,13 +82,37 @@ class CodesController < ApplicationController
   def code_params
     params.require(:code).permit(:version, :code, :contract_id)
   end
+
+  def process_code(code)
+    run_directives(code)
+    scrape_events(code)
+  end
+
+  def run_directives(code)
+    logger.info('Check for directives')
+    old = Party.delete_all(code: @code)
+    content = code.code
+    lines = content.split(/\r\n/)
+    lines.grep(/^\#\#\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)/){
+      if $1 == 'set_version'
+        logger.info("Specified NScrypture version: #{$2}")
+      elsif $1 == 'set_party_role'
+        logger.info("Setting party role: #{$2}")
+        party = Party.new
+        party.role = $2
+        party.code = code
+        party.save
+      else
+        raise "Invalid directive action: #{$1}"
+      end
+    }
+  end
   
   def scrape_events(code)
     logger.info('Scrape events.')
     old = ScEvent.delete_all(code: @code)
     content = code.code
     lines = content.split(/\r\n/)
-    logger.info(lines)
     lines.grep(/^\s*def\s+(sc_event_[a-zA-Z0-9_]+)/){
       sc_event = ScEvent.new
       sc_event.callback = $1

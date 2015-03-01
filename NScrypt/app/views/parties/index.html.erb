@@ -8,7 +8,7 @@
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:user_id) %></th>
       <th><%= model_class.human_attribute_name(:code_id) %></th>
-      <th><%= model_class.human_attribute_name(:role_id) %></th>
+      <th><%= model_class.human_attribute_name(:role) %></th>
       <th><%= model_class.human_attribute_name(:state) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%= t '.actions', :default => t("helpers.actions") %></th>
@@ -18,9 +18,9 @@
     <% @parties.each do |party| %>
       <tr>
         <td><%= link_to party.id, party_path(party) %></td>
-        <td><%= party.user.name %></td>
+        <td><%= party.user.nil? ? 'Unassigned' : party.user.name %></td>
         <td><%= party.code.version %></td>
-        <td><%= party.role.name %></td>
+        <td><%= party.role %></td>
         <td><%= party.state %></td>
         <td><%=l party.created_at %></td>
         <td>
@@ -33,15 +33,17 @@
                         :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                         :class => 'btn btn-xs btn-danger' %>
           <% end %>
-          <% if party.state != 'Signed' %>
-            <% if party.user.id == session[:user_id] %>
-              <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id if party.state != 'Signed' && (party.state == 'Proposed' || party.code.author == session[:user_id]) %>
+          <% if !party.user.nil? %>
+            <% if party.state != 'Signed' %>
+              <% if party.user.id == session[:user_id] %>
+                <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id if party.state != 'Signed' && (party.state == 'Proposed' || party.code.author == session[:user_id]) %>
+              <% else %>
+                <%= link_to "Propose", controller: "parties", action: "propose", party_id: party.id if (party.state.nil? || party.state == '') && party.code.author == session[:user_id] %>
+              <% end %>
             <% else %>
-              <%= link_to "Propose", controller: "parties", action: "propose", party_id: party.id if (party.state.nil? || party.state == '') && party.code.author == session[:user_id] %>
-            <% end %>
-          <% else %>
-            <% if party.user.id == session[:user_id] && party.code.state != 'Signed' %>
-              <%= link_to "Unsign", controller: "parties", action: "unsign", party_id: party.id if party.state == 'Signed' && party.code.contract.status != 'Pending' %>
+              <% if party.user.id == session[:user_id] && party.code.state != 'Signed' %>
+                <%= link_to "Unsign", controller: "parties", action: "unsign", party_id: party.id if party.state == 'Signed' && party.code.contract.status != 'Pending' %>
+              <% end %>
             <% end %>
           <% end %>
         </td>

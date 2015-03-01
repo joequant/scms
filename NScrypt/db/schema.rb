@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150301121214) do
+ActiveRecord::Schema.define(version: 20150301132424) do
 
 # Could not dump table "codes" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass
@@ -43,14 +43,13 @@ ActiveRecord::Schema.define(version: 20150301121214) do
   create_table "parties", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "code_id"
-    t.integer  "role_id"
     t.string   "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "role"
   end
 
   add_index "parties", ["code_id"], name: "index_parties_on_code_id"
-  add_index "parties", ["role_id"], name: "index_parties_on_role_id"
   add_index "parties", ["user_id"], name: "index_parties_on_user_id"
 
   create_table "roles", force: :cascade do |t|

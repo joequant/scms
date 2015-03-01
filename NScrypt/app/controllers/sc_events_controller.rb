@@ -37,6 +37,7 @@ class ScEventsController < ApplicationController
       redirect_to run
     end
   end
+
   # GET /sc_events/1
   # GET /sc_events/1.json
   def show
@@ -152,7 +153,7 @@ class ScEventsController < ApplicationController
   end
 
   def get_sc_parties
-    parties = Party.includes(:user).includes(:role).where(code: @sc_event.code)
+    parties = Party.includes(:user).where(code: @sc_event.code)
     wallets_result = Wallet.where(user: parties.collect{ |p| p.user })
     wallets = Hash.new
     wallets_result.each{ |w|
@@ -163,7 +164,7 @@ class ScEventsController < ApplicationController
     parties.each{ |p|
       w = Array.new
       wallets[p.user].each{ |r| w << ScmsWallet.new(r.currency, r.address) } if wallets.has_key?(p.user)
-      ps[p.role.name] = ScmsUser.new(p.user.id, p.user.name, p.user.email, w)
+      ps[p.role] = ScmsUser.new(p.user.id, p.user.name, p.user.email, w)
     }
     ps
   end
