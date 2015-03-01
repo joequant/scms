@@ -2,7 +2,7 @@
 
 <p>
   <strong>Contract:</strong>
-  <%= @sc_event_run.sc_event.code.contract.title %>
+  <%= @sc_event_run.sc_event.code.contract.id.to_s.rjust(8, "0") + ' : ' + @sc_event_run.sc_event.code.contract.title %>
   <% if @sc_event_run.sc_event.code.contract.description != "" %>
     <%= " : " + @sc_event_run.sc_event.code.contract.description %>
   <% end %>

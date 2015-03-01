@@ -9,6 +9,7 @@ class ContractsController < ApplicationController
     # Also get where the user was a proposed party
     parties = Party.where("user_id = ? AND state = 'Signed'", session[:user_id])
     parties.each{ |party| @contracts << party.code.contract if !@contracts.include?(party.code.contract) && !party.code.contract.signed_code_id.nil? }
+    @contracts = @contracts.sort{ |a, b| b.id <=> a.id }
   end
 
   # GET /contracts/1

@@ -7,7 +7,7 @@ class SC
 
   def initialize(controller, id, status, records, parties, notes)
     @controller = controller
-    @id = id
+    @id = id.to_s.rjust(8, "0")
     @status = status
     @records = records
     @parties = parties

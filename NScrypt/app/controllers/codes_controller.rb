@@ -10,8 +10,9 @@ class CodesController < ApplicationController
       @codes = Code.where(contract_id: params[:contract_id])
     else
       @codes = Code.where("author = ? AND state <> 'Signed'", session[:user_id])
-      Party.where("user_id = ? AND state in ('Proposed', 'Signed')", session[:user_id]).each{ |p| @codes << p.code if !@codes.include?(p.code) }
+      Party.where("user_id = ? AND state in ('Proposed', 'Signed')", session[:user_id]).each{ |p| @codes << p.code if !@codes.include?(p.code) && p.code.state != 'Signed' }
     end
+    @codes = @codes.sort{ |a, b| b <=> a }
   end
 
   # GET /codes/1
