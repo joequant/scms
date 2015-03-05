@@ -35,7 +35,7 @@ class ContractsController < ApplicationController
 
     respond_to do |format|
       if @contract.save
-        format.html { redirect_to @contract, notice: 'Contract was successfully created.' }
+        format.html { redirect_to(controller: "codes", action: "new", contract_id: @contract.id) }
         format.json { render :show, status: :created, location: @contract }
       else
         format.html { render :new }

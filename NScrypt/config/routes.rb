@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :templates
+
   resources :minutes
 
   resources :wallets

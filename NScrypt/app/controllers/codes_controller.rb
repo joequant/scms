@@ -84,6 +84,9 @@ class CodesController < ApplicationController
   end
 
   def process_code(code)
+    @code.code = Template.find(params[:code][:template]).code if params[:code].include?(:template)
+    @code.contract = Contract.find(params[:code][:contract]) if params[:code].include?(:contract) && !params[:code][:contract].empty?
+
     run_directives(code)
     scrape_events(code)
   end
@@ -93,7 +96,7 @@ class CodesController < ApplicationController
     old = Party.delete_all(code: @code)
     content = code.code
     lines = content.split(/\r\n/)
-    lines.grep(/^\#\#\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)/){
+    lines.grep(/\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)/){
       if $1 == 'set_version'
         logger.info("Specified NScrypture version: #{$2}")
       elsif $1 == 'set_party_role'
@@ -103,7 +106,7 @@ class CodesController < ApplicationController
         party.code = code
         party.save
       else
-        raise "Invalid directive action: #{$1}"
+        logger.info "WARNING: invalid directive action: #{$1}"
       end
     }
   end
