@@ -1,6 +1,13 @@
 class PartiesController < ApplicationController
   before_action :set_party, only: [:show, :edit, :update, :destroy]
 
+  def assign
+    @party = Party.find(params[:party_id])
+    @party.user_id = params[:party][:user]
+    @party.save
+    redirect_to action: "index", code_id: @party.code.id
+  end
+
   def propose
     @party = Party.find(params[:party_id])
     @party.state = 'Proposed'

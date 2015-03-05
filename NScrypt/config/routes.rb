@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :sessions
 
   resources :parties  do
+    patch :assign
     get :propose
     get :sign
     get :unsign
