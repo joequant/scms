@@ -35,3 +35,10 @@ v0.8
 * Help
 * State Machine
 * Model SC
+
+v0.9
+* Debugger
+* Simulator
+
+v1.0
+* Stability
