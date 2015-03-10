@@ -16,6 +16,7 @@ v0.5
   * profile
   * directives
 * User Preferences
+* Conditions Precedent
 
 v0.6
 * Store

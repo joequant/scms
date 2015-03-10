@@ -24,7 +24,6 @@ Rails.application.routes.draw do
 
   resources :parties  do
     patch :assign
-    get :propose
     get :sign
     get :unsign
   end
@@ -39,6 +38,9 @@ Rails.application.routes.draw do
   resources :codes do
     resources :sc_events
     resources :parties
+    get :propose
+    get :duplicate
+    get :update_state
   end
 
   resources :contracts do

@@ -1,23 +1,98 @@
 <%- model_class = Code -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+  <h1>Draft</h1>
 </div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:version) %>:</strong></dt>
-  <dd><%= @code.version %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:code) %>:</strong></dt>
-  <dd><%= @code.code %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:contract_id) %>:</strong></dt>
-  <dd><%= @code.contract_id %></dd>
-</dl>
+<% if @code.sign_status == 'Signed' %>
+  <h2>Contract</h2>
+<% else %>
+  <h2>Code</h2>
+<% end %>
 
-<%= link_to t('.back', :default => t("helpers.links.back")),
-              codes_path, :class => 'btn btn-default'  %>
-<%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_code_path(@code), :class => 'btn btn-default' %>
-<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              code_path(@code),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+<p>
+  <strong>Contract:</strong>
+  <%= link_to @code.contract.title, contract_path(@code.contract) %>
+</p>
+<p>
+  <strong>Version:</strong>
+  <%= @code.version %>
+</p>
+<p>
+  <strong>Overall Status:</strong>
+  <%= @code.state %>
+</p>
+<p>
+  <strong>Signature:</strong>
+  <%= @code.sign_state %>
+</p>
+<p>
+  <strong>Assignments:</strong>
+  <%= @code.assign_state %>
+</p>
+<p>
+  <strong>Proposed:</strong>
+  <%= @code.proposed == "t" ? "Yes" : "No" %>
+</p>
+<p>
+  <strong>Posted:</strong>
+  <%= @code.posted == "t" ? "Yes" : "No" %>
+</p>
+<p style="white-space: pre-wrap;">
+<strong>Code:</strong>
+<br><%= @code.code %>
+</p>
+
+<% if @code.proposed != true && @code.sign_state == 'Unsigned' %>
+  <%= link_to "Edit Code", edit_code_path(@code), :class => 'btn btn-default' %>
+<% else %>
+  <%= link_to "Duplicate", controller: "codes", action: "duplicate", code_id: @code.id %>
+<% end %>
+
+<% if @code.proposed != true && @code.assign_state == 'Assigned' %>
+  <%= link_to "Propose", action: "propose", code_id: @code.id %>
+<% elsif @code.posted != true && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Unassigned' %>
+  <%= link_to "Post", action: "post", :class => 'btn btn-default' %>
+<% end %>
+
+<h2>Signatures</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Party Name</th>
+      <th>Signed</th>
+      <th>Signature Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @code.parties.each do |party| %>
+      <tr>
+        <td><%= party.role %></td>
+        <td>
+          <% if party.user.nil? %>
+            <%= form_for party, url: {controller: "parties", action: "assign", party_id: party.id} do |f| %>
+              <%= f.select(:user, options_from_collection_for_select(User.all, :id, :name)) %>
+              <%= f.submit "Assign" %>
+            <% end %>
+          <% else %>
+            <%= party.user.name %>
+          <% end %>
+        </td>
+        <td><%= party.state == 'Signed' ? 'Yes' : 'No' %></td>
+        <td><%= party.state == 'Signed' ?  party.updated_at : 'N/A' %></td>
+        <td>
+          <% if !party.user.nil? %>
+            <% if party.user.id == session[:user_id] %>
+              <% if party.state != 'Signed' %>
+                <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id %>
+              <% else %>
+                <%= link_to "Unsign", controller: "parties", action: "unsign", party_id: party.id unless @code.sign_state == 'Signed' %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
