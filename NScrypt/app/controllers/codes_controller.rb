@@ -125,6 +125,23 @@ class CodesController < ApplicationController
       new_code.contract_id = old_code.contract_id
       process_code(new_code)
       new_code.save
+
+      old_code.parties.each{ |p|
+        new_party = nil
+        new_code.parties.each{ |np|
+          if np.role == p.role
+            new_party = np
+          end
+        }
+        if new_party.nil?
+          new_party = Party.new
+          new_party.code = new_code
+          new_party.role = p.role
+        end
+        new_party.user = p.user
+        new_party.save
+      }
+
       respond_to do |format|
         format.html { redirect_to new_code, notice: 'Code was successfully duplicated.' }
         format.json { head :no_content }
