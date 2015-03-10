@@ -9,7 +9,7 @@ class CodesController < ApplicationController
     else
       @codes = Code.where("author = ? AND state <> 'Signed'", session[:user_id])
       Party.where("user_id = ?", session[:user_id]).each{ |p|
-        @codes << p.code if p.code.proposed == 't' && p.code.author != session[:user_id]
+        @codes << p.code if p.code.proposed == 't' && p.code.author != session[:user_id] && !p.code.rejected
       }
     end
     @codes = @codes.sort{ |a, b| b <=> a }
@@ -81,7 +81,15 @@ class CodesController < ApplicationController
     @code.proposed = true
     @code.save
     logger.info("Proposing code to counter-parties")
-    redirect_to @code, notice: 'Code was submitted to counter-party(ies)'
+    update_state
+  end
+
+  def reject
+    @code = Code.find(params[:code_id])
+    @code.rejected = true
+    @code.save
+    logger.info("Rejecting proposal")
+    update_state
   end
 
   def duplicate
@@ -204,9 +212,12 @@ class CodesController < ApplicationController
     assign_state = @code.assign_state
     posted = @code.posted
     proposed = @code.proposed
+    rejected = @code.rejected
     code_state = nil
 
-    if sign_state == 'Signed'
+    if rejected
+      code_state = 'Rejected'
+    elsif sign_state == 'Signed'
       code_state = 'Signed'
     elsif sign_state == 'Counter-signed' && proposed == "t"
       code_state = 'Counter-signed'

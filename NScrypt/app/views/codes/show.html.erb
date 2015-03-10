@@ -31,21 +31,30 @@
   <strong>Posted:</strong>
   <%= @code.posted == "t" ? "Yes" : "No" %>
 </p>
+<p>
+  <strong>Rejected:</strong>
+  <%= @code.rejected ? "Yes" : "No" %>
+</p>
+
 <p style="white-space: pre-wrap;">
 <strong>Code:</strong>
 <br><%= @code.code %>
 </p>
 
-<% if @code.proposed != true && @code.sign_state == 'Unsigned' %>
+<% if @code.proposed != "t" && @code.sign_state == 'Unsigned' %>
   <%= link_to "Edit Code", edit_code_path(@code), :class => 'btn btn-default' %>
 <% else %>
-  <%= link_to "Duplicate", controller: "codes", action: "duplicate", code_id: @code.id %>
+  <%= link_to "Duplicate", action: "duplicate", code_id: @code.id %>
 <% end %>
 
-<% if @code.proposed != true && @code.assign_state == 'Assigned' %>
+<% if @code.proposed != "t" && @code.assign_state == 'Assigned' %>
   <%= link_to "Propose", action: "propose", code_id: @code.id %>
-<% elsif @code.posted != true && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Unassigned' %>
-  <%= link_to "Post", action: "post", :class => 'btn btn-default' %>
+<% elsif @code.posted != "t" && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
+  <%= link_to "Post", action: "post", code_id: @code.id %>
+<% end %>
+
+<% if @code.proposed == "t" && @code.author != session[:user_id] && !@code.rejected %>
+  <%= link_to "Reject", action: "reject", code_id: @code.id %>
 <% end %>
 
 <h2>Signatures</h2>
