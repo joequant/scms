@@ -1,0 +1,45 @@
+digraph draft {
+  D[label="Unassigned"];
+  SA[label="Self-\nassigned"];
+  CA[label="Counter-\nassigned"];
+  OO[label="Open\nOffer"];
+  A[label="Assigned"];
+  PS[label="Pre-\nsigned"];
+  P[label="Proposed"];
+  O[label="Offer"];
+  CS[label="Counter-\nsigned"];
+  S[label="Signed"];
+
+  D->SA[label="author\nassigned"];
+  D->CA[label="cp\nassigned"];
+  SA->OO[label="author\nsigns\nand\nposts"];
+  SA->A[label="cp\nassigned"];
+  CA->A[label="author\nassigned\n(automatic)"];
+  OO->PS[label="cp\nassigned"];
+  A->P[label="proposed"];
+  A->PS[label="author\nsigns"];
+  PS->O[label="proposed"];
+  P->CS[label="cp\nsigns"];
+  P->O[label="author\nsigns"];
+  O->S[label="cp\nsigns"];
+  CS->S[label="author\nsigns"];
+  OO->S[label="acceptance"];
+
+  CD[label="Draft\nStage"];
+  CN[label="Negotiation\nStage"];
+  CE[label="In\nEffect"];
+  CP[label="Posted"];
+
+  CD->CN[label="Assigned\nand\nProposed"];
+  CN->CE[label="Signed"];
+  CD->CP[label="Presigned\nand\nPosted"];
+  CP->CE[label="Accepted"];
+
+  {rank=same;SA; CA}
+  {rank=same;CD; D}
+  {rank=same;CN; P}
+  {rank=same;CE; S}
+  {rank=same;CP; OO}
+  PS->P[style=invis];
+  OO->A[style=invis];
+};
