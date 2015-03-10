@@ -37,8 +37,7 @@
 </p>
 
 <p style="white-space: pre-wrap;">
-<strong>Code:</strong>
-<br><%= @code.code %>
+  <textarea readonly rows="50" cols="80"><%= @code.code %></textarea>
 </p>
 
 <% if @code.proposed != "t" && @code.sign_state == 'Unsigned' %>
