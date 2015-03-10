@@ -1,13 +1,7 @@
 <%- model_class = Code -%>
 <div class="page-header">
-  <h1>Draft</h1>
+  <h1><%= @code.sign_state == 'Signed' ? 'Contract' : 'Draft' %></h1>
 </div>
-
-<% if @code.sign_status == 'Signed' %>
-  <h2>Contract</h2>
-<% else %>
-  <h2>Code</h2>
-<% end %>
 
 <p>
   <strong>Contract:</strong>
