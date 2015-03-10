@@ -36,25 +36,29 @@
   <%= @code.rejected ? "Yes" : "No" %>
 </p>
 
-<p style="white-space: pre-wrap;">
-  <textarea readonly rows="50" cols="80"><%= @code.code %></textarea>
+<textarea readonly rows="50" cols="80"><%= @code.code %></textarea>
+
+<% if @code.proposed == "t" %>
+  <p>NOTE: As this draft has been submitted, it cannot be edited. Create a duplicate to make alterations, which you can later submit as a separate proposal.</p>
+<% end %>
+
+<p>
+  <% if @code.proposed != "t" && @code.sign_state == 'Unsigned' %>
+    <%= link_to "Edit Code", edit_code_path(@code), :class => 'btn btn-default' %>
+  <% else %>
+    <%= link_to "Duplicate", action: "duplicate", code_id: @code.id %>
+  <% end %>
+
+  <% if @code.proposed != "t" && @code.assign_state == 'Assigned' %>
+    <%= link_to "Propose", action: "propose", code_id: @code.id %>
+  <% elsif @code.posted != "t" && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
+    <%= link_to "Post", action: "post", code_id: @code.id %>
+  <% end %>
+
+  <% if @code.proposed == "t" && @code.author != session[:user_id] && !@code.rejected %>
+    <%= link_to "Reject", action: "reject", code_id: @code.id %>
+  <% end %>
 </p>
-
-<% if @code.proposed != "t" && @code.sign_state == 'Unsigned' %>
-  <%= link_to "Edit Code", edit_code_path(@code), :class => 'btn btn-default' %>
-<% else %>
-  <%= link_to "Duplicate", action: "duplicate", code_id: @code.id %>
-<% end %>
-
-<% if @code.proposed != "t" && @code.assign_state == 'Assigned' %>
-  <%= link_to "Propose", action: "propose", code_id: @code.id %>
-<% elsif @code.posted != "t" && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
-  <%= link_to "Post", action: "post", code_id: @code.id %>
-<% end %>
-
-<% if @code.proposed == "t" && @code.author != session[:user_id] && !@code.rejected %>
-  <%= link_to "Reject", action: "reject", code_id: @code.id %>
-<% end %>
 
 <h2>Signatures</h2>
 <table class="table table-striped">
