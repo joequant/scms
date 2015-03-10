@@ -14,8 +14,8 @@
 
 <textarea readonly rows="50" cols="80"><%= @code.code %></textarea>
 
-<% if @code.proposed == "t" || @code.posted == "t" %>
-  <p>NOTE: As this draft has been submitted, it cannot be edited. Create a duplicate to make alterations, which you can later submit as a separate proposal.</p>
+<% if @code.proposed == "t" || @code.sign_state != 'Unsigned' %>
+  <p>NOTE: As this draft has been submitted or signed, hence it cannot be edited. Create a duplicate to make alterations, which you can later submit as a separate proposal.</p>
 <% end %>
 
 <p>
