@@ -134,12 +134,12 @@ class CodesController < ApplicationController
     parties.each{ |p|
       if p.user.nil?
         unassigned << p
+      else
         if @code.author == p.user_id
           author = p
         else
           counterparties << p
         end
-      else
         assigned << p
       end
     }
