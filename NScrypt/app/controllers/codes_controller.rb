@@ -92,6 +92,22 @@ class CodesController < ApplicationController
     update_state
   end
 
+  def post
+    @code = Code.find(params[:code_id])
+    @code.posted = true
+    @code.save
+    logger.info("Posting open offer")
+    update_state
+  end
+
+  def unpost
+    @code = Code.find(params[:code_id])
+    @code.posted = false
+    @code.save
+    logger.info("Unposting open offer")
+    update_state
+  end
+
   def reject
     @code = Code.find(params[:code_id])
     @code.rejected = true

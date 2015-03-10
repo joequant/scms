@@ -3,42 +3,18 @@
   <h1><%= @code.sign_state == 'Signed' ? 'Contract' : 'Draft' %></h1>
 </div>
 
-<p>
-  <strong>Contract:</strong>
-  <%= link_to @code.contract.title, contract_path(@code.contract) %>
-</p>
-<p>
-  <strong>Version:</strong>
-  <%= @code.version %>
-</p>
-<p>
-  <strong>Overall Status:</strong>
-  <%= @code.state %>
-</p>
-<p>
-  <strong>Signature:</strong>
-  <%= @code.sign_state %>
-</p>
-<p>
-  <strong>Assignments:</strong>
-  <%= @code.assign_state %>
-</p>
-<p>
-  <strong>Proposed:</strong>
-  <%= @code.proposed == "t" ? "Yes" : "No" %>
-</p>
-<p>
-  <strong>Posted:</strong>
-  <%= @code.posted == "t" ? "Yes" : "No" %>
-</p>
-<p>
-  <strong>Rejected:</strong>
-  <%= @code.rejected ? "Yes" : "No" %>
-</p>
+<dl>
+  <dt>Contract</dt>
+  <dd><%= link_to @code.contract.title, contract_path(@code.contract) %></dd>
+  <dt>Version</dt>
+  <dd><%= @code.version %></dd>
+  <dt>Status</dt>
+  <dd><%= @code.state %></dd>
+</dl>
 
 <textarea readonly rows="50" cols="80"><%= @code.code %></textarea>
 
-<% if @code.proposed == "t" %>
+<% if @code.proposed == "t" || @code.posted == "t" %>
   <p>NOTE: As this draft has been submitted, it cannot be edited. Create a duplicate to make alterations, which you can later submit as a separate proposal.</p>
 <% end %>
 
@@ -57,6 +33,8 @@
 
   <% if @code.posted != "t" && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
     <%= link_to "Post", action: "post", code_id: @code.id %>
+  <% elsif @code.posted == "t" && @code.sign_state == 'Pre-signed' %>
+    <%= link_to "Unpost", action: "unpost", code_id: @code.id %>
   <% end %>
 
   <% if @code.proposed == "t" && @code.author != session[:user_id] && !@code.rejected %>
@@ -85,7 +63,7 @@
               <%= f.select(:user, options_from_collection_for_select(User.all, :id, :name)) %>
               <%= f.submit "Assign" %>
             <% end %>
-          <% elsif @code.proposed != "t" %>
+          <% elsif @code.proposed != "t" && party.state != 'Signed' %>
             <%= form_for party, url: {controller: "parties", action: "unassign", party_id: party.id} do |f| %>
               <%= party.user.name %>
               <%= f.submit "Unassign" %>
@@ -102,7 +80,7 @@
               <% if party.state != 'Signed' %>
                 <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id %>
               <% else %>
-                <%= link_to "Unsign", controller: "parties", action: "unsign", party_id: party.id unless @code.sign_state == 'Signed' %>
+                <%= link_to "Unsign", controller: "parties", action: "unsign", party_id: party.id unless @code.sign_state == 'Signed' || @code.sign_state == 'Pre-signed' %>
               <% end %>
             <% end %>
           <% end %>

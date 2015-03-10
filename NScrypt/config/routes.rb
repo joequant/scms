@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     resources :parties
     get :propose
     get :retract
+    get :post
+    get :unpost
     get :duplicate
     get :update_state
     get :reject
