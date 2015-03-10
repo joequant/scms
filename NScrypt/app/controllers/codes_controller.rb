@@ -84,6 +84,14 @@ class CodesController < ApplicationController
     update_state
   end
 
+  def retract
+    @code = Code.find(params[:code_id])
+    @code.proposed = false
+    @code.save
+    logger.info("Retracting proposal")
+    update_state
+  end
+
   def reject
     @code = Code.find(params[:code_id])
     @code.rejected = true
@@ -219,18 +227,20 @@ class CodesController < ApplicationController
       code_state = 'Rejected'
     elsif sign_state == 'Signed'
       code_state = 'Signed'
-    elsif sign_state == 'Counter-signed' && proposed == "t"
+    elsif sign_state == 'Counter-signed'
       code_state = 'Counter-signed'
     elsif sign_state == 'Pre-signed'
-      if proposed == "t"
+      if proposed == true
         code_state = 'Offer'
-      elsif posted == "t" && assign_state == 'Self-assigned'
+      elsif posted == true && assign_state == 'Self-assigned'
         code_state = 'Open Offer'
+      elsif proposed == true
+        code_state = 'Offer'
       else
         code_state = 'Pre-signed'
       end
     elsif sign_state == 'Unsigned'
-      if proposed == "t"
+      if proposed == true
         code_state = 'Proposed'
       else
         code_state = assign_state

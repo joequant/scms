@@ -51,7 +51,11 @@
 
   <% if @code.proposed != "t" && @code.assign_state == 'Assigned' %>
     <%= link_to "Propose", action: "propose", code_id: @code.id %>
-  <% elsif @code.posted != "t" && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
+  <% elsif @code.proposed == "t" && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') %>
+    <%= link_to "Retract", action: "retract", code_id: @code.id %>
+  <% end %>
+
+  <% if @code.posted != "t" && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
     <%= link_to "Post", action: "post", code_id: @code.id %>
   <% end %>
 

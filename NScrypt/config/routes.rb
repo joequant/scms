@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     resources :sc_events
     resources :parties
     get :propose
+    get :retract
     get :duplicate
     get :update_state
     get :reject
