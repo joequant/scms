@@ -81,6 +81,11 @@
               <%= f.select(:user, options_from_collection_for_select(User.all, :id, :name)) %>
               <%= f.submit "Assign" %>
             <% end %>
+          <% elsif @code.proposed != "t" %>
+            <%= form_for party, url: {controller: "parties", action: "unassign", party_id: party.id} do |f| %>
+              <%= party.user.name %>
+              <%= f.submit "Unassign" %>
+            <% end %>
           <% else %>
             <%= party.user.name %>
           <% end %>

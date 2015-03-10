@@ -11,7 +11,7 @@ class PartiesController < ApplicationController
 
   def unassign
     @party = Party.find(params[:party_id])
-    @party.user_id = params[:party][:user]
+    @party.user_id = nil
     @party.save
     logger.info("Unassigning #{@party.user_id} from #{@party.role}")
     redirect_to controller: "codes", action: "update_state", code_id: @party.code.id

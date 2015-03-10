@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   resources :parties  do
     patch :assign
+    patch :unassign
     get :sign
     get :unsign
   end
