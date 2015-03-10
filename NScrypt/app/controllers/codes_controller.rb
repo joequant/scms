@@ -119,10 +119,13 @@ class CodesController < ApplicationController
   def duplicate
     if params.has_key?(:code_id)
       old_code = Code.find(params[:code_id])
+      version = Code.where(contract_id: old_code.contract_id).length
+
       new_code = Code.new
       new_code.author = session[:user_id]
       new_code.code = old_code.code
       new_code.contract_id = old_code.contract_id
+      new_code.version = "#{version + 1}"
       process_code(new_code)
       new_code.save
 
