@@ -1,9 +1,6 @@
-v0.4
-* Privs
-* Chat
-* Archive
-
 v0.5
+* Privs
+* Archive
 * Hot wallet
 * Placeholder Directives
 * Authentication
@@ -16,6 +13,7 @@ v0.5
 * Conditions Precedent
 * Contact List
 * Invite User
+* Notifications
 
 v0.6
 * Store
