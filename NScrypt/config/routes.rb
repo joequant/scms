@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     get :duplicate
     get :update_state
     get :reject
+    get :accept
   end
 
   resources :contracts do

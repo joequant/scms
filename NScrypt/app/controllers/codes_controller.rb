@@ -116,6 +116,17 @@ class CodesController < ApplicationController
     update_state
   end
 
+  def accept
+    @code = Code.find(params[:code_id])
+    open_slot = nil
+    @code.parties.each{ |s| open_slot = s if s.user.nil? }
+    open_slot.user_id = session[:user_id]
+    open_slot.state = 'Signed'
+    open_slot.save
+    logger.info("Accepting posted offer")
+    update_state
+  end
+
   def duplicate
     if params.has_key?(:code_id)
       old_code = Code.find(params[:code_id])
@@ -261,6 +272,8 @@ class CodesController < ApplicationController
 
     if rejected
       code_state = 'Rejected'
+    elsif sign_state == 'Signed' && posted
+      code_state = 'Accepted'
     elsif sign_state == 'Signed'
       code_state = 'Signed'
     elsif sign_state == 'Counter-signed'

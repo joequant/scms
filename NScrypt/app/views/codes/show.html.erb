@@ -25,7 +25,7 @@
     <%= link_to "Duplicate", action: "duplicate", code_id: @code.id %>
   <% end %>
 
-  <% if @code.proposed != "t" && @code.assign_state == 'Assigned' %>
+  <% if (@code.proposed != "t" && @code.posted != "t") && @code.assign_state == 'Assigned' %>
     <%= link_to "Propose", action: "propose", code_id: @code.id %>
   <% elsif @code.proposed == "t" && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') %>
     <%= link_to "Retract", action: "retract", code_id: @code.id %>
@@ -33,8 +33,10 @@
 
   <% if @code.posted != "t" && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
     <%= link_to "Post", action: "post", code_id: @code.id %>
-  <% elsif @code.posted == "t" && @code.sign_state == 'Pre-signed' %>
+  <% elsif @code.posted == "t" && @code.author == session[:user_id] && @code.state != 'Accepted' %>
     <%= link_to "Unpost", action: "unpost", code_id: @code.id %>
+  <% elsif @code.posted == "t" && @code.author != session[:user_id] && @code.state != 'Accepted' %>
+    <%= link_to "Accept", action: "accept", code_id: @code.id %>
   <% end %>
 
   <% if @code.proposed == "t" && @code.author != session[:user_id] && !@code.rejected %>
@@ -58,7 +60,9 @@
       <tr>
         <td><%= party.role %></td>
         <td>
-          <% if party.user.nil? %>
+          <% if @code.posted == "t" && party.user.nil? %>
+            <%= 'Available' %>
+          <% elsif party.user.nil? %>
             <%= form_for party, url: {controller: "parties", action: "assign", party_id: party.id} do |f| %>
               <%= f.select(:user, options_from_collection_for_select(User.all, :id, :name)) %>
               <%= f.submit "Assign" %>
