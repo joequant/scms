@@ -1,9 +1,6 @@
 v0.4
-* Verify edit for parties
 * Privs
-* Counter-propose
 * Chat
-* Contact List
 * Archive
 
 v0.5
@@ -17,12 +14,14 @@ v0.5
   * directives
 * User Preferences
 * Conditions Precedent
+* Contact List
+* Invite User
 
 v0.6
 * Store
+* Market
 * DRM
 * Diff
-* Invite User
 * Tags
 * Reputation
 
