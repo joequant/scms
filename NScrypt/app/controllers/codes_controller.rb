@@ -254,11 +254,16 @@ class CodesController < ApplicationController
         @code.contract.sc_event_id = @code.sc_event_id
       end
       @code.contract.save
-      value = ScValue.new
-      value.contract = @code.contract
-      value.key = 'Signature Date'
-      value.value = Time.now
-      value.save
+      prev_values = ScValue.where(contract: @code.contract)
+      prev_signed = false
+      prev_values.each{ |v| prev_signed = true if v.key == 'Signature Date' }
+      unless prev_signed
+        value = ScValue.new
+        value.contract = @code.contract
+        value.key = 'Signature Date'
+        value.value = Time.now
+        value.save
+      end
     end
   end
 
@@ -328,17 +333,41 @@ class CodesController < ApplicationController
     old = Party.delete_all(code: code)
     content = code.code
     lines = content.split(/\r\n/)
-    lines.grep(/\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s+([a-zA-Z0-9_]+)/){
-      if $1 == 'set_version'
-        logger.info("Specified NScrypture version: #{$2}")
-      elsif $1 == 'set_party_role'
-        logger.info("Setting party role: #{$2}")
+    #lines.grep(/\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s*$/){
+      # Unary directives
+    #}
+    lines.grep(/\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s+([\'\"]([a-zA-Z0-9_ ]+)[\'\"]|([a-zA-Z0-9_]+))\s*$/){
+      # Single-parameter directives
+      p1 = $3.nil? ? $4 : $3
+      case $1
+      when 'set_version'
+        logger.info("Specified NScrypture version: #{p1}")
+      when 'set_party_role'
+        logger.info("Setting party role: #{p1}")
         party = Party.new
-        party.role = $2
+        party.role = p1
         party.code = code
         party.save
       else
-        logger.info "WARNING: invalid directive action: #{$1}"
+        raise "WARNING: invalid directive action: #{$1}"
+      end
+    }
+    lines.grep(/\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s+([\'\"]([a-zA-Z0-9_ ]+)[\'\"]|([a-zA-Z0-9_]+))\s+([\'\"]([a-zA-Z0-9_ :\-\+]+)[\'\"]|([a-zA-Z0-9_ :\-\+]+))\s*$/){
+      # Double-parameter directives
+      p1 = $3.empty? ? $4 : $3
+      p2 = $6.empty? ? $7 : $6
+      case $1
+      when 'preset_field'
+        logger.info("Setting field preset: #{p1}: #{p2}")
+        unless ScValue.where(contract: @code.contract, key: p1).length > 0
+          value = ScValue.new
+          value.contract = code.contract
+          value.key = p1
+          value.value = p2
+          value.save
+        end
+      else
+        raise "WARNING: invalid directive action: #{$1}"
       end
     }
   end
