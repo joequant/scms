@@ -1,13 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  contract_id: 
-  user_id: 
   message: MyString
-  when: 2015-03-01 12:12:14
+  contract_id: 
 
 two:
-  contract_id: 
-  user_id: 
   message: MyString
-  when: 2015-03-01 12:12:14
+  contract_id: 

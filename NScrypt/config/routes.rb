@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
 
-  resources :templates
+  resources :notes
 
   resources :minutes
+
+  resources :templates
 
   resources :wallets
 
   resources :sc_values
-
-  resources :notes
 
   resources :sc_event_runs
 

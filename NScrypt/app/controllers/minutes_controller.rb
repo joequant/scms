@@ -69,6 +69,6 @@ class MinutesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def minute_params
-      params.require(:minute).permit(:contract_id, :user_id, :message, :when)
+      params.require(:minute).permit(:message, :contract_id)
     end
 end

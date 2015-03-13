@@ -18,7 +18,7 @@ class MinutesControllerTest < ActionController::TestCase
 
   test "should create minute" do
     assert_difference('Minute.count') do
-      post :create, minute: { contract_id: @minute.contract_id, message: @minute.message, user_id: @minute.user_id, when: @minute.when }
+      post :create, minute: { contract_id: @minute.contract_id, message: @minute.message }
     end
 
     assert_redirected_to minute_path(assigns(:minute))
@@ -35,7 +35,7 @@ class MinutesControllerTest < ActionController::TestCase
   end
 
   test "should update minute" do
-    patch :update, id: @minute, minute: { contract_id: @minute.contract_id, message: @minute.message, user_id: @minute.user_id, when: @minute.when }
+    patch :update, id: @minute, minute: { contract_id: @minute.contract_id, message: @minute.message }
     assert_redirected_to minute_path(assigns(:minute))
   end
 

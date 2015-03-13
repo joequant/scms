@@ -95,21 +95,24 @@ class ScEventsController < ApplicationController
   # LIBRARY CALLBACKS
   def add_sc_note(message)
     note = Note.new
-    note.note = message
+    note.message = message
     note.contract = @sc_event.code.contract
+    note.user_id = session[:user_id]
     note.save
   end
 
   def get_sc_notes
     notes = Note.where(contract: @sc_event.code.contract)
-    notes.collect{ |n| n.note }
+    notes.collect{ |n|
+      username = User.find(n.user_id).name
+      "#{username}: #{n.message}"
+    }
   end
 
   def add_sc_minute(message)
     min = Minute.new
     min.message = message
     min.contract = @sc_event.code.contract
-    min.user_id = session[:user_id]
     min.save
   end
 

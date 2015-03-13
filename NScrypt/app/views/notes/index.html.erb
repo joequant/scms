@@ -5,8 +5,9 @@
 <table>
   <thead>
     <tr>
-      <th>Note</th>
+      <th>Message</th>
       <th>Contract</th>
+      <th>User</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,8 +15,9 @@
   <tbody>
     <% @notes.each do |note| %>
       <tr>
-        <td><%= note.note %></td>
+        <td><%= note.message %></td>
         <td><%= note.contract %></td>
+        <td><%= note.user %></td>
         <td><%= link_to 'Show', note %></td>
         <td><%= link_to 'Edit', edit_note_path(note) %></td>
         <td><%= link_to 'Destroy', note, method: :delete, data: { confirm: 'Are you sure?' } %></td>

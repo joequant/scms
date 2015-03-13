@@ -1,4 +1,4 @@
 json.array!(@minutes) do |minute|
-  json.extract! minute, :id, :contract_id, :user_id, :message, :when
+  json.extract! minute, :id, :message, :contract_id
   json.url minute_url(minute, format: :json)
 end

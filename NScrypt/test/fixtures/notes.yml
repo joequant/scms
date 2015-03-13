@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  note: MyString
+  message: MyString
   contract_id: 
+  user_id: 
 
 two:
-  note: MyString
+  message: MyString
   contract_id: 
+  user_id: 
