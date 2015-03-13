@@ -359,7 +359,7 @@ class CodesController < ApplicationController
       case $1
       when 'preset_field'
         logger.info("Setting field preset: #{p1}: #{p2}")
-        unless ScValue.where(contract: @code.contract, key: p1).length > 0
+        unless ScValue.where(contract: code.contract, key: p1).length > 0
           value = ScValue.new
           value.contract = code.contract
           value.key = p1
