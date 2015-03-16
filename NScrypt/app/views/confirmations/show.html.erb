@@ -3,7 +3,7 @@
 <%= form_for resource, :as => resource_name, :url => update_user_confirmation_path, :html => {:method => 'patch'}, :id => 'activation-form' do |f| %>
   <%= devise_error_messages! %>
   <fieldset>
-    <legend>Account Activation<% if resource.user_name %> for <%= resource.user_name %><% end %></legend>
+    <legend>Account Activation<% if resource.username %> for <%= resource.username %><% end %></legend>
 
   <% if @requires_password %>
       <p><%= f.label :password,'Choose a Password:' %> <%= f.password_field :password %></p>

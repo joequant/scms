@@ -5,21 +5,17 @@ class User < ActiveRecord::Base
     :trackable, :validatable
   has_many :parties
 
-  # validates_confirmation_of :password
-  # validates_presence_of :password, :on => :create
+  validates_presence_of :legal_name
   validates_presence_of :email
   validates :email, :format => {:with => Devise.email_regexp}
   validates_uniqueness_of :email
 
-  # type is the default column for STI. Uncomment this and change to other column if necessary
-  #self.inheritance_column = :type
-
-  def user_name
-    name
-  end
-
   def admin?
     self.role == 'admin'
+  end
+
+  def name
+    self.username
   end
 
   # new function to set the password without knowing the current password used in our confirmation controller. 

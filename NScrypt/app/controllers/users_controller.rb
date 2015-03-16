@@ -36,7 +36,6 @@ class UsersController < ApplicationController
         Rails.logger.info("saved the user, now redirecting")
         format.html { redirect_to users_path, notice: 'User created.' }
         format.json { render :show, status: :created, location: @user }
-#        RegistrationMailer.welcome(user, generated_password).deliver
       else
         format.html {render :new}
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -77,7 +76,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :role)
+      params.require(:user).permit(:legal_name, :username, :email, :role)
     end
 
 end
