@@ -3,15 +3,16 @@ require_relative '../scms/user.rb'
 require_relative '../scms/wallet.rb'
 
 class SC
-  attr_reader :id, :status, :records, :parties, :notes
+  attr_reader :id, :status, :fields, :parties, :notes, :minutes
 
-  def initialize(controller, id, status, records, parties, notes)
+  def initialize(controller, id, status, fields, parties, notes, minutes)
     @controller = controller
-    @id = id
+    @id = id.to_s.rjust(8, "0")
     @status = status
-    @records = records
+    @fields = fields
     @parties = parties
     @notes = notes
+    @minutes = minutes
   end
 
   def inspect
@@ -20,9 +21,10 @@ class SC
 
   def update
     @status = @controller.get_sc_status
-    @records = @controller.get_sc_values
+    @fields = @controller.get_sc_values
     @parties = @controller.get_sc_parties
     @notes = @controller.get_sc_notes
+    @minutes = @controller.get_sc_minutes
   end
 
   def set_status(status)
@@ -30,18 +32,40 @@ class SC
     @status = @controller.get_sc_status
   end
 
-  def note(message)
+  def make_note(message)
     @controller.add_sc_note(message)
     @notes = @controller.get_sc_notes
+    @notes.last
   end
 
-  def set_record(key, value)
+  def add_to_minutes(message)
+    @controller.add_sc_minute(message)
+    @minutes = @controller.get_sc_minutes
+    @minutes.last
+  end
+
+  def set_field(key, value)
     @controller.set_sc_value(key, value)
-    @records = @controller.get_sc_values
+    @fields = @controller.get_sc_values
   end
 
   def current_user?(role)
-    @parties[role].id == @controller.get_current_user_id
+    if role.kind_of?(Array)
+      role.each{ |r|
+        if @parties[r].id == @controller.get_current_user_id
+          return true
+        end
+      }
+    elsif role.kind_of?(String)
+      return @parties[role].id == @controller.get_current_user_id
+    else
+      raise 'Invalid parameter for $sc.current_user? call'
+    end
+    false
+  end
+
+  def source
+    @controller.get_sc_source
   end
 
 end

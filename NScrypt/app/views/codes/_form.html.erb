@@ -15,32 +15,45 @@
     </div>
   <% end %>
 
+  <% if params.include?(:id) %>
+  <% elsif params.include?(:contract_id) %>
+    <%= f.hidden_field(:contract, :value => params[:contract_id]) %>
+  <% elsif !@code[:contract].nil? && !@code[:contract].empty? %>
+    <%= f.hidden_field(:contract, :value => @code[:contract]) %>
+  <% else %>
+    <%= f.label :contract, :class => 'control-label' %>
+    <div class="control-group">
+      <%= f.select(:contract, options_from_collection_for_select(Contract.all, :id, :title)) %>
+    </div>
+    <%= error_span(@code[:contract]) %>
+  <% end %>
+
   <div class="control-group">
-    <%= f.label :version, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :version, :class => 'form-control' %>
+      <%= f.hidden_field :version, :value => '1' %>
     </div>
     <%= error_span(@code[:version]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :code, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :code, :class => 'form-control' %>
-    </div>
-    <%= error_span(@code[:code]) %>
-  </div>
-  <div class="control-group">
-    <%= f.label :contract_id, :class => 'control-label' %>
-    <div class="controls">
-        <%= f.select(:contract_id, options_from_collection_for_select(Contract.all, :id, :title)) %>
-    </div>
-    <%= error_span(@code[:contract_id]) %>
-  </div>
 
-
+  <% if @code[:code].nil? %>
+    <div class="control-group">
+      <%= f.label :template, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.select(:template, options_from_collection_for_select(::Template.all, :id, :name)) %>
+      </div>
+      <%= error_span(@code[:code]) %>
+    </div>
+  <% else %>
+    <div class="control-group">
+      <%= f.label :code, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :code, :class => 'form-control' %>
+      </div>
+      <%= error_span(@code[:code]) %>
+    </div>
+  <% end %>
 
   <%= f.submit nil, :class => 'btn btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
             codes_path, :class => 'btn btn-default' %>
-
 <% end %>

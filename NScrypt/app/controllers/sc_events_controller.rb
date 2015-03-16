@@ -21,19 +21,26 @@ class ScEventsController < ApplicationController
       logger.info("loading code for sc_event: "+params[:sc_event_id])
       sc_event = ScEvent.find(params[:sc_event_id])
 
-      require './lib/nscrypt/scms.rb'
+      require_relative '../../lib/nscrypt/scms.rb'
       $scms = SCMS.new(self)
-      $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes)
-
+      $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
       eval(@sc_event.code.code)
-      logger.info("Calling callback")
-      ret = eval(sc_event.callback)
+      invocation = sc_event.callback
+      call_params = params.select { |k, v| k[0..8] == 'sc_param_' }
+      if call_params.length > 0
+        invocation += "("
+        invocation += call_params.collect{ |k, v| "'#{v}'" }.join(",")
+        invocation += ")"
+      end
+      logger.info("Calling callback: #{invocation}")
+      ret = eval(invocation)
       run = ScEventRun.new(:sc_event => sc_event, :run_at => Time.now, :result => ret)
       run.save
 
       redirect_to run
     end
   end
+
   # GET /sc_events/1
   # GET /sc_events/1.json
   def show
@@ -91,14 +98,30 @@ class ScEventsController < ApplicationController
   # LIBRARY CALLBACKS
   def add_sc_note(message)
     note = Note.new
-    note.note = message
+    note.message = message
     note.contract = @sc_event.code.contract
+    note.user_id = session[:user_id]
     note.save
   end
 
   def get_sc_notes
     notes = Note.where(contract: @sc_event.code.contract)
-    notes.collect{ |n| n.note }
+    notes.collect{ |n|
+      username = User.find(n.user_id).name
+      "#{username}: #{n.message}"
+    }
+  end
+
+  def add_sc_minute(message)
+    min = Minute.new
+    min.message = message
+    min.contract = @sc_event.code.contract
+    min.save
+  end
+
+  def get_sc_minutes
+    mins = Minute.where(contract: @sc_event.code.contract)
+    mins.collect{ |m| m.message }
   end
 
   def get_sc_values
@@ -136,7 +159,7 @@ class ScEventsController < ApplicationController
   end
 
   def get_sc_parties
-    parties = Party.includes(:user).includes(:role).where(code: @sc_event.code)
+    parties = Party.includes(:user).where(code: @sc_event.code)
     wallets_result = Wallet.where(user: parties.collect{ |p| p.user })
     wallets = Hash.new
     wallets_result.each{ |w|
@@ -147,9 +170,17 @@ class ScEventsController < ApplicationController
     parties.each{ |p|
       w = Array.new
       wallets[p.user].each{ |r| w << ScmsWallet.new(r.currency, r.address) } if wallets.has_key?(p.user)
-      ps[p.role.name] = ScmsUser.new(p.user.id, p.user.name, p.user.email, w)
+      ps[p.role] = ScmsUser.new(p.user.id, p.user.name, p.user.email, w)
     }
     ps
+  end
+
+  def get_current_user
+    user = User.find(get_current_user_id)
+    wallets_result = Wallet.where(user: user)
+    wallets = Array.new
+    wallets_result.each{ |r| wallets << ScmsWallet.new(r.currency, r.address) }
+    ScmsUser.new(user.id, user.name, user.email, wallets)
   end
 
   def get_current_user_id
@@ -164,6 +195,26 @@ class ScEventsController < ApplicationController
     uri = URI.parse(url)
     response = Net::HTTP.get_response(uri)
     response.body
+  end
+
+  def html_form(caption, event, params)
+    event_url = url_to(event)
+    html_code = "<form action=\"#{event_url}\"><fieldset>"
+    html_code += "<legend>#{caption}</legend>"
+    params.each{ |k, v| html_code += "#{k}<br><input type=\"#{v[:type]}\" name=\"sc_param_#{v[:name]}\">" }
+    html_code += "<input type=\"submit\" value=\"Submit\"></fieldset></form>"
+    html_code
+  end
+
+  def url_to(event)
+    events = ScEvent.where(callback: event, code: @sc_event.code)
+    event_id = nil
+    if !events.empty?
+      event_id = events.first.id
+    else
+      raise "Unable to find event '#{event}'"
+    end
+    "http://#{request.host}:#{request.port}/sc_events/#{event_id}/trigger"
   end
 
   private

@@ -1,0 +1,46 @@
+digraph contract_workflow {
+  DDU [label="Draft\nUnassigned"];
+  DDA [label="Draft\nAssigned"];
+  DO [label="Proposal"];
+  DCS [label="Counter-\nsigned"];
+  DPS [label="Pre-\nsigned"];
+  DS [label="Signed"];
+  DY [label="Yielded"];
+  DT [label="Finished"];
+
+  DDU -> DDA [label="Assigns"];
+  DDA -> DO [label="A* proposes"];
+  DO -> DCS [label="CPs**\nsign"];
+  DO -> DPS [label="A* signs"];
+  DCS -> DS [label="A* signs"];
+  DPS -> DS [label="CPs**\nsign"];
+  DS -> DY [label="Amended"];
+  DS -> DT [label="Finished"];
+  DDA -> DDA [label="Edit"];
+  DDU -> DDU [label="Edit"];
+  DCS -> DO [label="CP**\nunsigns"];
+  DPS -> DO [label="A* unsigns"];
+
+  CD [label="Drafting"];
+  CN [label="Negotiation"];
+  CSP [label="CP Pending"];
+  CS [label="In Effect"];
+  CDR [label="In Dispute"];
+  CC [label="Completed"];
+  CT [label="Terminated"];
+
+  CD -> CN [label="Proposal"];
+  CN -> CSP [label="Signed\nwith CPs"];
+  CSP -> CS [label="CP Completed"];
+  CN -> CS [label="Signed\nno CPs"];
+  CS -> CDR [label="Disputed"];
+  CDR -> CS [label="Resolved"];
+  CS -> CS [label="Amended***"];
+  CS -> CT [label="Termination"];
+  CS -> CC [label="Completion"];
+
+  {rank=same; DDU; CD};
+  {rank=same; DO; CN};
+  {rank=same; DY; CDR};
+  {rank=same; CSP; CS; DS};
+};

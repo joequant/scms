@@ -4,27 +4,36 @@ class PartiesController < ApplicationController
 
   before_action :set_party, only: [:show, :edit, :update, :destroy]
 
-  def propose
+  def assign
     @party = Party.find(params[:party_id])
-    @party.state = 'Proposed'
+    @party.user_id = params[:party][:user]
     @party.save
-    redirect_to action: "show", id: params[:party_id]
+    logger.info("Assigning #{@party.user_id} to #{@party.role}")
+    redirect_to controller: "codes", action: "update_state", code_id: @party.code.id
+  end
+
+  def unassign
+    @party = Party.find(params[:party_id])
+    @party.user_id = nil
+    @party.save
+    logger.info("Unassigning #{@party.user_id} from #{@party.role}")
+    redirect_to controller: "codes", action: "update_state", code_id: @party.code.id
   end
 
   def sign
     @party = Party.find(params[:party_id])
     @party.state = 'Signed'
     @party.save
-    set_state
-    redirect_to action: "show", id: params[:party_id]
+    logger.info("#{@party.user_id} signs")
+    redirect_to controller: "codes", action: "update_state", code_id: @party.code.id
   end
 
   def unsign
     @party = Party.find(params[:party_id])
-    @party.state = 'Proposed'
+    @party.state = 'Assigned'
     @party.save
-    set_state
-    redirect_to action: "show", id: params[:party_id]
+    logger.info("#{@party.user_id} unsigns")
+    redirect_to controller: "codes", action: "update_state", code_id: @party.code.id
   end  
 
   # GET /parties
@@ -32,10 +41,8 @@ class PartiesController < ApplicationController
   def index
     if params.has_key?(:code_id)
       logger.info(session[:user_id])
-      @parties = Party.where(code_id: params[:code_id])
-    else
-      @parties = Party.where(user_id: session[:user_id])
     end
+    @parties = Party.where(user_id: session[:user_id])
   end
 
   # GET /parties/1
@@ -100,24 +107,7 @@ class PartiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def party_params
-      params.require(:party).permit(:user_id, :code_id, :role_id, :state)
+      params.require(:party).permit(:user_id, :code_id, :role, :state)
     end
 
-  def set_state
-    parties = Party.where(code_id: @party.code.id)
-    signed = Array.new
-    parties.each{|p| signed << p if p.state == 'Signed'}
-    state = 'Not Signed'
-    if signed.length == parties.length
-      state = 'Signed'
-    elsif signed.length > 0
-      state = 'Partially Signed'
-    end
-    @party.code.state = state
-    @party.code.save
-    if state == 'Signed'
-      @party.code.contract.signed_code_id = @party.code.id
-      @party.code.contract.save
-    end
-  end
 end

@@ -23,11 +23,11 @@
             <%= error_span(@party[:user_id]) %>
         </div>
     <div class="control-group">
-        <%= f.label :role_id, :class => 'control-label' %>
+        <%= f.label :role, :class => 'control-label' %>
         <div class="controls">
-            <%= f.select(:role_id, options_from_collection_for_select(Role.all, :id, :name)) %>
+            <%= f.text_field :role, :class => 'form-control' %>
         </div>
-        <%= error_span(@party[:role_id]) %>
+        <%= error_span(@party[:role]) %>
     </div>
     <div class="control-group">
         <%= f.label :code_id, :class => 'control-label' %>

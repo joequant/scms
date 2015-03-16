@@ -26,9 +26,7 @@
         <td><%= contract.owner %></td>
         <td><%= contract.status %></td>
         <td>
-          <% if contract.owner == session[:user_id] %>
-            <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                        edit_contract_path(contract), :class => 'btn btn-default btn-xs' %>
+          <% if contract.owner == session[:user_id] && contract.status == 'Terminated' %>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                         contract_path(contract),
                         :method => :delete,
@@ -38,6 +36,9 @@
         </td>
         <td>
           <% if !contract.signed_code_id.nil? %>
+            <% if !contract.sc_event_id.nil? %>
+              <%= link_to t("Portal"), controller: "sc_events", action: "trigger", sc_event_id: contract.sc_event_id %>
+            <% end %>
             <%= link_to t("Events"), controller: "sc_events", code_id: contract.signed_code_id %>
           <% end %>
         </td>

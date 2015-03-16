@@ -4,11 +4,16 @@ Rails.application.routes.draw do
       match '/user/confirmation' => 'confirmations#update', :via => :patch, :as => :update_user_confirmation
   end
   devise_for :users, :controllers => { :confirmations => "confirmations" }
+
+  resources :notes
+
+  resources :minutes
+
+  resources :templates
+
   resources :wallets
 
   resources :sc_values
-
-  resources :notes
 
   resources :sc_event_runs
 
@@ -23,7 +28,8 @@ Rails.application.routes.draw do
 #  resources :sessions
 
   resources :parties  do
-    get :propose
+    patch :assign
+    patch :unassign
     get :sign
     get :unsign
   end
@@ -38,6 +44,14 @@ Rails.application.routes.draw do
   resources :codes do
     resources :sc_events
     resources :parties
+    get :propose
+    get :retract
+    get :post
+    get :unpost
+    get :duplicate
+    get :update_state
+    get :reject
+    get :accept
   end
 
   resources :contracts do

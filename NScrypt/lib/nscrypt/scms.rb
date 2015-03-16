@@ -1,3 +1,3 @@
-require './lib/nscrypt/scms/scms.rb'
-require './lib/nscrypt/sc/sc.rb'
+require_relative './scms/scms.rb'
+require_relative './/sc/sc.rb'
 

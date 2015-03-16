@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150228101410) do
+ActiveRecord::Schema.define(version: 20150313045944) do
 
 # Could not dump table "codes" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass
@@ -19,26 +19,36 @@ ActiveRecord::Schema.define(version: 20150228101410) do
 # Could not dump table "contracts" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass
 
-  create_table "notes", force: :cascade do |t|
-    t.string   "note"
+  create_table "minutes", force: :cascade do |t|
+    t.string   "message"
     t.integer  "contract_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
+  add_index "minutes", ["contract_id"], name: "index_minutes_on_contract_id"
+
+  create_table "notes", force: :cascade do |t|
+    t.string   "message"
+    t.integer  "contract_id"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   add_index "notes", ["contract_id"], name: "index_notes_on_contract_id"
+  add_index "notes", ["user_id"], name: "index_notes_on_user_id"
 
   create_table "parties", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "code_id"
-    t.integer  "role_id"
     t.string   "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "role"
   end
 
   add_index "parties", ["code_id"], name: "index_parties_on_code_id"
-  add_index "parties", ["role_id"], name: "index_parties_on_role_id"
   add_index "parties", ["user_id"], name: "index_parties_on_user_id"
 
   create_table "roles", force: :cascade do |t|
@@ -87,6 +97,17 @@ ActiveRecord::Schema.define(version: 20150228101410) do
   end
 
   add_index "schedules", ["sc_event_id"], name: "index_schedules_on_sc_event_id"
+
+  create_table "templates", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "user_id"
+    t.string   "code"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "templates", ["user_id"], name: "index_templates_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "username"

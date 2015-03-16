@@ -12,6 +12,7 @@ class ContractsController < ApplicationController
     # Also get where the user was a proposed party
     parties = Party.where("user_id = ? AND state = 'Signed'", session[:user_id])
     parties.each{ |party| @contracts << party.code.contract if !@contracts.include?(party.code.contract) && !party.code.contract.signed_code_id.nil? }
+    @contracts = @contracts.sort{ |a, b| b.id <=> a.id }
   end
 
   # GET /contracts/1
@@ -37,7 +38,7 @@ class ContractsController < ApplicationController
 
     respond_to do |format|
       if @contract.save
-        format.html { redirect_to @contract, notice: 'Contract was successfully created.' }
+        format.html { redirect_to(controller: "codes", action: "new", contract_id: @contract.id) }
         format.json { render :show, status: :created, location: @contract }
       else
         format.html { render :new }

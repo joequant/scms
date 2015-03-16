@@ -1,8 +1,16 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Sc event:</strong>
-  <%= @sc_event_run.sc_event %>
+  <strong>Contract:</strong>
+  <%= @sc_event_run.sc_event.code.contract.id.to_s.rjust(8, "0") + ' : ' + @sc_event_run.sc_event.code.contract.title %>
+  <% if @sc_event_run.sc_event.code.contract.description != "" %>
+    <%= " : " + @sc_event_run.sc_event.code.contract.description %>
+  <% end %>
+</p>
+
+<p>
+  <strong>Event:</strong>
+  <%= @sc_event_run.sc_event.callback %>
 </p>
 
 <p>
@@ -12,8 +20,11 @@
 
 <p>
   <strong>Result:</strong>
-  <%= @sc_event_run.result %>
 </p>
 
-<%= link_to 'Edit', edit_sc_event_run_path(@sc_event_run) %> |
-<%= link_to 'Back', sc_event_runs_path %>
+<p>
+  <% result = @sc_event_run.result.html_safe %>
+  <%= result %>
+</p>
+
+<%= link_to 'Back', code_sc_events_path(code_id: @sc_event_run.sc_event.code.id) %>
