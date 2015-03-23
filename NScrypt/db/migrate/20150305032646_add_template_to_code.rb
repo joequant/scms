@@ -1,5 +1,5 @@
 class AddTemplateToCode < ActiveRecord::Migration
   def change
-    add_column :codes, :template, :has_one
+    add_foreign_key :codes, :templates
   end
 end

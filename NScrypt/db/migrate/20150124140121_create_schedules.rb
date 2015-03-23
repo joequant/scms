@@ -10,6 +10,6 @@ class CreateSchedules < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_foreign_key :schedules, :sc_event
+    add_foreign_key :schedules, :sc_events
   end
 end

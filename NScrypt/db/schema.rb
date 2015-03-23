@@ -13,11 +13,29 @@
 
 ActiveRecord::Schema.define(version: 20150313045944) do
 
-# Could not dump table "codes" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  create_table "codes", force: :cascade do |t|
+    t.string   "version"
+    t.text     "code"
+    t.integer  "contract_id",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "state"
+    t.string   "assign_state"
+    t.string   "sign_state"
+    t.boolean  "proposed"
+    t.boolean  "posted"
+    t.boolean  "rejected"
+  end
 
-# Could not dump table "contracts" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  add_index "codes", ["contract_id"], name: "index_codes_on_contract_id"
+
+  create_table "contracts", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "status"
+  end
 
   create_table "minutes", force: :cascade do |t|
     t.string   "message"
