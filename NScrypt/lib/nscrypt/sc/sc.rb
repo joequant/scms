@@ -3,11 +3,12 @@ require_relative '../scms/user.rb'
 require_relative '../scms/wallet.rb'
 
 class SC
-  attr_reader :id, :status, :fields, :parties, :notes, :minutes
+  attr_reader :id, :title, :status, :fields, :parties, :notes, :minutes
 
-  def initialize(controller, id, status, fields, parties, notes, minutes)
+  def initialize(controller, id, title, status, fields, parties, notes, minutes)
     @controller = controller
     @id = id.to_s.rjust(8, "0")
+    @title = title
     @status = status
     @fields = fields
     @parties = parties

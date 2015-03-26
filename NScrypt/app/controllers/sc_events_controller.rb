@@ -20,7 +20,7 @@ class ScEventsController < ApplicationController
 
       require_relative '../../lib/nscrypt/scms.rb'
       $scms = SCMS.new(self)
-      $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
+      $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.title, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
       eval(@sc_event.code.code)
       invocation = sc_event.callback
       call_params = params.select { |k, v| k[0..8] == 'sc_param_' }
@@ -198,7 +198,7 @@ class ScEventsController < ApplicationController
     event_url = url_to(event)
     html_code = "<form action=\"#{event_url}\"><fieldset>"
     html_code += "<legend>#{caption}</legend>"
-    params.each{ |k, v| html_code += "#{k}<br><input type=\"#{v[:type]}\" name=\"sc_param_#{v[:name]}\">" }
+    params.each{ |k, v| html_code += "#{k}<br><input type=\"#{v[:type]}\" name=\"sc_param_#{v[:name]}\"><br>" }
     html_code += "<input type=\"submit\" value=\"Submit\"></fieldset></form>"
     html_code
   end

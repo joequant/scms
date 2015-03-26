@@ -206,7 +206,7 @@ class CodesController < ApplicationController
     elsif !author.nil?
       code_assign_state = 'Self-assigned'
       logger.info("Self-Assigning author")
-    elsif assigned.length == counterparties.length
+    elsif assigned.length == counterparties.length && unassigned.length == 1
       #code_assign_state = 'Counter-assigned'
       logger.info("Counter-assigning counterparty(ies)...")
       ### NOTE: Implying the author as the last remaining party--Must be a party to one's own contract
@@ -239,10 +239,12 @@ class CodesController < ApplicationController
     code_sign_state = 'Unsigned'
     if signed.length == parties.length
       code_sign_state = 'Signed'
-    elsif author.state == 'Signed'
-      code_sign_state = 'Pre-signed'
     elsif signed.length == counterparties.length
       code_sign_state = 'Counter-signed'
+    elsif !author.nil?
+      if author.state == 'Signed'
+        code_sign_state = 'Pre-signed'
+      end
     end
 
     @code.sign_state = code_sign_state
