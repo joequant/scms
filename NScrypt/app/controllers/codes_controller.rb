@@ -243,10 +243,8 @@ class CodesController < ApplicationController
     elsif !author.nil?
       if author.state == 'Signed'
         code_sign_state = 'Pre-signed'
-      else
-        code_sign_state = 'Counter-signed'
       end
-    else
+    elsif signed.length > 0 && signed.length == counterparties.length
       code_sign_state = 'Counter-signed'
     end
 
