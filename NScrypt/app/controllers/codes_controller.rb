@@ -240,12 +240,14 @@ class CodesController < ApplicationController
     code_sign_state = 'Unsigned'
     if signed.length == parties.length
       code_sign_state = 'Signed'
-    elsif signed.length == counterparties.length
-      code_sign_state = 'Counter-signed'
     elsif !author.nil?
       if author.state == 'Signed'
         code_sign_state = 'Pre-signed'
+      else
+        code_sign_state = 'Counter-signed'
       end
+    else
+      code_sign_state = 'Counter-signed'
     end
 
     @code.sign_state = code_sign_state
