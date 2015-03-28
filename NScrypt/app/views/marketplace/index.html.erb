@@ -1,0 +1,31 @@
+<%- model_class = Code -%>
+<div class="page-header">
+  <h1>Marketplace</h1>
+</div>
+<table class="table table-striped">
+  <% if @codes.length == 0 %>
+    No open offers. Please come back later.
+  <% else %>
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:title) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:owner) %></th>
+      <th><%=t '.navigation', :default => t("helpers.navigation") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @codes.each do |code| %>
+      <tr>
+        <td><%= code.contract.title %></td>
+        <td><%= code.contract.description %></td>
+        <td><%= code.contract.owner %></td>
+        <td>
+          <%= link_to "Examine", code_path(code.id) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+  <% end %>
+</table>
+

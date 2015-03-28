@@ -33,9 +33,9 @@
 
   <% if @code.posted != "t" && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
     <%= link_to "Post", action: "post", code_id: @code.id %>
-  <% elsif @code.posted == "t" && @code.author == session[:user_id] && @code.state != 'Accepted' %>
+  <% elsif @code.posted == "t" && @code.author == session[:user_id] && @code.state != 'Signed' %>
     <%= link_to "Unpost", action: "unpost", code_id: @code.id %>
-  <% elsif @code.posted == "t" && @code.author != session[:user_id] && @code.state != 'Accepted' %>
+  <% elsif @code.posted == "t" && @code.author != session[:user_id] && @code.state != 'Signed' %>
     <%= link_to "Accept", action: "accept", code_id: @code.id %>
   <% end %>
 

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'marketplace/index'
+
   resources :notes
 
   resources :minutes
@@ -30,6 +32,8 @@ Rails.application.routes.draw do
   end
 
   resources :roles
+
+  resources :marketplace
 
   resources :sc_events do
     resources :schedules
