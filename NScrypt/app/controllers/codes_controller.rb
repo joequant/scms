@@ -1,5 +1,6 @@
 class CodesController < ApplicationController
   before_action :set_code, only: [:show, :edit, :update, :destroy]
+  attr_reader :fm
 
   # GET /codes
   # GET /codes.json
@@ -279,7 +280,7 @@ class CodesController < ApplicationController
 
     if rejected
       code_state = 'Rejected'
-    elsif sign_state == 'Signed' && posted
+    elsif sign_state == 'Signed' && posted == true
       code_state = 'Accepted'
     elsif sign_state == 'Signed'
       code_state = 'Signed'

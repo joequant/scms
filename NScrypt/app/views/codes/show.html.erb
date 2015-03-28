@@ -27,7 +27,7 @@
 
   <% if (@code.proposed != "t" && @code.posted != "t") && @code.assign_state == 'Assigned' %>
     <%= link_to "Propose", action: "propose", code_id: @code.id %>
-  <% elsif @code.proposed == "t" && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') %>
+  <% elsif @code.proposed == "t" && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') && @code.author == session[:user_id] %>
     <%= link_to "Retract", action: "retract", code_id: @code.id %>
   <% end %>
 
