@@ -46,14 +46,16 @@
         <a class="navbar-brand" href="#">NScrypt</a>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to "Contracts", "/contracts"  %></li>
-            <li><%= link_to "Drafts", "/codes"  %></li>
-            <li><%= link_to "Marketplace", "/marketplace"  %></li>
+            <% if current_user %>
+              <li><%= link_to "Contracts", "/contracts"  %></li>
+              <li><%= link_to "Drafts", "/codes"  %></li>
+              <li><%= link_to "Marketplace", "/marketplace"  %></li>
+            <% end %>
           </ul>
             <ul class="pull-right nav navbar-nav">
-
                 <% if current_user %>
-                    <li><%=link_to current_user.name %></li>
+                    <li><%= link_to "Contact List", "/contacts" %></li>
+                    <li><%= link_to current_user.name %></li>
                     <li><%= link_to "Log out", log_out_path %> </li>
                 <% else %>
                     <li><%= link_to "Sign up", sign_up_path %> </li>

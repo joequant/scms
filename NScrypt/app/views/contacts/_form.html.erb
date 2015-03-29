@@ -1,0 +1,17 @@
+<% if @contact.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+    <ul>
+      <% @contact.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for(@contact) do |f| %>
+  <%= f.label "User ID" %>
+  <%= f.text_field :user_id %>
+  <%= f.submit %>
+<% end %>
+
