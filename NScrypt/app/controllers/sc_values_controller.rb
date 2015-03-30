@@ -1,4 +1,7 @@
 class ScValuesController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :authorize_admin!
+
   before_action :set_sc_value, only: [:show, :edit, :update, :destroy]
 
   # GET /sc_values
