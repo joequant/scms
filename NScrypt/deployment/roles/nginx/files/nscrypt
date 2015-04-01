@@ -23,7 +23,7 @@ server {
 #
 	server_name nscrypt;
   	passenger_enabled on;
-  	root /app/nscrypt/public;
+  	root /app/nscrypt/NScrypt/public;
 	rails_env development;
 
 	location / {
@@ -94,7 +94,7 @@ server {
   server_name nscrypt.prod;
 
   passenger_enabled on;
-  root /repos/nscrypt/public;
+  root /app/nscrypt/NScrypt/public;
   rails_env development;
 
   location / {
