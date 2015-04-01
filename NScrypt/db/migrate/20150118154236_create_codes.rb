@@ -7,6 +7,6 @@ class CreateCodes < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_foreign_key :codes, :contract
+    add_foreign_key :codes, :contracts
   end
 end

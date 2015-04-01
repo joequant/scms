@@ -6,6 +6,6 @@ class CreateScEvents < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_foreign_key :sc_events, :code
+    add_foreign_key :sc_events, :codes
   end
 end
