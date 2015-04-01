@@ -6,8 +6,10 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-u = User.new :email => 'admin@crypto-law.com', :password => 'Xryptolaw', :password_confirmation => 'Xryptolaw' do |u|
+u = User.new legal_name: 'Administrator', username: 'admin', email: 'admin@crypto-law.com', password: 'Krypt0law', password_confirmation: 'Krypt0law' do |u|
   u.role = 'admin'
+  u.confirmed_at = DateTime.now
+  u.confirmation_sent_at = DateTime.now
 end
-u.save
+u.save!
 

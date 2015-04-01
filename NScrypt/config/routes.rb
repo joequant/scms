@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
+  as :user do
+      match '/user/confirmation' => 'confirmations#update', :via => :patch, :as => :update_user_confirmation
+  end
+  devise_for :users, :controllers => { :confirmations => "confirmations" }
+
   resources :contacts
 
-  devise_for :users
   resources :wallets
 
   get 'marketplace/index'
@@ -66,12 +70,7 @@ Rails.application.routes.draw do
     resources :parties
   end
 
-  #Add Human and Corporations
-  resources :people, controller: 'users', type: 'Person'
-  resources :corporations, controller: 'users', type: 'Corporation'
-  
   resources :schedules
-  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
