@@ -5,7 +5,7 @@ def run(cmd)
   exit($?.exitstatus) unless system "umask 002 && #{cmd}"
 end
 
-RAILS_ENV   = ENV['RAILS_ENV'] || 'production'
+RAILS_ENV   = ENV['RAILS_ENV'] || 'development'
 use_bundler = File.file? 'Gemfile'
 rake_cmd    = use_bundler ? 'bundle exec rake' : 'rake'
 
