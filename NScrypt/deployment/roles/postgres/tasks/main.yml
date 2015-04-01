@@ -1,0 +1,14 @@
+---
+
+- name: Postgres configuration
+  copy: src=pg_hba.conf dest=/etc/postgresql/9.3/main/pg_hba.conf
+
+- name: Restart Postgres
+  service: name=postgresql state=restarted
+
+- postgresql_db: name=nscrypt
+
+- postgresql_user:
+    db=nscrypt
+    name=nscrypt
+

@@ -1,0 +1,15 @@
+---
+
+# User and SSH key
+- name: Add user {{ username }} with password {{ password }}
+  user: name='{{ username}}' shell=/bin/bash comment='{{ username }} user' password='{{ password }}' groups='sudo' #update_password='on_create'
+  when: using_vagrant
+
+- name: Add ssh key for {{ username }}
+  authorized_key: user='{{ username }}' key='{{ public_ssh_key_string }}' state=present
+  when: using_vagrant
+
+- name: Add app directory
+  file: path=/app state=directory owner={{ username }} mode=777
+
+

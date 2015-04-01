@@ -1,0 +1,33 @@
+---
+
+- name: Configure nginx
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf mode=644 owner=root group=root
+
+- name: Create self-signed SSL cert for Apache
+  command: openssl req -new -nodes -x509 -subj "/C=CN/ST=HongKong/O=Daktra/CN={{ fqdn }}" -days 3650 -keyout /etc/nginx/cert.key -out /etc/nginx/cert.pem -extensions v3_ca creates=/etc/nginx//cert.pem
+
+- name: restart nginx
+  service: name=nginx state=restarted
+
+# Symlink to source from $HOME/nscrypt
+- name: Set symlink to nscrypt source
+  file: "src=/repos/nscrypt dest=/home/{{ username }}/nscrypt force=yes state=link"
+  when: using_vagrant
+
+# Symlink to source from $HOME/nscrypt
+- name: Set symlink to nscrypt source
+  file: "src=/repos/nscrypt dest=/home/{{ username }}/nscrypt force=yes state=link"
+  when: using_vagrant
+
+- name: remove default nginx config
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: copy nscrypt config
+  copy: src=nscrypt dest=/etc/nginx/sites-available mode=644 owner=root group=root
+
+- name: enable nscrypt config
+  file: src=/etc/nginx/sites-available/nscrypt path=/etc/nginx/sites-enabled/nscrypt state=link
+
+- name: restart nginx
+  service: name=nginx state=restarted
+

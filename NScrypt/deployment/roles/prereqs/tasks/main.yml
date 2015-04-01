@@ -1,0 +1,40 @@
+---
+
+# Debian packages
+- name: Run apt-get update
+  apt: update_cache=yes
+
+- name: Install python-software-properties
+  apt: pkg=python-software-properties
+
+- name: Brightbox repository for more up-to-date ruby
+  command: apt-add-repository -y ppa:brightbox/ruby-ng
+
+- name: Passenger repo
+  command: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
+
+- name: HTTPS support
+  apt: pkg=apt-transport-https
+
+- name: Apt ca-certificates
+  apt: pkg=ca-certificates
+
+- name: Copy passenger.list
+  copy: src=passenger.list dest=/etc/apt/sources.list.d/passenger.list owner=root mode=600
+
+- name: Run apt-get update
+  apt: update_cache=yes
+
+- name: Install debian packages
+  apt: pkg={{ item }} force=yes
+  with_flattened:
+    - deb_packages
+
+
+# Ruby gems
+- name: Install ruby gems
+  gem: name={{ item }} user_install=no
+  sudo: yes
+  with_flattened:
+    - ruby_gems
+

@@ -28,12 +28,22 @@
       - libsqlite3-dev
       - ruby2.2
       - ruby2.2-dev
+      - nginx-extras
+      - passenger
+      - python-psycopg2
+
 
 
     ruby_gems:
       - bundler
       - foreman
 
-  tasks:
-    - include: prereqs.yml
+  roles:
+    - prereqs
+    - nginx
+    - postgres
+    - user
+
+    #  tasks:
+    #- include: prereqs.yml
 
