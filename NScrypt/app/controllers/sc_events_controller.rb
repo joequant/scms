@@ -100,7 +100,7 @@ class ScEventsController < ApplicationController
     note = Note.new
     note.message = message
     note.contract = @sc_event.code.contract
-    note.user_id = session[:user_id]
+    note.user_id = current_user
     note.save
   end
 
@@ -184,7 +184,7 @@ class ScEventsController < ApplicationController
   end
 
   def get_current_user_id
-    session[:user_id]
+    current_user
   end
 
   def send_sc_email(to, cc, subject, body)

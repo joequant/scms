@@ -26,7 +26,7 @@
         <td><%= contract.owner %></td>
         <td><%= contract.status %></td>
         <td>
-          <% if contract.owner == session[:user_id] && contract.status == 'Terminated' %>
+          <% if contract.owner == current_user && contract.status == 'Terminated' %>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                         contract_path(contract),
                         :method => :delete,

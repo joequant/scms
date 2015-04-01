@@ -8,9 +8,9 @@ class ContractsController < ApplicationController
   # GET /contracts.json
   def index
     # Fetches only signed contracts
-    @contracts = Contract.where("owner = ? AND signed_code_id is NOT NULL", session[:user_id])
+    @contracts = Contract.where("owner = ? AND signed_code_id is NOT NULL", current_user)
     # Also get where the user was a proposed party
-    parties = Party.where("user_id = ? AND state = 'Signed'", session[:user_id])
+    parties = Party.where("user_id = ? AND state = 'Signed'", current_user)
     parties.each{ |party| @contracts << party.code.contract if !@contracts.include?(party.code.contract) && !party.code.contract.signed_code_id.nil? }
     @contracts = @contracts.sort{ |a, b| b.id <=> a.id }
   end
@@ -33,7 +33,7 @@ class ContractsController < ApplicationController
   # POST /contracts.json
   def create
     @contract = Contract.new(contract_params)
-    @contract.owner = session[:user_id]
+    @contract.owner = current_user
     @contract.status = 'Signed'
 
     respond_to do |format|

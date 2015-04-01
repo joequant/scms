@@ -27,19 +27,19 @@
 
   <% if (@code.proposed != "t" && @code.posted != "t") && @code.assign_state == 'Assigned' %>
     <%= link_to "Propose", action: "propose", code_id: @code.id %>
-  <% elsif @code.proposed == "t" && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') && @code.author == session[:user_id] %>
+  <% elsif @code.proposed == "t" && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') && @code.author == current_user %>
     <%= link_to "Retract", action: "retract", code_id: @code.id unless @code.state == 'Rejected' %>
   <% end %>
 
   <% if @code.posted != "t" && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
     <%= link_to "Post", action: "post", code_id: @code.id %>
-  <% elsif @code.posted == "t" && @code.author == session[:user_id] && @code.state != 'Signed' %>
+  <% elsif @code.posted == "t" && @code.author == current_user && @code.state != 'Signed' %>
     <%= link_to "Unpost", action: "unpost", code_id: @code.id %>
-  <% elsif @code.posted == "t" && @code.author != session[:user_id] && @code.state != 'Signed' %>
+  <% elsif @code.posted == "t" && @code.author != current_user && @code.state != 'Signed' %>
     <%= link_to "Accept", action: "accept", code_id: @code.id %>
   <% end %>
 
-  <% if @code.proposed == "t" && @code.author != session[:user_id] && !@code.rejected %>
+  <% if @code.proposed == "t" && @code.author != current_user && !@code.rejected %>
     <%= link_to "Reject", action: "reject", code_id: @code.id %>
   <% end %>
 </p>
@@ -80,7 +80,7 @@
         <td><%= party.state == 'Signed' ?  party.updated_at : 'N/A' %></td>
         <td>
           <% if !party.user.nil? %>
-            <% if party.user.id == session[:user_id] %>
+            <% if party.user.id == current_user %>
               <% if party.state != 'Signed' && @code.state != 'Rejected' %>
                 <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id %>
               <% end %>

@@ -40,9 +40,9 @@ class PartiesController < ApplicationController
   # GET /parties.json
   def index
     if params.has_key?(:code_id)
-      logger.info(session[:user_id])
+      logger.info(current_user)
     end
-    @parties = Party.where(user_id: session[:user_id])
+    @parties = Party.where(user_id: current_user)
   end
 
   # GET /parties/1

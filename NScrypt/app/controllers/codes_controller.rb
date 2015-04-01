@@ -11,9 +11,9 @@ class CodesController < ApplicationController
     if params.has_key?(:contract_id)
       @codes = Code.where(contract_id: params[:contract_id])
     else
-      @codes = Code.where("author = ? AND state <> 'Signed'", session[:user_id])
-      Party.where("user_id = ?", session[:user_id]).each{ |p|
-        @codes << p.code if p.code.proposed == 't' && p.code.author != session[:user_id] && !p.code.rejected
+      @codes = Code.where("author = ? AND state <> 'Signed'", current_user)
+      Party.where("user_id = ?", current_user).each{ |p|
+        @codes << p.code if p.code.proposed == 't' && p.code.author != current_user && !p.code.rejected
       }
     end
     @codes = @codes.sort{ |a, b| b <=> a }
@@ -37,7 +37,7 @@ class CodesController < ApplicationController
   # POST /codes.json
   def create
     @code = Code.new(code_params)
-    @code.author = session[:user_id]
+    @code.author = current_user
     @code.state = 'Unassigned'
     @code.sign_state = 'Unsigned'
     @code.assign_state = 'Unassigned'
@@ -124,7 +124,7 @@ class CodesController < ApplicationController
     @code = Code.find(params[:code_id])
     open_slot = nil
     @code.parties.each{ |s| open_slot = s if s.user.nil? }
-    open_slot.user_id = session[:user_id]
+    open_slot.user_id = current_user
     open_slot.state = 'Signed'
     open_slot.save
     logger.info("Accepting posted offer")
@@ -137,7 +137,7 @@ class CodesController < ApplicationController
       version = Code.where(contract_id: old_code.contract_id).length
 
       new_code = Code.new
-      new_code.author = session[:user_id]
+      new_code.author = current_user
       new_code.code = old_code.code
       new_code.contract_id = old_code.contract_id
       new_code.version = "#{version + 1}"
