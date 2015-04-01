@@ -13,13 +13,19 @@
 
 ActiveRecord::Schema.define(version: 20150329030609) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "codes", force: :cascade do |t|
     t.string   "version"
     t.text     "code"
     t.integer  "contract_id",  null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "author"
     t.string   "state"
+    t.integer  "sc_event_id"
+    t.integer  "template_id"
     t.string   "assign_state"
     t.string   "sign_state"
     t.boolean  "proposed"
@@ -27,14 +33,28 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.boolean  "rejected"
   end
 
-  add_index "codes", ["contract_id"], name: "index_codes_on_contract_id"
+  add_index "codes", ["contract_id"], name: "index_codes_on_contract_id", using: :btree
+
+  create_table "contacts", force: :cascade do |t|
+    t.string   "status"
+    t.integer  "contact_user_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "user_id"
+  end
+
+  add_index "contacts", ["contact_user_id"], name: "index_contacts_on_contact_user_id", using: :btree
+  add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", using: :btree
 
   create_table "contracts", force: :cascade do |t|
     t.string   "title"
     t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "owner"
     t.string   "status"
+    t.integer  "signed_code_id"
+    t.integer  "sc_event_id"
   end
 
   create_table "minutes", force: :cascade do |t|
@@ -44,7 +64,7 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "minutes", ["contract_id"], name: "index_minutes_on_contract_id"
+  add_index "minutes", ["contract_id"], name: "index_minutes_on_contract_id", using: :btree
 
   create_table "notes", force: :cascade do |t|
     t.string   "message"
@@ -54,8 +74,8 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "notes", ["contract_id"], name: "index_notes_on_contract_id"
-  add_index "notes", ["user_id"], name: "index_notes_on_user_id"
+  add_index "notes", ["contract_id"], name: "index_notes_on_contract_id", using: :btree
+  add_index "notes", ["user_id"], name: "index_notes_on_user_id", using: :btree
 
   create_table "parties", force: :cascade do |t|
     t.integer  "user_id"
@@ -66,8 +86,8 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.string   "role"
   end
 
-  add_index "parties", ["code_id"], name: "index_parties_on_code_id"
-  add_index "parties", ["user_id"], name: "index_parties_on_user_id"
+  add_index "parties", ["code_id"], name: "index_parties_on_code_id", using: :btree
+  add_index "parties", ["user_id"], name: "index_parties_on_user_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -83,7 +103,7 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "sc_event_runs", ["sc_event_id"], name: "index_sc_event_runs_on_sc_event_id"
+  add_index "sc_event_runs", ["sc_event_id"], name: "index_sc_event_runs_on_sc_event_id", using: :btree
 
   create_table "sc_events", force: :cascade do |t|
     t.text     "callback"
@@ -92,7 +112,7 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "sc_events", ["code_id"], name: "index_sc_events_on_code_id"
+  add_index "sc_events", ["code_id"], name: "index_sc_events_on_code_id", using: :btree
 
   create_table "sc_values", force: :cascade do |t|
     t.integer  "contract_id"
@@ -102,7 +122,7 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "sc_values", ["contract_id"], name: "index_sc_values_on_contract_id"
+  add_index "sc_values", ["contract_id"], name: "index_sc_values_on_contract_id", using: :btree
 
   create_table "schedules", force: :cascade do |t|
     t.integer  "sc_event_id", null: false
@@ -114,7 +134,7 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "schedules", ["sc_event_id"], name: "index_schedules_on_sc_event_id"
+  add_index "schedules", ["sc_event_id"], name: "index_schedules_on_sc_event_id", using: :btree
 
   create_table "templates", force: :cascade do |t|
     t.string   "name"
@@ -125,7 +145,7 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "templates", ["user_id"], name: "index_templates_on_user_id"
+  add_index "templates", ["user_id"], name: "index_templates_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
@@ -149,10 +169,10 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.string   "unconfirmed_email"
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["username"], name: "index_users_on_username", unique: true
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   create_table "wallets", force: :cascade do |t|
     t.string   "currency"
@@ -162,6 +182,26 @@ ActiveRecord::Schema.define(version: 20150329030609) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "wallets", ["user_id"], name: "index_wallets_on_user_id"
+  add_index "wallets", ["user_id"], name: "index_wallets_on_user_id", using: :btree
 
+  add_foreign_key "codes", "contracts"
+  add_foreign_key "codes", "sc_events"
+  add_foreign_key "codes", "templates"
+  add_foreign_key "codes", "users", column: "author"
+  add_foreign_key "contacts", "users"
+  add_foreign_key "contacts", "users", column: "contact_user_id"
+  add_foreign_key "contracts", "codes", column: "signed_code_id"
+  add_foreign_key "contracts", "sc_events"
+  add_foreign_key "contracts", "users", column: "owner"
+  add_foreign_key "minutes", "contracts"
+  add_foreign_key "notes", "contracts"
+  add_foreign_key "notes", "users"
+  add_foreign_key "parties", "codes"
+  add_foreign_key "parties", "users"
+  add_foreign_key "sc_event_runs", "sc_events"
+  add_foreign_key "sc_events", "codes"
+  add_foreign_key "sc_values", "contracts"
+  add_foreign_key "schedules", "sc_events"
+  add_foreign_key "templates", "users"
+  add_foreign_key "wallets", "users"
 end

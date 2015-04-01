@@ -3,7 +3,7 @@ default: &default
   pool: 5
   timeout: 5000
   encoding: unicode
-  username: nscrypt
+  username: postgres
 
 development:
   <<: *default
