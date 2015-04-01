@@ -24,4 +24,5 @@
 /log/*
 !/log/.keep
 /tmp
-
+*.bak
+*.orig
