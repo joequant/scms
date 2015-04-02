@@ -194,7 +194,7 @@ class CodesController < ApplicationController
       if p.user.nil?
         unassigned << p
       else
-        if @code.author == p.user_id
+        if @code.author == p.user
           author = p
         else
           counterparties << p
