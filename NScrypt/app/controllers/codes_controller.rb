@@ -43,6 +43,13 @@ class CodesController < ApplicationController
     @code.assign_state = 'Unassigned'
     @code.proposed = false
     @code.posted = false
+    if !params[:code][:template].blank?
+      @code.code = Template.find(params[:code][:template]).code if params[:code].include?(:template)
+    else
+      @code.code = ""
+    end
+    @code.contract = Contract.find(params[:code][:contract]) if params[:code].include?(:contract) && !params[:code][:contract].empty?
+
     process_code(@code)
     respond_to do |format|
       if @code.save
@@ -323,15 +330,6 @@ class CodesController < ApplicationController
   end
 
   def process_code(code)
-    if params.include?(:code)
-      if !params[:code][:template].blank?
-        @code.code = Template.find(params[:code][:template]).code if params[:code].include?(:template)
-      else
-        @code.code = ""
-      end
-      @code.contract = Contract.find(params[:code][:contract]) if params[:code].include?(:contract) && !params[:code][:contract].empty?
-    end
-
     run_directives(code)
     scrape_events(code)
   end
