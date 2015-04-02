@@ -324,7 +324,11 @@ class CodesController < ApplicationController
 
   def process_code(code)
     if params.include?(:code)
-      @code.code = Template.find(params[:code][:template]).code if params[:code].include?(:template)
+      if !params[:code][:template].blank?
+        @code.code = Template.find(params[:code][:template]).code if params[:code].include?(:template)
+      else
+        @code.code = ""
+      end
       @code.contract = Contract.find(params[:code][:contract]) if params[:code].include?(:contract) && !params[:code][:contract].empty?
     end
 

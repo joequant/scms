@@ -39,7 +39,7 @@
     <div class="control-group">
       <%= f.label :template, :class => 'control-label' %>
       <div class="controls">
-        <%= f.select(:template, options_from_collection_for_select(::Template.all, :id, :name)) %>
+        <%= f.select(:template, options_from_collection_for_select(::Template.all, :id, :name), :include_blank => 'Blank') %>
       </div>
       <%= error_span(@code[:code]) %>
     </div>
