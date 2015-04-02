@@ -17,7 +17,7 @@
       <tr>
         <td><%= template.name %></td>
         <td><%= template.description %></td>
-        <td><%= template.user.name %></td>
+        <td><%= template.user.legal_name %></td>
         <td><%= link_to 'Show', template %></td>
         <% if template.user_id == current_user %>
           <td><%= link_to 'Edit', edit_template_path(template) %></td>
