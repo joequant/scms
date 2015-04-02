@@ -12,7 +12,7 @@
   <tbody>
     <% @contacts.each do |contact| %>
       <tr>
-        <td><%= contact.user_id == current_user ? contact.contact_user.name : contact.user.name %></td>
+        <td><%= contact.user == current_user ? contact.contact_user.username : contact.user.username %></td>
       </tr>
     <% end %>
   </tbody>

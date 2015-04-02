@@ -18,7 +18,7 @@ class ScEventsController < ApplicationController
   def trigger
     if params.has_key?(:sc_event_id)
       @sc_event = ScEvent.find(params[:sc_event_id])
-      logger.info("loading code for sc_event: "+params[:sc_event_id])
+      logger.info("loading code for sc_event: #{params[:sc_event_id]}")
       sc_event = ScEvent.find(params[:sc_event_id])
 
       require_relative '../../lib/nscrypt/scms.rb'
@@ -100,7 +100,7 @@ class ScEventsController < ApplicationController
     note = Note.new
     note.message = message
     note.contract = @sc_event.code.contract
-    note.user_id = current_user
+    note.user = current_user
     note.save
   end
 
@@ -176,15 +176,14 @@ class ScEventsController < ApplicationController
   end
 
   def get_current_user
-    user = User.find(get_current_user_id)
-    wallets_result = Wallet.where(user: user)
+    wallets_result = Wallet.where(user: current_user)
     wallets = Array.new
     wallets_result.each{ |r| wallets << ScmsWallet.new(r.currency, r.address) }
-    ScmsUser.new(user.id, user.name, user.email, wallets)
+    ScmsUser.new(current_user.id, current_user.username, current_user.email, wallets)
   end
 
   def get_current_user_id
-    current_user
+    current_user.id
   end
 
   def send_sc_email(to, cc, subject, body)

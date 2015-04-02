@@ -13,7 +13,7 @@ class CodesController < ApplicationController
     else
       @codes = Code.where("author = ? AND state <> 'Signed'", current_user.id)
       Party.where(user: current_user).each{ |p|
-        @codes << p.code if p.code.proposed == 't' && p.code.author != current_user && !p.code.rejected
+        @codes << p.code if p.code.proposed && p.code.author != current_user && !p.code.rejected && p.code.state != 'Signed'
       }
     end
     @codes = @codes.sort{ |a, b| b <=> a }
@@ -215,7 +215,7 @@ class CodesController < ApplicationController
       logger.info("Counter-assigning counterparty(ies)...")
       ### NOTE: Implying the author as the last remaining party--Must be a party to one's own contract
       logger.info("Assigning author to last remaining role")
-      unassigned.first.user_id = @code.author
+      unassigned.first.user = @code.author
       unassigned.first.save
       code_assign_state = 'Assigned'
     else
@@ -233,7 +233,7 @@ class CodesController < ApplicationController
     signed = Array.new
     parties.each{ |p|
       signed << p if p.state == 'Signed'
-      if @code.author == p.user_id
+      if @code.author == p.user
         author = p
       else
         counterparties << p
@@ -283,24 +283,24 @@ class CodesController < ApplicationController
 
     if rejected
       code_state = 'Rejected'
-    elsif sign_state == 'Signed' && posted == true
+    elsif sign_state == 'Signed' && posted
       code_state = 'Accepted'
     elsif sign_state == 'Signed'
       code_state = 'Signed'
     elsif sign_state == 'Counter-signed'
       code_state = 'Counter-signed'
     elsif sign_state == 'Pre-signed'
-      if proposed == true
+      if proposed
         code_state = 'Offer'
-      elsif posted == true && assign_state == 'Self-assigned'
+      elsif posted && assign_state == 'Self-assigned'
         code_state = 'Open Offer'
-      elsif proposed == true
+      elsif proposed
         code_state = 'Offer'
       else
         code_state = 'Pre-signed'
       end
     elsif sign_state == 'Unsigned'
-      if proposed == true
+      if proposed
         code_state = 'Proposed'
       else
         code_state = assign_state

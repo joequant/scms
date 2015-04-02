@@ -4,7 +4,7 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    @contacts = Contact.includes(:contact_user).where("(user_id = ? OR contact_user_id = ?) AND status = 'Connected'", current_user, current_user)
+    @contacts = Contact.includes(:contact_user).where("(user_id = ? OR contact_user_id = ?) AND status = 'Connected'", current_user.id, current_user.id)
   end
 
   # GET /contacts/1
@@ -24,24 +24,24 @@ class ContactsController < ApplicationController
   # POST /contacts
   # POST /contacts.json
   def create
-    if current_user == params[:contact][:user_id].to_i
+    if current_user.id == params[:contact][:user_id].to_i
       raise "Cannot add yourself as a contact"
     end
-    if Contact.exists?(["user_id = #{current_user} AND contact_user_id = ?", params[:contact][:user_id].to_i])
+    if Contact.exists?(["((user_id = ? AND contact_user_id = #{current_user.id}) OR (user_id = #{current_user.id} AND contact_user_id = ?)) AND status = 'Pending'", params[:contact][:user_id].to_i, params[:contact][:user_id].to_i])
       logger.info("Bidirectional contact request--implied approval")
-      @contact = Contact.where("user_id = #{current_user} AND contact_user_id = ?", params[:contact][:user_id].to_i).first
+      @contact = Contact.where("user_id = #{current_user.id} AND contact_user_id = ?", params[:contact][:user_id].to_i).first
       @contact.status = 'Connected'
       @contact.save
       redirect_to @contact, notice: 'Connected.'
       return
     end
-    if Contact.exists?(["user_id = ? AND contact_user_id = #{current_user}", params[:contact][:user_id].to_i])
+    if Contact.exists?(["((user_id = ? AND contact_user_id = #{current_user.id}) OR (user_id = #{current_user.id} AND contact_user_id = ?)) AND status = 'Connected'", params[:contact][:user_id].to_i, params[:contact][:user_id].to_i])
       raise "Contact already exists"
     end
 
     @contact = Contact.new(contact_params)
     @contact.status = 'Pending'
-    @contact.user_id = current_user
+    @contact.user = current_user
     @contact.contact_user_id = params[:contact][:user_id]
 
     respond_to do |format|
@@ -80,7 +80,7 @@ class ContactsController < ApplicationController
   end
 
   def confirm
-    if @contact.contact_user_id == current_user
+    if @contact.contact_user == current_user
       @contact.status = 'Connected'
       @contact.save
     end

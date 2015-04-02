@@ -25,7 +25,7 @@
               <%= f.submit "Assign" %>
             <% end %>
           <% else %>
-            <%= party.user.name %>
+            <%= party.user.username %>
           <% end %>
         </td>
         <td><%= party.code.version %></td>
@@ -38,10 +38,10 @@
               <% if party.user.id == current_user %>
                 <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id if party.state != 'Signed' && (party.state == 'Proposed' || party.code.author == current_user) %>
               <% else %>
-                <%= link_to "Propose", controller: "parties", action: "propose", party_id: party.id if (party.state.nil? || party.state == '') && party.code.author == current_user %>
+                <%= link_to "Propose", controller: "parties", action: "propose", party_id: party.id if party.state.empty? && party.code.author == current_user %>
               <% end %>
             <% else %>
-              <% if party.user.id == current_user && party.code.state != 'Signed' %>
+              <% if party.user == current_user && party.code.state != 'Signed' %>
                 <%= link_to "Unsign", controller: "parties", action: "unsign", party_id: party.id if party.state == 'Signed' && party.code.contract.status != 'Pending' %>
               <% end %>
             <% end %>
