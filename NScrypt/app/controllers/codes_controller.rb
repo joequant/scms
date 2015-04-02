@@ -294,8 +294,6 @@ class CodesController < ApplicationController
         code_state = 'Offer'
       elsif posted && assign_state == 'Self-assigned'
         code_state = 'Open Offer'
-      elsif proposed
-        code_state = 'Offer'
       else
         code_state = 'Pre-signed'
       end
