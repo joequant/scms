@@ -11,8 +11,8 @@ class CodesController < ApplicationController
     if params.has_key?(:contract_id)
       @codes = Code.where(contract_id: params[:contract_id])
     else
-      @codes = Code.where("author = ? AND state <> 'Signed'", current_user)
-      Party.where("user_id = ?", current_user).each{ |p|
+      @codes = Code.where("author = ? AND state <> 'Signed'", current_user.id)
+      Party.where(user: current_user).each{ |p|
         @codes << p.code if p.code.proposed == 't' && p.code.author != current_user && !p.code.rejected
       }
     end
