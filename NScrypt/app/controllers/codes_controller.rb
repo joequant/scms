@@ -346,6 +346,10 @@ class CodesController < ApplicationController
       # Single-parameter directives
       p1 = $3.nil? ? $4 : $3
       case $1
+      when 'set_interpreter'
+        logger.info("Specified Interpreter: #{p1}")
+        code.interpreter = p1
+        code.save
       when 'set_version'
         logger.info("Specified NScrypture version: #{p1}")
       when 'set_party_role'
@@ -380,6 +384,8 @@ class CodesController < ApplicationController
   
   def scrape_events(code)
     logger.info('Scrape events.')
+    code.sc_event_id = nil
+    code.save
     old = ScEvent.delete_all(code: code)
     content = code.code
     lines = content.split(/\r\n/)

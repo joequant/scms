@@ -38,8 +38,9 @@
           <% if !contract.signed_code_id.nil? %>
             <% if !contract.sc_event_id.nil? %>
               <%= link_to t("Portal"), controller: "sc_events", action: "trigger", sc_event_id: contract.sc_event_id %>
+            <% else %>
+              <%= link_to t("Examine"), code_path(contract.signed_code_id) %>
             <% end %>
-            <%= link_to t("Events"), controller: "sc_events", code_id: contract.signed_code_id %>
           <% end %>
         </td>
       </tr>

@@ -18,25 +18,23 @@ class ScEventsController < ApplicationController
   def trigger
     if params.has_key?(:sc_event_id)
       @sc_event = ScEvent.find(params[:sc_event_id])
-      logger.info("loading code for sc_event: #{params[:sc_event_id]}")
-      sc_event = ScEvent.find(params[:sc_event_id])
-
-      require_relative '../../lib/nscrypt/scms.rb'
-      $scms = SCMS.new(self)
-      $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.title, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
-      eval(@sc_event.code.code)
-      invocation = sc_event.callback
-      call_params = params.select { |k, v| k[0..8] == 'sc_param_' }
-      if call_params.length > 0
-        invocation += "("
-        invocation += call_params.collect{ |k, v| "'#{v}'" }.join(",")
-        invocation += ")"
+      if @sc_event.code.interpreter == 'ruby'
+        require_relative '../../lib/nscrypt/scms.rb'
+        $scms = SCMS.new(self)
+        $sc = SC.new(self, @sc_event.code.contract.id, @sc_event.code.contract.title, @sc_event.code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
+        eval(@sc_event.code.code)
+        invocation = @sc_event.callback
+        call_params = params.select { |k, v| k[0..8] == 'sc_param_' }
+        if call_params.length > 0
+          invocation += "("
+          invocation += call_params.collect{ |k, v| "'#{v}'" }.join(",")
+          invocation += ")"
+        end
+        logger.info("Calling callback: #{invocation}")
+        ret = eval(invocation)
+        run = ScEventRun.new(:sc_event => @sc_event, :run_at => Time.now, :result => ret)
+        run.save
       end
-      logger.info("Calling callback: #{invocation}")
-      ret = eval(invocation)
-      run = ScEventRun.new(:sc_event => sc_event, :run_at => Time.now, :result => ret)
-      run.save
-
       redirect_to run
     end
   end
