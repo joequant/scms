@@ -246,7 +246,7 @@ class CodesController < ApplicationController
     signed = Array.new
     parties.each{ |p|
       signed << p if p.state == 'Signed'
-      if @code.author == p.user.id
+      if @code.author == p.user_id
         author = p
       else
         counterparties << p
@@ -352,14 +352,8 @@ class CodesController < ApplicationController
     #}
     lines.grep(/\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s+([\'\"]([a-zA-Z0-9_ ]+)[\'\"]|([a-zA-Z0-9_]+))\s*$/){
       # Single-parameter directives
-      p1 = $3.nil? ? $4 : $3
+      p1 = $3.blank? ? $4 : $3
       case $1
-      when 'set_interpreter'
-        logger.info("Specified Interpreter: #{p1}")
-        code.interpreter = p1
-        code.save
-      when 'set_version'
-        logger.info("Specified NScrypture version: #{p1}")
       when 'set_party_role'
         logger.info("Setting party role: #{p1}")
         party = Party.new
@@ -370,11 +364,16 @@ class CodesController < ApplicationController
         raise "WARNING: invalid directive action: #{$1}"
       end
     }
-    lines.grep(/\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s+([\'\"]([a-zA-Z0-9_ ]+)[\'\"]|([a-zA-Z0-9_]+))\s+([\'\"]([a-zA-Z0-9_ :\-\+]+)[\'\"]|([a-zA-Z0-9_ :\-\+]+))\s*$/){
+    lines.grep(/\#NSCRYPT_DIRECTIVE\s+([a-zA-Z0-9_]+)\s+([\'\"]([a-zA-Z0-9_ ]+)[\'\"]|([a-zA-Z0-9_]+))\s+([\'\"]([a-zA-Z0-9_ :\-\+\.]+)[\'\"]|([a-zA-Z0-9_:\-\+\.]+))\s*$/){
       # Double-parameter directives
-      p1 = $3.empty? ? $4 : $3
-      p2 = $6.empty? ? $7 : $6
+      p1 = $3.blank? ? $4 : $3
+      p2 = $6.blank? ? $7 : $6
       case $1
+      when 'set_interpreter'
+        logger.info("Specified Interpreter: #{p1}, version #{p2}")
+        code.interpreter = p1
+        code.interpreter_version = p2
+        code.save
       when 'preset_field'
         logger.info("Setting field preset: #{p1}: #{p2}")
         unless ScValue.where(contract: code.contract, key: p1).length > 0

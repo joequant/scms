@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150403001707) do
+ActiveRecord::Schema.define(version: 20150404094122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,9 +19,9 @@ ActiveRecord::Schema.define(version: 20150403001707) do
   create_table "codes", force: :cascade do |t|
     t.string   "version"
     t.text     "code"
-    t.integer  "contract_id",  null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "contract_id",         null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.integer  "author"
     t.string   "state"
     t.integer  "sc_event_id"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20150403001707) do
     t.boolean  "posted"
     t.boolean  "rejected"
     t.string   "interpreter"
+    t.string   "interpreter_version"
   end
 
   add_index "codes", ["contract_id"], name: "index_codes_on_contract_id", using: :btree
