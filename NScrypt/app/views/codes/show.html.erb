@@ -27,19 +27,19 @@
 
   <% if (!@code.proposed && !@code.posted) && @code.assign_state == 'Assigned' %>
     <%= link_to "Propose", action: "propose", code_id: @code.id %>
-  <% elsif @code.proposed && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') && @code.author == current_user %>
+  <% elsif @code.proposed && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') && @code.author == current_user.id %>
     <%= link_to "Retract", action: "retract", code_id: @code.id unless @code.state == 'Rejected' %>
   <% end %>
 
   <% if !@code.posted && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
     <%= link_to "Post", action: "post", code_id: @code.id %>
-  <% elsif @code.posted && @code.author == current_user && @code.state != 'Signed' %>
+  <% elsif @code.posted && @code.author == current_user.id && @code.state != 'Signed' %>
     <%= link_to "Unpost", action: "unpost", code_id: @code.id %>
-  <% elsif @code.posted && @code.author != current_user && @code.state != 'Signed' %>
+  <% elsif @code.posted && @code.author != current_user.id && @code.state != 'Signed' %>
     <%= link_to "Accept", action: "accept", code_id: @code.id %>
   <% end %>
 
-  <% if @code.proposed && @code.author != current_user && !@code.rejected %>
+  <% if @code.proposed && @code.author != current_user.id && !@code.rejected %>
     <%= link_to "Reject", action: "reject", code_id: @code.id %>
   <% end %>
 </p>

@@ -13,7 +13,7 @@ class CodesController < ApplicationController
     else
       @codes = Code.where("author = ? AND state <> 'Signed'", current_user.id)
       Party.where(user: current_user).each{ |p|
-        @codes << p.code if p.code.proposed && p.code.author != current_user && !p.code.rejected && p.code.state != 'Signed'
+        @codes << p.code if p.code.proposed && p.code.author != current_user.id && !p.code.rejected && p.code.state != 'Signed'
       }
     end
     @codes = @codes.sort{ |a, b| b <=> a }
@@ -37,7 +37,7 @@ class CodesController < ApplicationController
   # POST /codes.json
   def create
     @code = Code.new(code_params)
-    @code.author = current_user
+    @code.author = current_user.id
     @code.state = 'Unassigned'
     @code.sign_state = 'Unsigned'
     @code.assign_state = 'Unassigned'
@@ -144,7 +144,7 @@ class CodesController < ApplicationController
       version = Code.where(contract_id: old_code.contract_id).length
 
       new_code = Code.new
-      new_code.author = current_user
+      new_code.author = current_user.id
       new_code.code = old_code.code
       new_code.contract_id = old_code.contract_id
       new_code.version = "#{version + 1}"
@@ -185,13 +185,18 @@ class CodesController < ApplicationController
       end
     end
 
-    set_assign_state
-    set_sign_state
-    set_code_state
+    update_all_states
     redirect_to @code
   end
 
+  def update_all_states
+    set_assign_state
+    set_sign_state
+    set_code_state
+  end
+
   def set_assign_state
+    logger.info("Updating the Assignment State")
     parties = Party.where(code_id: @code.id)
     author = nil
     counterparties = Array.new
@@ -201,7 +206,7 @@ class CodesController < ApplicationController
       if p.user.nil?
         unassigned << p
       else
-        if @code.author == p.user
+        if @code.author == p.user.id
           author = p
         else
           counterparties << p
@@ -211,7 +216,7 @@ class CodesController < ApplicationController
     }
 
     code_assign_state = nil
-    if assigned.length == parties.length
+    if assigned.length == parties.length && parties.length > 0
       code_assign_state = 'Assigned'
       logger.info("All roles are assigned")
     elsif !author.nil?
@@ -222,7 +227,7 @@ class CodesController < ApplicationController
       logger.info("Counter-assigning counterparty(ies)...")
       ### NOTE: Implying the author as the last remaining party--Must be a party to one's own contract
       logger.info("Assigning author to last remaining role")
-      unassigned.first.user = @code.author
+      unassigned.first.user = current_user
       unassigned.first.save
       code_assign_state = 'Assigned'
     else
@@ -234,13 +239,14 @@ class CodesController < ApplicationController
   end
 
   def set_sign_state
+    logger.info("Updating the Signature State")
     parties = Party.where(code_id: @code.id)
     author = nil
     counterparties = Array.new
     signed = Array.new
     parties.each{ |p|
       signed << p if p.state == 'Signed'
-      if @code.author == p.user
+      if @code.author == p.user.id
         author = p
       else
         counterparties << p
@@ -248,7 +254,7 @@ class CodesController < ApplicationController
     }
 
     code_sign_state = 'Unsigned'
-    if signed.length == parties.length
+    if signed.length == parties.length && parties.length > 0
       code_sign_state = 'Signed'
     elsif !author.nil?
       if author.state == 'Signed'
@@ -281,6 +287,7 @@ class CodesController < ApplicationController
   end
 
   def set_code_state
+    logger.info("Updating the Draft State")
     sign_state = @code.sign_state
     assign_state = @code.assign_state
     posted = @code.posted
@@ -332,6 +339,7 @@ class CodesController < ApplicationController
   def process_code(code)
     run_directives(code)
     scrape_events(code)
+    update_all_states
   end
 
   def run_directives(code)

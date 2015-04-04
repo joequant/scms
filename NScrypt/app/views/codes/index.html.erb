@@ -7,7 +7,6 @@
     <tr>
       <th><%= model_class.human_attribute_name(:contract) %></th>
       <th><%= model_class.human_attribute_name(:version) %></th>
-      <th><%= model_class.human_attribute_name(:author) %></th>
       <th><%= model_class.human_attribute_name(:state) %></th>
       <th>Interpreter</th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
@@ -18,7 +17,6 @@
       <tr>
         <td><%= link_to code.contract.title, contract_path(code.contract) %></td>
         <td><%= code.version %></td>
-        <td><%= code.author %></td>
         <td><%= code.state.humanize %></td>
         <td><%= code.interpreter.blank? ? 'None' : code.interpreter.humanize %></td>
         <td><%= link_to "Examine", code_path(code.id) %></td>

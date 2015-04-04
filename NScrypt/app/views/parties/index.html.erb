@@ -36,9 +36,9 @@
           <% if !party.user.nil? %>
             <% if party.state != 'Signed' %>
               <% if party.user.id == current_user %>
-                <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id if party.state != 'Signed' && (party.state == 'Proposed' || party.code.author == current_user) %>
+                <%= link_to "Sign", controller: "parties", action: "sign", party_id: party.id if party.state != 'Signed' && (party.state == 'Proposed' || party.code.author == current_user.id) %>
               <% else %>
-                <%= link_to "Propose", controller: "parties", action: "propose", party_id: party.id if party.state.empty? && party.code.author == current_user %>
+                <%= link_to "Propose", controller: "parties", action: "propose", party_id: party.id if party.state.empty? && party.code.author == current_user.id %>
               <% end %>
             <% else %>
               <% if party.user == current_user && party.code.state != 'Signed' %>
