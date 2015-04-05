@@ -11,12 +11,7 @@
 
 # Symlink to source from $HOME/nscrypt
 - name: Set symlink to nscrypt source
-  file: "src=/repos/nscrypt dest=/home/{{ username }}/nscrypt force=yes state=link"
-  when: using_vagrant
-
-# Symlink to source from $HOME/nscrypt
-- name: Set symlink to nscrypt source
-  file: "src=/repos/nscrypt dest=/home/{{ username }}/nscrypt force=yes state=link"
+  file: "src=/app/nscrypt dest=/home/{{ username }}/nscrypt force=yes state=link"
   when: using_vagrant
 
 - name: remove default nginx config

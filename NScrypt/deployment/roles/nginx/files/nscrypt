@@ -24,7 +24,7 @@ server {
 	server_name nscrypt;
   	passenger_enabled on;
   	root /app/nscrypt/NScrypt/public;
-	rails_env development;
+	rails_env production;
 
 	location / {
 		# First attempt to serve request as file, then
@@ -95,7 +95,7 @@ server {
 
   passenger_enabled on;
   root /app/nscrypt/NScrypt/public;
-  rails_env development;
+  rails_env production;
 
   location / {
   }
