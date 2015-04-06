@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  input: MyString
+  output: MyString
+  pre_state: MyString
+  post_state: MyString
+  code_id: 
+  user_id: 
+  has_error: false
+
+two:
+  input: MyString
+  output: MyString
+  pre_state: MyString
+  post_state: MyString
+  code_id: 
+  user_id: 
+  has_error: false

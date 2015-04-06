@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Debug Runs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Input</th>
+      <th>Output</th>
+      <th>Pre state</th>
+      <th>Post state</th>
+      <th>Code</th>
+      <th>User</th>
+      <th>Has error</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @debug_runs.each do |debug_run| %>
+      <tr>
+        <td><%= debug_run.input %></td>
+        <td><%= debug_run.output %></td>
+        <td><%= debug_run.pre_state %></td>
+        <td><%= debug_run.post_state %></td>
+        <td><%= debug_run.code %></td>
+        <td><%= debug_run.user %></td>
+        <td><%= debug_run.has_error %></td>
+        <td><%= link_to 'Show', debug_run %></td>
+        <td><%= link_to 'Edit', edit_debug_run_path(debug_run) %></td>
+        <td><%= link_to 'Destroy', debug_run, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Debug run', new_debug_run_path %>

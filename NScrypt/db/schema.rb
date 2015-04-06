@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150404094122) do
+ActiveRecord::Schema.define(version: 20150405095255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,21 @@ ActiveRecord::Schema.define(version: 20150404094122) do
     t.integer  "signed_code_id"
     t.integer  "sc_event_id"
   end
+
+  create_table "debug_runs", force: :cascade do |t|
+    t.string   "input"
+    t.string   "output"
+    t.string   "pre_state"
+    t.string   "post_state"
+    t.integer  "code_id"
+    t.integer  "user_id"
+    t.boolean  "has_error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "debug_runs", ["code_id"], name: "index_debug_runs_on_code_id", using: :btree
+  add_index "debug_runs", ["user_id"], name: "index_debug_runs_on_user_id", using: :btree
 
   create_table "minutes", force: :cascade do |t|
     t.string   "message"
@@ -195,6 +210,8 @@ ActiveRecord::Schema.define(version: 20150404094122) do
   add_foreign_key "contracts", "codes", column: "signed_code_id"
   add_foreign_key "contracts", "sc_events"
   add_foreign_key "contracts", "users", column: "owner"
+  add_foreign_key "debug_runs", "codes"
+  add_foreign_key "debug_runs", "users"
   add_foreign_key "minutes", "contracts"
   add_foreign_key "notes", "contracts"
   add_foreign_key "notes", "users"

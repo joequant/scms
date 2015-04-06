@@ -1,0 +1,45 @@
+<%= form_for(@debug_run) do |f| %>
+  <% if @debug_run.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@debug_run.errors.count, "error") %> prohibited this debug_run from being saved:</h2>
+
+      <ul>
+      <% @debug_run.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :input %><br>
+    <%= f.text_field :input %>
+  </div>
+  <div class="field">
+    <%= f.label :output %><br>
+    <%= f.text_field :output %>
+  </div>
+  <div class="field">
+    <%= f.label :pre_state %><br>
+    <%= f.text_field :pre_state %>
+  </div>
+  <div class="field">
+    <%= f.label :post_state %><br>
+    <%= f.text_field :post_state %>
+  </div>
+  <div class="field">
+    <%= f.label :code_id %><br>
+    <%= f.text_field :code_id %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :has_error %><br>
+    <%= f.check_box :has_error %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

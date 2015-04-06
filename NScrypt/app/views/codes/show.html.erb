@@ -42,6 +42,10 @@
   <% if @code.proposed && @code.author != current_user.id && !@code.rejected %>
     <%= link_to "Reject", action: "reject", code_id: @code.id %>
   <% end %>
+
+  <% if !@code.code.blank? && @code.assign_state == 'Assigned' %>
+    <%= link_to "Debug", action: "debug", code_id: @code.id %>
+  <% end %>
 </p>
 
 <h2>Signatures</h2>
@@ -67,7 +71,7 @@
               <%= f.select(:user, options_from_collection_for_select(User.all, :id, :name)) %>
               <%= f.submit "Assign" %>
             <% end %>
-          <% elsif @code.proposed && party.state != 'Signed' %>
+          <% elsif !@code.proposed && party.state != 'Signed' %>
             <%= form_for party, url: {controller: "parties", action: "unassign", party_id: party.id} do |f| %>
               <%= party.user.username %>
               <%= f.submit "Unassign" %>

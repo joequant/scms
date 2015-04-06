@@ -34,8 +34,8 @@ class ScEventsController < ApplicationController
         ret = eval(invocation)
         run = ScEventRun.new(:sc_event => @sc_event, :run_at => Time.now, :result => ret)
         run.save
+        redirect_to run
       end
-      redirect_to run
     end
   end
 

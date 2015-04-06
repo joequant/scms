@@ -3,7 +3,6 @@ class CodesController < ApplicationController
   before_filter :authorize_admin!
 
   before_action :set_code, only: [:show, :edit, :update, :destroy]
-  attr_reader :fm
 
   # GET /codes
   # GET /codes.json
@@ -181,128 +180,8 @@ class CodesController < ApplicationController
 
   def debug_run
     @code = Code.find(params[:code_id])
-    debug_code = params[:debug_code]
-    has_error = false
-    output = nil
-    begin
-      if @code.interpreter == 'ruby'
-        require_relative '../../lib/nscrypt/scms.rb'
-        $debug = {:notes => Array.new, :minutes => Array.new, :values => Hash.new, :parties => Hash.new, :log => Array.new}
-        $debug_backup = Marshal.load(Marshal.dump($debug))
-        $scms = SCMS.new(self)
-        $sc = SC.new(self, @code.contract.id, @code.contract.title, @code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
-        eval(@code.code)
-        output = eval(debug_code)
-      end
-    rescue
-      has_error = true
-    end
-    run = DebugRun.new(code: @code, input: debug_code, output: output, pre_state: $debug_backup, post_state: $debug, has_error: has_error, user: current_user)
-    run.save
+    run = DebugRun()
     redirect_to run
-  end
-
-  # LIBRARY CALLBACKS
-  def add_sc_note(message)
-    note = Note.new
-    note.message = message
-    note.contract = @sc_event.code.contract
-    note.user = current_user
-    $debug[:notes] << note
-  end
-
-  def get_sc_notes
-    $debug[:notes].collect{ |n|
-      username = User.find(n.user_id).name
-      "#{username}: #{n.message}"
-    }
-  end
-
-  def add_sc_minute(message)
-    $debug[:minutes] << message
-  end
-
-  def get_sc_minutes
-    $debug[:minutes]
-  end
-
-  def get_sc_values
-    $debug[:values]
-  end
-
-  def set_sc_value(key, value)
-    $debug[:values][key] = value
-  end
-
-  def set_sc_status(status)
-    $debug[:log] << "Status changed to: #{status}"
-    $debug[:status] = status
-  end
-
-  def get_sc_status
-    $debug[:status]
-  end
-
-  def get_sc_source
-    @code.code
-  end
-
-  def get_sc_parties
-    parties = Party.includes(:user).where(code: @code)
-    wallets_result = Wallet.where(user: parties.collect{ |p| p.user })
-    wallets = Hash.new
-    wallets_result.each{ |w|
-      wallets[w.user] = Array.new if wallets[w.user].nil?
-      wallets[w.user] << w
-    }
-    ps = Hash.new
-    parties.each{ |p|
-      w = Array.new
-      wallets[p.user].each{ |r| w << ScmsWallet.new(r.currency, r.address) } if wallets.has_key?(p.user)
-      ps[p.role] = ScmsUser.new(p.user.id, p.user.name, p.user.email, w)
-    }
-    ps
-  end
-
-  def get_current_user
-    wallets_result = Wallet.where(user: current_user)
-    wallets = Array.new
-    wallets_result.each{ |r| wallets << ScmsWallet.new(r.currency, r.address) }
-    ScmsUser.new(current_user.id, current_user.username, current_user.email, wallets)
-  end
-
-  def get_current_user_id
-    current_user.id
-  end
-
-  def send_sc_email(to, cc, subject, body)
-    $debug[:log] << "Email sent--To: #{to}; CC: #{cc}; Subject: #{subject}; Body: #{body}"
-  end
-
-  def http_get(url)
-    uri = URI.parse(url)
-    response = Net::HTTP.get_response(uri)
-    response.body
-  end
-
-  def html_form(caption, event, params)
-    event_url = url_to(event)
-    html_code = "<form action=\"#{event_url}\"><fieldset>"
-    html_code += "<legend>#{caption}</legend>"
-    params.each{ |k, v| html_code += "#{k}<br><input type=\"#{v[:type]}\" name=\"sc_param_#{v[:name]}\"><br>" }
-    html_code += "<input type=\"submit\" value=\"Submit\"></fieldset></form>"
-    html_code
-  end
-
-  def url_to(event)
-    events = ScEvent.where(callback: event, code: @code)
-    event_id = nil
-    if !events.empty?
-      event_id = events.first.id
-    else
-      raise "Unable to find event '#{event}'"
-    end
-    "https://106.186.121.212/sc_events/#{event_id}/trigger"
   end
 
   def update_state

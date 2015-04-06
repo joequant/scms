@@ -1,0 +1,26 @@
+<%- model_class = Code -%>
+<div class="page-header">
+  <h1>Debugger</h1>
+</div>
+
+<dl>
+  <dt>Contract</dt>
+  <dd><%= link_to @code.contract.title, contract_path(@code.contract) %></dd>
+  <dt>Version</dt>
+  <dd><%= @code.version %></dd>
+</dl>
+
+
+<dl>
+  <% @code.parties.each do |party| %>
+    <dt>Party: <%= party.role %></dt>
+    <dd><%= party.user.username %></dd>
+  <% end %>
+</dl>
+
+<textarea readonly rows="20" cols="80"><%= @code.code %></textarea>
+
+<%= form_tag(action: "debug_run", code_id: @code.id) do %>
+  <%= text_area_tag(:debug_code, "Put debug #{@code.interpreter} code here",  :rows => "10", :cols => "80") %><br>
+  <%= submit_tag "Debug Run" %>
+<% end %>

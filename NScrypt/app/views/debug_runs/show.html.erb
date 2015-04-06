@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Input:</strong>
+  <%= @debug_run.input %>
+</p>
+
+<p>
+  <strong>Output:</strong>
+  <%= @debug_run.output %>
+</p>
+
+<p>
+  <strong>Pre state:</strong>
+  <%= @debug_run.pre_state %>
+</p>
+
+<p>
+  <strong>Post state:</strong>
+  <%= @debug_run.post_state %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @debug_run.code.code %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @debug_run.user.username %>
+</p>
+
+<p>
+  <strong>Has error:</strong>
+  <%= @debug_run.has_error %>
+</p>
+
+<%= link_to 'Edit', edit_debug_run_path(@debug_run) %> |
+<%= link_to 'Back', debug_runs_path %>
