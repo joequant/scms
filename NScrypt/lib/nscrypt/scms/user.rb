@@ -8,8 +8,15 @@ class ScmsUser
     @wallets = wallets
   end
 
-  def inspect
-    @name
+  def ==(another_user)
+    self.id == another_user.id
   end
 
+  def eql?(another_user)
+    self.id == another_user.id
+  end
+
+  def hash
+    @id.hash
+  end
 end

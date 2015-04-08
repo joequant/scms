@@ -194,8 +194,9 @@ class CodesController < ApplicationController
         eval(@code.code)
         output = eval(debug_code)
       end
-    rescue
+    rescue Exception => e
       has_error = true
+      output = e.message
     end
     run = DebugRun.new(code: @code, input: debug_code, output: output, pre_state: $debug_backup, post_state: $debug, has_error: has_error, user: current_user)
     run.save
@@ -302,7 +303,7 @@ class CodesController < ApplicationController
     else
       raise "Unable to find event '#{event}'"
     end
-    "https://106.186.121.212/sc_events/#{event_id}/trigger"
+    "nscrypt.io/sc_events/#{event_id}/trigger"
   end
 
   def update_state

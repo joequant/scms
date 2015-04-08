@@ -1,9 +1,10 @@
 require_relative './party.rb'
 require_relative '../scms/user.rb'
 require_relative '../scms/wallet.rb'
+require_relative './state_machine.rb'
 
 class SC
-  attr_reader :id, :title, :status, :fields, :parties, :notes, :minutes
+  attr_reader :id, :title, :status, :fields, :parties, :notes, :minutes, :sm
 
   def initialize(controller, id, title, status, fields, parties, notes, minutes)
     @controller = controller
@@ -14,6 +15,7 @@ class SC
     @parties = parties
     @notes = notes
     @minutes = minutes
+    @sm = ScStateMachine.new(self)
   end
 
   def inspect
@@ -67,6 +69,24 @@ class SC
 
   def source
     @controller.get_sc_source
+  end
+
+  def set_states(states)
+    @sm.set_states(states)
+  end
+
+  def set_privs(privs)
+    @sm.set_privileges(privs)
+  end
+
+  def get_actions
+    actions = @sm.get_actions
+    user = @controller.get_current_user
+    actions[user]
+  end
+
+  def can?(action)
+    @sm.can_perform_action_now?(@controller.get_current_user, action)
   end
 
 end
