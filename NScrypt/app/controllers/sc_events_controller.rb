@@ -211,7 +211,7 @@ class ScEventsController < ApplicationController
     else
       raise "Unable to find event '#{event}'"
     end
-    "nscrypt.io/sc_events/#{event_id}/trigger"
+    "http://106.186.121.212:3010/sc_events/#{event_id}/trigger"
   end
 
   private

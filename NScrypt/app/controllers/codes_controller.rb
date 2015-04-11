@@ -184,19 +184,27 @@ class CodesController < ApplicationController
     debug_code = params[:debug_code]
     has_error = false
     output = nil
-    begin
-      if @code.interpreter == 'ruby'
+    if @code.interpreter == 'ruby'
+      begin
+        logger.info("Launching debug run")
         require_relative '../../lib/nscrypt/scms.rb'
         $debug = {:notes => Array.new, :minutes => Array.new, :values => Hash.new, :parties => Hash.new, :log => Array.new}
         $debug_backup = Marshal.load(Marshal.dump($debug))
         $scms = SCMS.new(self)
         $sc = SC.new(self, @code.contract.id, @code.contract.title, @code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
         eval(@code.code)
-        output = eval(debug_code)
+        logger.info("Loaded debug run")
+        begin
+          output = eval(debug_code)
+          logger.info("Finished debug run")
+        rescue Exception => e
+          has_error = true
+          output = "Debug error: #{e.message}"
+        end
+      rescue Exception => e
+        has_error = true
+        output = "Loading error: #{e.message}"
       end
-    rescue Exception => e
-      has_error = true
-      output = e.message
     end
     run = DebugRun.new(code: @code, input: debug_code, output: output, pre_state: $debug_backup, post_state: $debug, has_error: has_error, user: current_user)
     run.save

@@ -9,16 +9,6 @@
 </p>
 
 <p>
-  <strong>Event:</strong>
-  <%= @sc_event_run.sc_event.callback %>
-</p>
-
-<p>
-  <strong>Run at:</strong>
-  <%= @sc_event_run.run_at %>
-</p>
-
-<p>
   <strong>Result:</strong>
 </p>
 
@@ -27,4 +17,3 @@
   <%= result %>
 </p>
 
-<%= link_to 'Back', code_sc_events_path(code_id: @sc_event_run.sc_event.code.id) %>

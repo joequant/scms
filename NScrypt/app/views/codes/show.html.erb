@@ -43,7 +43,7 @@
     <%= link_to "Reject", action: "reject", code_id: @code.id %>
   <% end %>
 
-  <% if !@code.code.blank? && @code.assign_state == 'Assigned' %>
+  <% if !@code.code.blank? && @code.assign_state == 'Assigned' && !@code.interpreter.blank? %>
     <%= link_to "Debug", action: "debug", code_id: @code.id %>
   <% end %>
 </p>
