@@ -188,7 +188,7 @@ class CodesController < ApplicationController
       begin
         logger.info("Launching debug run")
         require_relative '../../lib/nscrypt/scms.rb'
-        $debug = {:notes => Array.new, :minutes => Array.new, :values => Hash.new, :parties => Hash.new, :log => Array.new}
+        $debug = {:notes => Array.new, :minutes => Array.new, :values => Hash.new, :parties => Hash.new, :log => Array.new, :rights => Array.new}
         $debug_backup = Marshal.load(Marshal.dump($debug))
         $scms = SCMS.new(self)
         $sc = SC.new(self, @code.contract.id, @code.contract.title, @code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
@@ -271,6 +271,29 @@ class CodesController < ApplicationController
       ps[p.role] = ScmsUser.new(p.user.id, p.user.name, p.user.email, w)
     }
     ps
+  end
+
+  def grant_right(holder_user, right, grantor_user)
+    $debug[:rights] << { :holder => holder_user, :grantor => grantor_user, :right => right, :subsists => true }
+    $debug[:log] << "Right #{right} granted to #{holder_user.name} by #{grantor_user.name}"
+  end
+
+  def has_right?(holder_user, right, grantor_user)
+    $debug[:rights].each{ |r|
+      if r[:holder] == holder_user && r[:grantor] == grantor_user && r[:right] == right && r[:subsists] == true
+        return true
+      end
+    }
+    return false
+  end
+
+  def revoke_right(holder_user, right, grantor_user)
+    $debug[:rights].each{ |r|
+      if r[:holder] == holder_user && r[:grantor] == grantor_user && r[:right] == right && r[:subsists] == true
+        r[:subsists] = false
+      end
+    }
+    $debug[:log] << "Right #{right} revoked away from #{holder_user.name} by #{grantor_user.name}"
   end
 
   def get_current_user

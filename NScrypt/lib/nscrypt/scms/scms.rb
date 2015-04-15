@@ -16,6 +16,18 @@ class SCMS
     @controller.get_current_user
   end
 
+  def grant_right(grantee, right, grantor)
+    @controller.grant_right(grantee, right, grantor)
+  end
+
+  def has_right?(grantee, right, grantor)
+    @controller.has_right?(grantee, right, grantor)
+  end
+
+  def revoke_right(grantee, right, grantor)
+    @controller.revoke_right(grantee, right, grantor)
+  end
+
   def send_email(to, cc, subject, body)
     @controller.send_sc_email(to, cc, subject, body)
   end

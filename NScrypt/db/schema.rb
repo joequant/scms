@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150405095255) do
+ActiveRecord::Schema.define(version: 20150415135454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,20 @@ ActiveRecord::Schema.define(version: 20150405095255) do
 
   add_index "parties", ["code_id"], name: "index_parties_on_code_id", using: :btree
   add_index "parties", ["user_id"], name: "index_parties_on_user_id", using: :btree
+
+  create_table "rights", force: :cascade do |t|
+    t.integer  "holder_user_id"
+    t.integer  "contract_id"
+    t.string   "name"
+    t.boolean  "subsists"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "grantor_user_id"
+  end
+
+  add_index "rights", ["contract_id"], name: "index_rights_on_contract_id", using: :btree
+  add_index "rights", ["grantor_user_id"], name: "index_rights_on_grantor_user_id", using: :btree
+  add_index "rights", ["holder_user_id"], name: "index_rights_on_holder_user_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -217,6 +231,9 @@ ActiveRecord::Schema.define(version: 20150405095255) do
   add_foreign_key "notes", "users"
   add_foreign_key "parties", "codes"
   add_foreign_key "parties", "users"
+  add_foreign_key "rights", "contracts"
+  add_foreign_key "rights", "users", column: "grantor_user_id"
+  add_foreign_key "rights", "users", column: "holder_user_id"
   add_foreign_key "sc_event_runs", "sc_events"
   add_foreign_key "sc_events", "codes"
   add_foreign_key "sc_values", "contracts"

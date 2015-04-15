@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :rights
+
   resources :debug_runs
 
   as :user do

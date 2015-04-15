@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Rights</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Holder</th>
+      <th>Grantor</th>
+      <th>Contract</th>
+      <th>Name</th>
+      <th>Subsists</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rights.each do |right| %>
+      <tr>
+        <td><%= right.holder_user %></td>
+        <td><%= right.grantor_user %></td>
+        <td><%= right.contract %></td>
+        <td><%= right.name %></td>
+        <td><%= right.subsists %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

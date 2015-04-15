@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @right.user %>
+</p>
+
+<p>
+  <strong>Contract:</strong>
+  <%= @right.contract %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @right.name %>
+</p>
+
+<p>
+  <strong>Subsists:</strong>
+  <%= @right.subsists %>
+</p>
+
+<%= link_to 'Edit', edit_right_path(@right) %> |
+<%= link_to 'Back', rights_path %>

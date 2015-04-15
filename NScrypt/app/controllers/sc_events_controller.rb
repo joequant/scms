@@ -173,6 +173,31 @@ class ScEventsController < ApplicationController
     ps
   end
 
+  def grant_right(holder_user, right, grantor_user)
+    r = Right.new
+    r.name = right
+    r.holder_user_id = holder_user.id
+    r.grantor_user_id = grantor_user.id
+    r.contract = @sc_event.code.contract
+    r.subsists = true
+    r.save
+    logger.info("Granted right #{right} to #{holder_user.name} by #{grantor_user.name}")
+  end
+
+  def has_right?(holder_user, right, grantor_user)
+    r = Right.where(holder_user_id: holder_user.id, name: right, grantor_user_id: grantor_user.id, subsists: true)
+    r.length > 0
+  end
+
+  def revoke_right(holder_user, right, grantor_user)
+    r = Right.where(holder_user_id: holder_user.id, name: right, grantor_user_id: grantor_user.id, subsists: true)
+    r.each{ |i|
+      i.subsists = false
+      i.save
+    }
+    logger.info("Right #{right} revoked away from #{holder_user.name} by #{grantor_user.name}")
+  end
+
   def get_current_user
     wallets_result = Wallet.where(user: current_user)
     wallets = Array.new
