@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :reputations
+
   resources :rights
 
   resources :debug_runs

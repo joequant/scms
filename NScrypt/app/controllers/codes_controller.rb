@@ -188,7 +188,7 @@ class CodesController < ApplicationController
       begin
         logger.info("Launching debug run")
         require_relative '../../lib/nscrypt/scms.rb'
-        $debug = {:notes => Array.new, :minutes => Array.new, :values => Hash.new, :parties => Hash.new, :log => Array.new, :rights => Array.new}
+        $debug = {:notes => Array.new, :minutes => Array.new, :values => Hash.new, :parties => Hash.new, :log => Array.new, :rights => Array.new, :reputations => Array.new}
         $debug_backup = Marshal.load(Marshal.dump($debug))
         $scms = SCMS.new(self)
         $sc = SC.new(self, @code.contract.id, @code.contract.title, @code.contract.status, get_sc_values, get_sc_parties, get_sc_notes, get_sc_minutes)
@@ -294,6 +294,15 @@ class CodesController < ApplicationController
       end
     }
     $debug[:log] << "Right #{right} revoked away from #{holder_user.name} by #{grantor_user.name}"
+  end
+
+  def add_reputation_note(user, item, params)
+    message = "#{user.name}'s reputation is noted for #{item}"
+    if !params.nil?
+      message += " with parameters #{params}"
+    end
+    #message += " for category #{@code.category}, #{@code.subcategory}."
+    $debug[:reputations] << message
   end
 
   def get_current_user

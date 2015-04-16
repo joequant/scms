@@ -198,6 +198,18 @@ class ScEventsController < ApplicationController
     logger.info("Right #{right} revoked away from #{holder_user.name} by #{grantor_user.name}")
   end
 
+  def add_reputation_note(user, item, params)
+    r = Reputation.new
+    r.user_id = user.id
+    r.item = item
+    r.params = params
+    #r.category = @sc_event.code.contract.category
+    #r.subcategory = @sc_event.code.contract.subcategory
+    r.contract = @sc_event.code.contract
+    r.status = 'Active'
+    r.save
+  end
+
   def get_current_user
     wallets_result = Wallet.where(user: current_user)
     wallets = Array.new

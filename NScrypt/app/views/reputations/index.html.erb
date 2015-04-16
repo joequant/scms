@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Reputation Notes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Contract</th>
+      <th>Item</th>
+      <th>Params</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reputations.each do |reputation| %>
+      <tr>
+        <td><%= reputation.user.username %></td>
+        <td><%= reputation.contract.id %></td>
+        <td><%= reputation.item %></td>
+        <td><%= reputation.params %></td>
+        <td><%= reputation.status %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

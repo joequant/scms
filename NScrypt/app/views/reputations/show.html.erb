@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @reputation.user %>
+</p>
+
+<p>
+  <strong>Contract:</strong>
+  <%= @reputation.contract %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @reputation.category %>
+</p>
+
+<p>
+  <strong>Subcategory:</strong>
+  <%= @reputation.subcategory %>
+</p>
+
+<p>
+  <strong>Item:</strong>
+  <%= @reputation.item %>
+</p>
+
+<p>
+  <strong>Params:</strong>
+  <%= @reputation.params %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @reputation.status %>
+</p>
+
+<%= link_to 'Edit', edit_reputation_path(@reputation) %> |
+<%= link_to 'Back', reputations_path %>

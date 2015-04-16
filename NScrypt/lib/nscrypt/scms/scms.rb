@@ -28,6 +28,10 @@ class SCMS
     @controller.revoke_right(grantee, right, grantor)
   end
 
+  def add_reputation_note(user, item, params = nil)
+    @controller.add_reputation_note(user, item, params)
+  end
+
   def send_email(to, cc, subject, body)
     @controller.send_sc_email(to, cc, subject, body)
   end
