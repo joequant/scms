@@ -20,7 +20,7 @@
   <tbody>
     <% @contracts.each do |contract| %>
       <tr>
-        <td><%= link_to contract.id, contract_path(contract) %></td>
+        <td><%= contract.id %></td>
         <td><%= contract.title %></td>
         <td><%= contract.description %></td>
         <td><%= contract.owner %></td>
