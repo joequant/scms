@@ -140,6 +140,7 @@ class CodesController < ApplicationController
 
   def duplicate
     if params.has_key?(:code_id)
+      @code = Code.find(params[:code_id])
       old_code = Code.find(params[:code_id])
       version = Code.where(contract_id: old_code.contract_id).length
 
