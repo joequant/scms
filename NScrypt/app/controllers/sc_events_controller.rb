@@ -248,7 +248,11 @@ class ScEventsController < ApplicationController
     else
       raise "Unable to find event '#{event}'"
     end
-    "http://106.186.121.212:3010/sc_events/#{event_id}/trigger"
+    host = request.host
+    if request.port != 80
+      host += ":#{request.port}"
+    end
+    "#{host}/sc_events/#{event_id}/trigger"
   end
 
   private
