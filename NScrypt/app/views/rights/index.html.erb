@@ -2,7 +2,7 @@
 
 <h1>Listing Rights</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Holder</th>
@@ -16,9 +16,9 @@
   <tbody>
     <% @rights.each do |right| %>
       <tr>
-        <td><%= right.holder_user %></td>
-        <td><%= right.grantor_user %></td>
-        <td><%= right.contract %></td>
+        <td><%= right.holder_user.name %></td>
+        <td><%= right.grantor_user.name %></td>
+        <td><%= right.contract.id %></td>
         <td><%= right.name %></td>
         <td><%= right.subsists %></td>
       </tr>
