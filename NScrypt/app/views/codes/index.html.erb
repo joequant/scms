@@ -15,7 +15,7 @@
   <tbody>
     <% @codes.each do |code| %>
       <tr>
-        <td><%= link_to code.contract.title, contract_path(code.contract) %></td>
+        <td><%= code.contract.title %></td>
         <td><%= code.version %></td>
         <td><%= code.state.humanize %></td>
         <td><%= code.interpreter.blank? ? 'None' : code.interpreter.humanize %></td>
