@@ -252,7 +252,7 @@ class ScEventsController < ApplicationController
     if request.port != 80
       host += ":#{request.port}"
     end
-    "#{host}/sc_events/#{event_id}/trigger"
+    "http://#{host}/sc_events/#{event_id}/trigger"
   end
 
   private
