@@ -32,9 +32,9 @@
         <td><%= contract.status %></td>
         <td>
           <% if !contract.signed_code_id.nil? %>
-            <%= link_to t("Examine"), code_path(contract.signed_code_id), :class => 'btn btn-primary' %>
+            <%= link_to t("Examine"), code_path(contract.signed_code_id), :class => 'btn btn-default' %>
             <% if !contract.sc_event_id.nil? %>
-              <%= link_to 'Portal', {controller: "sc_events", action: "trigger", sc_event_id: contract.sc_event_id}, :class => 'btn btn-primary' %>
+              <%= link_to 'Portal', {controller: "sc_events", action: "trigger", sc_event_id: contract.sc_event_id}, :class => 'btn btn-default' %>
             <% end %>
           <% end %>
         </td>
