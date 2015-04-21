@@ -88,10 +88,12 @@ class CodesController < ApplicationController
   end
 
   def propose
+    logger.info("Proposing code to counter-parties")
     @code = Code.find(params[:code_id])
     @code.proposed = true
     @code.save
-    logger.info("Proposing code to counter-parties")
+    logger.info("Notifying counter-parties")
+    ContractNotifier.notify_proposal(@code).deliver_now
     update_state
   end
 
