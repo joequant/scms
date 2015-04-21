@@ -27,33 +27,27 @@ textarea
 <% end %>
 
 <p>
-  <% if !@code.proposed && @code.sign_state == 'Unsigned' %>
-    <%= link_to "Edit Code", edit_code_path(@code), :class => 'btn btn-default' %>
-  <% else %>
-    <%= link_to "Duplicate", {action: "duplicate", code_id: @code.id}, :class => 'btn btn-default' %>
-  <% end %>
+  <% editable = !@code.proposed && @code.sign_state == 'Unsigned' %>
+  <%= link_to "Edit Code", edit_code_path(@code), :class => 'btn btn-default', :disabled => !editable %>
+  <%= link_to "Duplicate", {action: "duplicate", code_id: @code.id}, :class => 'btn btn-default', :disabled => editable %>
 
-  <% if (!@code.proposed && !@code.posted) && @code.assign_state == 'Assigned' %>
-    <%= link_to "Propose", {action: "propose", code_id: @code.id}, :class => 'btn btn-default' %>
-  <% elsif @code.proposed && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') && @code.author == current_user.id %>
-    <%= link_to("Retract", {action: "retract", code_id: @code.id}, :class => 'btn btn-default') unless @code.state == 'Rejected' %>
-  <% end %>
+  <% proposable = (!@code.proposed && !@code.posted) && @code.assign_state == 'Assigned' %>
+  <%= link_to "Propose", {action: "propose", code_id: @code.id}, :class => 'btn btn-default', :disabled => !proposable %>
+  <% retractable = @code.proposed && (@code.sign_state == 'Pre-signed' || @code.sign_state == 'Unsigned') && @code.author == current_user.id %>
+  <%= link_to("Retract", {action: "retract", code_id: @code.id}, :class => 'btn btn-default', :disabled => !retractable) unless @code.state == 'Rejected' %>
 
-  <% if !@code.posted && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
-    <%= link_to "Post", {action: "post", code_id: @code.id}, :class => 'btn btn-default' %>
-  <% elsif @code.posted && @code.author == current_user.id && @code.state != 'Signed' %>
-    <%= link_to "Unpost", {action: "unpost", code_id: @code.id}, :class => 'btn btn-default' %>
-  <% elsif @code.posted && @code.author != current_user.id && @code.state != 'Signed' %>
-    <%= link_to "Accept", {action: "accept", code_id: @code.id}, :class => 'btn btn-default' %>
-  <% end %>
+  <% postable = !@code.posted && @code.sign_state == 'Pre-signed' && @code.assign_state == 'Self-assigned' %>
+  <%= link_to "Post", {action: "post", code_id: @code.id}, :class => 'btn btn-default', :disabled => !postable %>
+  <% unpostable = @code.posted && @code.author == current_user.id && @code.state != 'Signed' %>
+  <%= link_to "Unpost", {action: "unpost", code_id: @code.id}, :class => 'btn btn-default', :disabled => !unpostable %>
+  <% acceptable = @code.posted && @code.author != current_user.id && @code.state != 'Signed' %>
+  <%= link_to "Accept", {action: "accept", code_id: @code.id}, :class => 'btn btn-default', :disabled => !acceptable %>
 
-  <% if @code.proposed && @code.author != current_user.id && !@code.rejected %>
-    <%= link_to "Reject", {action: "reject", code_id: @code.id}, :class => 'btn btn-default' %>
-  <% end %>
+  <% rejectable = @code.proposed && @code.author != current_user.id && !@code.rejected %>
+  <%= link_to "Reject", {action: "reject", code_id: @code.id}, :class => 'btn btn-default', :disabled => !rejectable %>
 
-  <% if !@code.code.blank? && @code.assign_state == 'Assigned' && !@code.interpreter.blank? %>
-    <%= link_to "Debug", {action: "debug", code_id: @code.id}, :class => 'btn btn-default' %>
-  <% end %>
+  <% debuggable = !@code.code.blank? && @code.assign_state == 'Assigned' && !@code.interpreter.blank? %>
+  <%= link_to "Debug", {action: "debug", code_id: @code.id}, :class => 'btn btn-default', :disabled => !debuggable %>
 </p>
 
 <h2>Signatures</h2>
