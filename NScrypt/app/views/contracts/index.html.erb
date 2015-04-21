@@ -17,7 +17,6 @@
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:title) %></th>
       <th><%= model_class.human_attribute_name(:description) %></th>
-      <th><%= model_class.human_attribute_name(:owner) %></th>
       <th><%= model_class.human_attribute_name(:status) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -28,7 +27,6 @@
         <td><%= contract.id %></td>
         <td><%= contract.title %></td>
         <td><%= contract.description %></td>
-        <td><%= contract.owner %></td>
         <td><%= contract.status %></td>
         <td>
           <% if !contract.signed_code_id.nil? %>
