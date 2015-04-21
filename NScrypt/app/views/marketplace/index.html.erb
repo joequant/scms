@@ -21,7 +21,7 @@
         <td><%= code.contract.description %></td>
         <td><%= code.contract.owner %></td>
         <td>
-          <%= link_to "Examine", code_path(code.id) %>
+          <%= link_to "Examine", code_path(code.id), :class => 'btn btn-default' %>
         </td>
       </tr>
     <% end %>

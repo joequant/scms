@@ -19,7 +19,7 @@
         <td><%= code.version %></td>
         <td><%= code.state.humanize %></td>
         <td><%= code.interpreter.blank? ? 'None' : code.interpreter.humanize %></td>
-        <td><%= link_to "Examine", code_path(code.id) %></td>
+        <td><%= link_to "Examine", code_path(code.id), :class => 'btn btn-default' %></td>
       </tr>
     <% end %>
   </tbody>
