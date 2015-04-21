@@ -1,7 +1,13 @@
 <%- model_class = Code -%>
+
+<div class="new-draft">
+  <%= link_to 'New Draft', new_code_path, :class => 'btn btn-primary' %>
+</div>
+
 <div class="page-header">
   <h1><%=t '.title', :default => 'Drafts' %></h1>
 </div>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -24,7 +30,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_code_path,
-            :class => 'btn btn-primary' %>
