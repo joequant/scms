@@ -133,7 +133,7 @@ class CodesController < ApplicationController
     @code = Code.find(params[:code_id])
     open_slot = nil
     @code.parties.each{ |s| open_slot = s if s.user.nil? }
-    open_slot.user_id = current_user
+    open_slot.user = current_user
     open_slot.state = 'Signed'
     open_slot.save
     logger.info("Accepting posted offer")
