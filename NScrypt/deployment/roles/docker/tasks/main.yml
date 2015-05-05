@@ -1,0 +1,15 @@
+- name: Install Docker
+  shell: "curl -sSL https://get.docker.com/ubuntu/ | sh"
+
+- name: tab-completion for Docker
+  lineinfile: dest=/home/{{ username }}/.bashrc line=/etc/bash_completion.d/docker create=yes group={{username}} owner={{username}}
+  sudo: yes
+
+- name: Add user to docker group
+  command: "gpasswd -a {{ username }} docker"
+
+- name: Install Docker Compose
+  pip: name=docker-compose state=latest
+
+- name: Restart Docker service
+  service: name=docker state=restarted enabled=yes

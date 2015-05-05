@@ -30,18 +30,21 @@
       - ruby2.2-dev
       - nginx-extras
       - passenger
+      - python-dev
+      - python-setuptools
+      - python-pip
       - python-psycopg2
-
-
 
     ruby_gems:
       - bundler
       - foreman
+      - docker-api
 
   roles:
     - prereqs
     - nginx
     - postgres
+    - docker
     - user
 
     #  tasks:
