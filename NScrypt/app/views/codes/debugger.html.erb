@@ -29,6 +29,6 @@ textarea
 <textarea readonly rows="20" cols="80"><%= @code.code %></textarea>
 
 <%= form_tag(action: "debug_run", code_id: @code.id) do %>
-  <%= text_area_tag(:debug_code, "Put debug #{@code.interpreter} code here",  :rows => "10", :cols => "80") %><br>
+  <%= text_area_tag(:debug_code, "###Put debug #{@code.interpreter} code here\n$sc.set_status('Signed')\n",  :rows => "10", :cols => "80") %><br>
   <%= submit_tag "Debug Run", :class => 'btn btn-primary' %>
 <% end %>
