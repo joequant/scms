@@ -209,7 +209,7 @@ class CodesController < ApplicationController
         output = "Loading error: #{e.message}"
       end
     end
-    run = DebugRun.new(code: @code, input: debug_code, output: output, pre_state: $debug_backup, post_state: $debug, has_error: has_error, user: current_user)
+    run = DebugRun.new(code: @code, input: debug_code, output: output, pre_state: $debug_backup.to_json, post_state: $debug.to_json, has_error: has_error, user: current_user)
     run.save
     redirect_to run
   end
