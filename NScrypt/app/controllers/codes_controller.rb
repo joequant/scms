@@ -151,6 +151,8 @@ class CodesController < ApplicationController
       new_code.code = old_code.code
       new_code.contract_id = old_code.contract_id
       new_code.version = "#{version + 1}"
+      new_code.assign_state = old_code.assign_state
+      new_code.sign_state = 'Unsigned'
       process_code(new_code)
       new_code.save
 
@@ -169,7 +171,8 @@ class CodesController < ApplicationController
         new_party.user = p.user
         new_party.save
       }
-
+      @code = new_code
+      set_code_state
       respond_to do |format|
         format.html { redirect_to new_code, notice: 'Code was successfully duplicated.' }
         format.json { head :no_content }
