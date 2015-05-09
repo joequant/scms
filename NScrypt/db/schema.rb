@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416105111) do
+ActiveRecord::Schema.define(version: 20150509101930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20150416105111) do
     t.boolean  "rejected"
     t.string   "interpreter"
     t.string   "interpreter_version"
+    t.boolean  "archived"
   end
 
   add_index "codes", ["contract_id"], name: "index_codes_on_contract_id", using: :btree

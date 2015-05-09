@@ -5,17 +5,17 @@
 </div>
 
 <div class="page-header">
-  <h1><%=t '.title', :default => 'Drafts' %></h1>
+  <h1>Drafts</h1>
 </div>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:contract) %></th>
-      <th><%= model_class.human_attribute_name(:version) %></th>
-      <th><%= model_class.human_attribute_name(:state) %></th>
+      <th>Contract</th>
+      <th>Version</th>
+      <th>Status</th>
       <th>Interpreter</th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -23,9 +23,12 @@
       <tr>
         <td><%= code.contract.title %></td>
         <td><%= code.version %></td>
-        <td><%= code.state.humanize %></td>
+        <td><%= code.state.blank? ? '' : code.state.humanize %></td>
         <td><%= code.interpreter.blank? ? 'None' : code.interpreter.humanize %></td>
-        <td><%= link_to "Examine", code_path(code.id), :class => 'btn btn-default' %></td>
+        <td>
+          <%= link_to "Examine", code_path(code.id), :class => 'btn btn-default' %>
+          <%= link_to "Archive", {controller: "codes", action: "archive", code_id: code.id}, :class => 'btn btn-danger' %>
+        </td>
       </tr>
     <% end %>
   </tbody>

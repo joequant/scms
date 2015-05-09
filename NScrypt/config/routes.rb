@@ -66,6 +66,7 @@ Rails.application.routes.draw do
     get :update_state
     get :reject
     get :accept
+    get :archive
     get :debug
     post :debug_run
   end

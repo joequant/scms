@@ -11,9 +11,9 @@ class CodesController < ApplicationController
     if params.has_key?(:contract_id)
       @codes = Code.where(contract_id: params[:contract_id])
     else
-      @codes = Code.where("author = ? AND state <> 'Signed'", current_user.id)
+      @codes = Code.where("author = ? AND sign_state <> 'Signed' AND archived is not true", current_user.id)
       Party.where(user: current_user).each{ |p|
-        @codes << p.code if p.code.proposed && p.code.author != current_user.id && !p.code.rejected && p.code.state != 'Signed'
+        @codes << p.code if p.code.proposed && p.code.author != current_user.id && !p.code.rejected && p.code.sign_state != 'Signed' && !p.code.archived
       }
     end
     @codes = @codes.sort{ |a, b| b <=> a }
@@ -85,6 +85,13 @@ class CodesController < ApplicationController
       format.html { redirect_to codes_url, notice: 'Code was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def archive
+    @code = Code.find(params[:code_id])
+    @code.archived = true
+    @code.save
+    redirect_to action: "index"
   end
 
   def propose
