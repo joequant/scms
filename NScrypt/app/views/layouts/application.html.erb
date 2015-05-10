@@ -55,7 +55,6 @@
           </ul>
             <ul class="pull-right nav navbar-nav">
                 <% if current_user %>
-                    <li><%= link_to "Contact List", "/contacts" %></li>
                     <li><%= link_to current_user.username %></li>
                     <li><%= link_to('Logout', destroy_user_session_path, :method => :delete)%></li>
                 <% else %>
