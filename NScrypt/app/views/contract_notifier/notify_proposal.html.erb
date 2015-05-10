@@ -6,6 +6,66 @@
   <body>
     <p><%= @cp.legal_name %>,</p>
     <p><u><%= @author.username %></u> has made a proposal for you.</p>
-    <p>To view it, follow the link: <%= code_url(@code.id) %></p>
+    <p>To view it the original, follow the link: <%= code_url(@code.id) %></p>
+    <br>-----------------------------<br><br>
+<style>
+textarea
+{
+  font-family: monospace;
+}
+</style>
+
+<div class="page-header">
+  <h1><%= @code.sign_state == 'Signed' ? 'Contract' : 'Draft' %></h1>
+</div>
+
+<dl>
+  <dt>Contract</dt>
+  <dd><%= @code.contract.title %></dd>
+  <dt>Version</dt>
+  <dd><%= @code.version %></dd>
+  <dt>Status</dt>
+  <dd><%= @code.state %></dd>
+</dl>
+
+<textarea readonly rows="50" cols="80"><%= @code.code %></textarea>
+
+<% if @code.proposed || @code.sign_state != 'Unsigned' %>
+  <p>NOTE: As this draft has been submitted or signed, hence it cannot be edited. Create a duplicate to make alterations, which you can later submit as a separate proposal.</p>
+<% end %>
+
+<p>
+  <%= link_to "Reject", {controller: "codes", action: "reject", code_id: @code.id}, :class => 'btn btn-default' %>
+</p>
+
+<h2>Signatures</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Party Name</th>
+      <th>Signed</th>
+      <th>Signature Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @code.parties.each do |party| %>
+      <tr>
+        <td><%= party.role %></td>
+        <td><%= party.user.username %></td>
+        <td><%= party.state == 'Signed' ? 'Yes' : 'No' %></td>
+        <td><%= party.state == 'Signed' ?  party.updated_at : 'N/A' %></td>
+        <td>
+          <% if party.user.name == @cp.name %>
+            <% if party.state != 'Signed' && @code.state != 'Rejected' %>
+              <%= link_to "Sign", {controller: "parties", action: "sign", party_id: party.id}, :class => 'btn btn-default' %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
   </body>
 </html>
