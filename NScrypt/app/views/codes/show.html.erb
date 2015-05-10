@@ -40,7 +40,7 @@ textarea
   <%= link_to "Post", {action: "post", code_id: @code.id}, :class => 'btn btn-default', :disabled => !postable %>
   <% unpostable = @code.posted && @code.author == current_user.id && @code.state != 'Signed' %>
   <%= link_to "Unpost", {action: "unpost", code_id: @code.id}, :class => 'btn btn-default', :disabled => !unpostable %>
-  <% acceptable = @code.posted && @code.author != current_user.id && @code.state != 'Signed' %>
+  <% acceptable = @code.posted && @code.author != current_user.id && @code.state != 'Signed' && @code.state != 'Accepted' %>
   <%= link_to "Accept", {action: "accept", code_id: @code.id}, :class => 'btn btn-default', :disabled => !acceptable %>
 
   <% rejectable = @code.proposed && @code.author != current_user.id && !@code.rejected && @code.state != 'Signed' %>
