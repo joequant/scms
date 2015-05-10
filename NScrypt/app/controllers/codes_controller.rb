@@ -143,6 +143,8 @@ class CodesController < ApplicationController
     open_slot.user = current_user
     open_slot.state = 'Signed'
     open_slot.save
+    @code.contract.signed_code_id = @code.id
+    @code.contract.save
     logger.info("Accepting posted offer")
     update_state
   end
