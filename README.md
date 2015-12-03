@@ -1,4 +1,7 @@
 # Smart Contract Management System
+# Copyright (c) 2015 - New Systems Technology Limited
+
+## Licensed under the terms of the Simplified BSD License
 
 ## NScrypt
 A Smart Contract Management System--doubles as an IDE for Smart Contracts and a CRM for negotiating, signing and processing Smart Contracts.
