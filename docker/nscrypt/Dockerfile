@@ -12,16 +12,23 @@ RUN urpmi.removemedia -a ;\
        "Core backup" http://distro.ibiblio.org/mageia/distrib/cauldron/x86_64/media/core/release ; \
     urpmi.addmedia \
        "Core updates backup" http://distro.ibiblio.org/mageia/distrib/cauldron/x86_64/media/core/updates ; \
-   urpmi --no-recommends --auto --excludedocs urpmi ; \
-   urpmi --replacepkgs --excludedocs locales glibc ; \
-   urpmi --auto-select --auto --no-recommends --no-md5sum --excludedocs ; \
-   urpme --auto-orphans --auto 
-RUN ["urpmi", "--no-recommends", "--no-md5sum", "--excludedocs", "--auto", "sudo", "git", "apache", "apache-mod_suexec", "apache-mod_proxy", "apache-mod_php", "apache-mod_authnz_external", "apache-mod_ssl"]
+   urpmi --no-recommends --auto --excludedocs urpmi
+RUN ["urpmi", "--no-recommends", "--no-md5sum", "--excludedocs", \
+    "--auto", "sudo", "git", "ruby-bundler", "ruby-devel", "gcc", \
+    "ruby-io-console", "sqlite3-devel", \
+    "zlib-devel", "libxml2-devel", "make", "nodejs" ]
 RUN useradd user ;\
    echo 'cubswin:)' | passwd user --stdin ; \
    echo 'cubswin:)' | passwd root --stdin ; \
-   cd ~user ; mkdir git ; cd git ; \
-   git clone https://github.com/joequant/scms.git
+   echo 'gem: --no-rdoc --no-ri' > ~user/.gemrc ; \
+   cd ~user ; \
+   su user -c "mkdir git" ; cd git ; \
+   su user -c "git clone https://github.com/joequant/scms.git"
+RUN cd ~user/git/scms/NScrypt ; \
+   su user -c "gem install bundler rails" ; \
+   su user -c "bundle install" ; \
+   su user -c "./install.sh" ; \
+   su user -c "./bin/setup"
 RUN rm -f /lib/systemd/system/multi-user.target.wants/*;\
 rm -f /etc/systemd/system/*.wants/*;\
 rm -f /lib/systemd/system/local-fs.target.wants/*; \
@@ -36,5 +43,5 @@ rm -f /lib/systemd/system/*journal* \
 rm -f /lib/systemd/system/*networkd*
 
 
-EXPOSE 80 443
+EXPOSE 3000
 CMD ["/usr/sbin/init"]

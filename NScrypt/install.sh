@@ -1,5 +1,5 @@
 #!/bin/bash
 gem install rails bundle
-bundle install
+bundle install --use-system-libraries
 ./bin/setup
 
