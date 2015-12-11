@@ -14,17 +14,17 @@ RUN urpmi.removemedia -a ;\
        "Core updates backup" http://distro.ibiblio.org/mageia/distrib/cauldron/x86_64/media/core/updates ; \
    urpmi --no-recommends --auto --excludedocs urpmi
 RUN ["urpmi", "--no-recommends", "--no-md5sum", "--excludedocs", \
-    "--auto", "sudo", "git", "ruby-bundler", "ruby-devel", "gcc", \
-    "ruby-io-console", "sqlite3-devel", \
-    "zlib-devel", "libxml2-devel", "make", "nodejs" ]
+    "--auto", "sudo", "git" ]
 RUN useradd user ;\
    echo 'cubswin:)' | passwd user --stdin ; \
    echo 'cubswin:)' | passwd root --stdin ; \
    echo 'gem: --no-rdoc --no-ri' > ~user/.gemrc ; \
    cd ~user ; \
    su user -c "mkdir git" ; cd git ; \
-   su user -c "git clone https://github.com/joequant/scms.git"
+   su user -c "git clone https://github.com/joequant/scms.git" ; \
+   su user -c "git clone -b scms https://github.com/joequant/mayan-edms.git"
 RUN cd ~user/git/scms/NScrypt ; \
+   ../docker/install-packages-mageia.sh ; \
    su user -c "gem install bundler rails" ; \
    su user -c "bundle install" ; \
    su user -c "./install.sh" ; \
@@ -43,5 +43,7 @@ rm -f /lib/systemd/system/*journal* \
 rm -f /lib/systemd/system/*networkd*
 
 
-EXPOSE 3000
-CMD ["/usr/sbin/init"]
+EXPOSE 80 443 3000
+CMD "/home/user/git/scms/docker/run-image.sh"
+
+
