@@ -22,7 +22,7 @@ RUN useradd user ;\
    cd ~user ; \
    su user -c "mkdir git" ; cd git ; \
    su user -c "git clone https://github.com/joequant/scms.git" ; \
-   su user -c "git clone -b scms https://github.com/joequant/mayan-edms.git"
+   su user -c "git clone https://github.com/joequant/mayan-edms.git"
 RUN cd ~user/git/scms/NScrypt ; \
    ../docker/install-packages-mageia.sh ; \
    su user -c  ../docker/install-mayan.sh ; \	
