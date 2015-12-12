@@ -4,5 +4,9 @@ urpmi --no-recommends --no-md5sum --excludedocs --auto \
       sqlite3-devel zlib-devel libxml2-devel make nodejs \
       apache apache-mod_proxy apache-mod_ssl \
       python-pip python-pillow python-yaml \
-      python-dateutil python-pytz
+      python-dateutil python-pytz gnupg \
+      python-virtualenv jpeg-devel python-devel
+
+
+
 

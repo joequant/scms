@@ -25,6 +25,7 @@ RUN useradd user ;\
    su user -c "git clone -b scms https://github.com/joequant/mayan-edms.git"
 RUN cd ~user/git/scms/NScrypt ; \
    ../docker/install-packages-mageia.sh ; \
+   su user -c  ../docker/install-mayan.sh ; \	
    su user -c "gem install bundler rails" ; \
    su user -c "bundle install" ; \
    su user -c "./install.sh" ; \
