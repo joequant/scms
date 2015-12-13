@@ -25,6 +25,7 @@ RUN useradd user ;\
    su user -c "git clone https://github.com/joequant/mayan-edms.git"
 RUN cd ~user/git/scms/NScrypt ; \
    ../docker/install-packages-mageia.sh ; \
+   cp ../docker/00_scms.conf /etc/httpd/conf/sites.d ; \
    su user -c  ../docker/install-mayan.sh ; \	
    su user -c "gem install bundler rails" ; \
    su user -c "bundle install" ; \
@@ -44,7 +45,7 @@ rm -f /lib/systemd/system/*journal* \
 rm -f /lib/systemd/system/*networkd*
 
 
-EXPOSE 80 443 3000
+EXPOSE 80 443
 CMD "/home/user/git/scms/docker/run-image.sh"
 
 
