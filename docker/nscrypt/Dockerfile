@@ -26,7 +26,6 @@ RUN useradd user ;\
 RUN cd ~user/git/scms/NScrypt ; \
    ../docker/install-packages-mageia.sh ; \
    cp ../docker/00_scms.conf /etc/httpd/conf/sites.d ; \
-   cp ../docker/gitweb.conf /etc/conf.d ; \
    su user -c  ../docker/install-mayan.sh ; \	
    su user -c "gem install bundler rails" ; \
    su user -c "bundle install" ; \
