@@ -7,7 +7,20 @@ urpmi --no-recommends --no-md5sum --excludedocs --auto \
       python-pip python-pillow python-yaml \
       python-dateutil python-pytz gnupg \
       python-virtualenv jpeg-devel python-devel \
-      apache-mod_perl gitweb
+      apache-mod_perl gitweb php-phar php-zip 
+
+pushd /var/www/html
+ln -s ../../../home/user/git/gitlist .
+popd
+
+
+
+pushd /home/user/git/gitlist
+chmod a+rw cache
+su user -c "php -r \"readfile('https://getcomposer.org/installer');\" | php"
+su user -c "cp ../scms/docker/gitlist-config.ini config.ini"
+popd
+
 
 
 
