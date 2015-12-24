@@ -1,4 +1,5 @@
 #!/bin/sh
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 urpmi --no-recommends --no-md5sum --excludedocs --auto \
       apache ruby-bundler ruby-devel gcc ruby-io-console \
       sqlite3-devel zlib-devel libxml2-devel make nodejs \
@@ -10,7 +11,9 @@ urpmi --no-recommends --no-md5sum --excludedocs --auto \
       apache-mod_perl gitweb php-phar php-zip 
 
 pushd /var/www/html
-ln -s ../../../home/user/git/gitlist .
+ln -sf ../../../home/user/git/gitlist .
+rm index.html
+ln -sf ../../../$SCRIPT_DIR/index.html .
 popd
 
 
