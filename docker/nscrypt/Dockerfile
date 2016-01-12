@@ -22,9 +22,9 @@ RUN useradd user ;\
    cd ~user ; \
    su user -c "mkdir git" ; cd git ; \
    su user -c "git clone https://github.com/joequant/scms.git" ; \
-   su user -c "git clone https://github.com/joequant/mayan-edms.git" \
-   su user -c "git clone https://github.com/joequant/scratchpad.git" \
-   su user -c "git clone https://github.com/joequant/gitlist.git" \
+   su user -c "git clone https://github.com/joequant/mayan-edms.git" ; \
+   su user -c "git clone https://github.com/joequant/scratchpad.git" ; \
+   su user -c "git clone https://github.com/joequant/gitlist.git" ; \
    su user -c "git clone https://github.com/joequant/allura.git"	
 RUN cd ~user/git/scms/NScrypt ; \
    ../docker/install-packages-mageia.sh ; \

@@ -4,6 +4,7 @@ cd $SCRIPT_DIR/../../allura
 virtualenv env-allura
 source env-allura/bin/activate
 pip install -r requirements.txt
+pip uninstall ForgeSVN
 ./rebuild-all.bash
 npm install
 npm run build
