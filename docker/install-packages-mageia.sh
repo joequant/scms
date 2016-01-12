@@ -7,6 +7,6 @@ urpmi --no-recommends --no-md5sum --excludedocs --auto \
       python-dateutil python-pytz gnupg \
       python-virtualenv jpeg-devel python-devel
 
-
-
-
+mkdir -p /var/log/allura
+chown user /var/log/allura
+npm install -g broccoli-cli

@@ -22,11 +22,14 @@ RUN useradd user ;\
    cd ~user ; \
    su user -c "mkdir git" ; cd git ; \
    su user -c "git clone https://github.com/joequant/scms.git" ; \
-   su user -c "git clone https://github.com/joequant/mayan-edms.git"
+   su user -c "git clone https://github.com/joequant/mayan-edms.git" \
+   su user -c "git clone https://github.com/joequant/scratchpad.git" \
+   su user -c "git clone https://github.com/joequant/allura.git"	
 RUN cd ~user/git/scms/NScrypt ; \
    ../docker/install-packages-mageia.sh ; \
    cp ../docker/00_scms.conf /etc/httpd/conf/sites.d ; \
-   su user -c  ../docker/install-mayan.sh ; \	
+   su user -c  ../docker/install-mayan.sh ; \
+   su user -c  ../docker/install-allura.sh ; \	
    su user -c "gem install bundler rails" ; \
    su user -c "bundle install" ; \
    su user -c "./install.sh" ; \
