@@ -6,8 +6,8 @@ mayan-edms.py runserver &
 source env-mayan/bin/deactivate
 popd
 source env-allura/bin/activate
-paster setup-app development.ini
-gunicorn --reload --paste development.ini --daemon
+paster setup-app Allura/development.ini
+gunicorn --reload --paste Allura/development.ini --daemon
 source env-allura/bin/deactivate
 popd
 pushd $SCRIPT_DIR/NScrypt
