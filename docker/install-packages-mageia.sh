@@ -17,7 +17,12 @@ rm index.html
 ln -sf ../../../$SCRIPT_DIR/index.html .
 popd
 
-
+mkdir -p ~/tmp
+cd ~/tmp
+wget -nv http://archive.apache.org/dist/lucene/solr/5.3.1/solr-5.3.1.tgz
+tar xvf solr-5.3.1.tgz solr-5.3.1/bin/install_solr_service.sh --strip-components=2
+./install_solr_service.sh solr-5.3.1.tgz
+chmod a+w /var/solr/data/
 
 pushd /home/user/git/gitlist
 chmod a+rw cache
