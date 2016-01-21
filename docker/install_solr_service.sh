@@ -197,7 +197,7 @@ fi
 solr_uid=`id -u $SOLR_USER`
 if [ $? -ne 0 ]; then
   echo "Creating new user: $SOLR_USER"
-  if [ "$distro" == "RedHat" || "$distro" == "Mageia" ]; then
+  if [ "$distro" == "RedHat" ] || [ "$distro" == "Mageia" ]; then
     adduser $SOLR_USER
   elif [ "$distro" == "SUSE" ]; then
     useradd -m $SOLR_USER
