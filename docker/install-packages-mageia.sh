@@ -9,7 +9,7 @@ urpmi --no-recommends --no-md5sum --excludedocs --auto \
       python-dateutil python-pytz gnupg \
       python-virtualenv jpeg-devel python-devel \
       apache-mod_perl gitweb php-phar php-zip mongodb-server \
-      wget java-headless unzip
+      wget jre unzip
 
 pushd /var/www/html
 ln -sf ../../../home/user/git/gitlist .
