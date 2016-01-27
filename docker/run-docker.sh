@@ -38,6 +38,6 @@ $SUDO docker run \
 --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
 -v ~/volumes/$IMAGE/home:/home \
 -v ~/volumes/$IMAGE/etc:/etc \
--p 8000:8000 -p 3000:3000 -p 81:80 -p 8080:8080 $IMAGE &
+-p 8000:8000 -p 3000:3000 $IMAGE &
 echo "Docker started"
 
