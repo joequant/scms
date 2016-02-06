@@ -7,7 +7,7 @@ source env-allura/bin/activate
 pip install -r requirements.txt
 pip uninstall ForgeSVN
 ./rebuild-all.bash
-npm install --cache=~/npm-cache
+npm install --loglevel http
 npm run build
 cp -R solr_config/allura/ /var/solr/data/
 
