@@ -15,6 +15,8 @@ RUN urpmi.removemedia -a ;\
    urpmi --no-recommends --auto --excludedocs urpmi
 RUN ["urpmi", "--no-recommends", "--no-md5sum", "--excludedocs", \
     "--auto", "sudo", "git" ]
+RUN ["urpmi", "--auto-select", "--auto", "--no-recommends", \
+    "--no-md5sum",  "--excludedocs" ] 
 RUN useradd user ;\
    echo 'cubswin:)' | passwd user --stdin ; \
    echo 'cubswin:)' | passwd root --stdin ; \
