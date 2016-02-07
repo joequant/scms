@@ -33,9 +33,7 @@ su user -c "php -r \"readfile('https://getcomposer.org/installer');\" | php"
 su user -c "cp ../scms/docker/gitlist-config.ini config.ini"
 popd
 
-
-
-
 mkdir -p /var/log/allura
 chown user /var/log/allura
-npm install -g broccoli-cli
+npm install -g npm-cache
+npm-cache install -g broccoli-cli
