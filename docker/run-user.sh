@@ -11,7 +11,7 @@ paster setup-app Allura/development.ini
 gunicorn --reload --paste Allura/development.ini --daemon
 deactivate
 popd
-pushd $SCRIPT_DIR/NScrypt
+pushd $SCRIPT_DIR/../NScrypt
 ./bin/rails server --binding=0.0.0.0
 popd
 
