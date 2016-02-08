@@ -12,9 +12,9 @@ urpmi --no-recommends --no-md5sum --excludedocs --auto \
       wget jre unzip lsof
 
 pushd /var/www/html
-ln -sf ../../../home/user/git/gitlist .
-rm index.html
+rm index.html scratchpad
 ln -sf ../../../$SCRIPT_DIR/index.html .
+ln -sf ../../../$SCRIPT_DIR/../../scratchpad/ .
 popd
 
 mkdir -p ~user/tmp
