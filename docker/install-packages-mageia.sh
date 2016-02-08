@@ -35,5 +35,4 @@ popd
 
 mkdir -p /var/log/allura
 chown user /var/log/allura
-npm install -g npm-cache
-npm-cache install -g broccoli-cli
+
