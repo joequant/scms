@@ -6,6 +6,8 @@ RUN echo "ZONE=Asia/Hong_Kong" > /etc/sysconfig/clock
 
 RUN urpmi.removemedia -a ;\
     urpmi.addmedia --distrib \
+       --downloader curl \
+       --curl-options '--retry 5 --speed-time 30 --connect-timeout 30' \
        --mirrorlist \
        'http://mirrors.mageia.org/api/mageia.cauldron.x86_64.list' ; \
     urpmi.addmedia \
@@ -14,8 +16,12 @@ RUN urpmi.removemedia -a ;\
        "Core updates backup" http://distro.ibiblio.org/mageia/distrib/cauldron/x86_64/media/core/updates ; \
    urpmi --no-recommends --auto --excludedocs urpmi
 RUN ["urpmi", "--no-recommends", "--no-md5sum", "--excludedocs", \
+    "--downloader", "curl", \
+    "--curl-options", "--retry 5 --speed-time 30 --connect-timeout 30", \
     "--auto", "sudo", "git" ]
 RUN ["urpmi", "--auto-select", "--auto", "--no-recommends", \
+    "--downloader", "curl", \
+    "--curl-options", "--retry 5 --speed-time 30 --connect-timeout 30", \
     "--no-md5sum",  "--excludedocs" ] 
 RUN useradd user ;\
    echo 'cubswin:)' | passwd user --stdin ; \

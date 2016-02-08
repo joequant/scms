@@ -1,10 +1,14 @@
 <ul>
-  <li><a href="/dms">Document management</a></li>
-  <li><a href="/scms">Smart contract management</a></li>
   <script language="JavaScript">
-    document.write('<li><a class="button" target="_blank" href="http://'
+    document.write('<li><a href="http://'
+    +
+    window.location.hostname + ':3000/">Smart contract management</a>' );
+  </script>
+  <script language="JavaScript">
+    document.write('<li><a href="http://'
     +
     window.location.hostname + ':8080/">Repository management</a>' );
   </script>
   <li><a href="/scratchpad/test.html">Contract signer</li>
+  <li><a href="/dms">Document management</a></li>
 </ul>
